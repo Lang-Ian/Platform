@@ -166,8 +166,6 @@ add_files -norecurse -fileset $obj $files
 
 # Add local files from the original project (-no_copy_sources specified)
 set files [list \
- [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/flasher/flasher.bd" ]\
- [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/dgrm/dgrm.bd" ]\
  [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v" ]\
  [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/flasher/hdl/flasher_wrapper.v" ]\
 ]
@@ -203,71 +201,14 @@ set_property -name "used_in_implementation" -value "0" -objects $file_obj
 set_property -name "used_in_synthesis" -value "0" -objects $file_obj
 
 
-# Set 'sources_1' fileset file properties for local files
-set file "flasher/flasher.bd"
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "registered_with_manager" -value "1" -objects $file_obj
-
-set file "dgrm/dgrm.bd"
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "registered_with_manager" -value "1" -objects $file_obj
-
-
 # Set 'sources_1' fileset properties
 set obj [get_filesets sources_1]
 set_property -name "top" -value "top" -objects $obj
 
-# Set IP repository paths
-set obj [get_filesets aurora_64b66b_6]
-set_property "ip_repo_paths" "[file normalize "$origin_dir/ip_repo"]" $obj
+
 
 # Rebuild user ip_repo's index before adding any source files
 update_ip_catalog -rebuild
-
-# Set 'sources_1' fileset object
-set obj [get_filesets sources_1]
-set files [list \
- [file normalize "${origin_dir}/7z030f/aurora_64b66b_6/aurora_64b66b_6/aurora_64b66b_6.xci"] \
-]
-add_files -norecurse -fileset $obj $files
-
-# Set 'sources_1' fileset file properties for remote files
-set file "$origin_dir/7z030f/aurora_64b66b_6/aurora_64b66b_6/aurora_64b66b_6.xci"
-set file [file normalize $file]
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "generate_files_for_reference" -value "0" -objects $file_obj
-set_property -name "registered_with_manager" -value "1" -objects $file_obj
-if { ![get_property "is_locked" $file_obj] } {
-  set_property -name "synth_checkpoint_mode" -value "Singular" -objects $file_obj
-}
-
-
-# Set 'sources_1' fileset file properties for local files
-# None
-
-# Set IP repository paths
-set obj [get_filesets aurora_64b66b_7]
-set_property "ip_repo_paths" "[file normalize "$origin_dir/ip_repo"]" $obj
-
-# Rebuild user ip_repo's index before adding any source files
-update_ip_catalog -rebuild
-
-# Set 'sources_1' fileset object
-set obj [get_filesets sources_1]
-set files [list \
- [file normalize "${origin_dir}/7z030f/aurora_64b66b_7/aurora_64b66b_7/aurora_64b66b_7.xci"] \
-]
-add_files -norecurse -fileset $obj $files
-
-# Set 'sources_1' fileset file properties for remote files
-set file "$origin_dir/7z030f/aurora_64b66b_7/aurora_64b66b_7/aurora_64b66b_7.xci"
-set file [file normalize $file]
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "generate_files_for_reference" -value "0" -objects $file_obj
-set_property -name "registered_with_manager" -value "1" -objects $file_obj
-if { ![get_property "is_locked" $file_obj] } {
-  set_property -name "synth_checkpoint_mode" -value "Singular" -objects $file_obj
-}
 
 
 # Set 'sources_1' fileset file properties for local files
@@ -294,57 +235,9 @@ if { ![get_property "is_locked" $file_obj] } {
 # Set 'sources_1' fileset file properties for local files
 # None
 
-# Set IP repository paths
-set obj [get_filesets aurora_64b66b_5]
-set_property "ip_repo_paths" "[file normalize "$origin_dir/ip_repo"]" $obj
 
 # Rebuild user ip_repo's index before adding any source files
 update_ip_catalog -rebuild
-
-# Set 'sources_1' fileset object
-set obj [get_filesets sources_1]
-set files [list \
- [file normalize "${origin_dir}/7z030f/aurora_64b66b_5/aurora_64b66b_5/aurora_64b66b_5.xci"] \
-]
-add_files -norecurse -fileset $obj $files
-
-# Set 'sources_1' fileset file properties for remote files
-set file "$origin_dir/7z030f/aurora_64b66b_5/aurora_64b66b_5/aurora_64b66b_5.xci"
-set file [file normalize $file]
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "generate_files_for_reference" -value "0" -objects $file_obj
-set_property -name "registered_with_manager" -value "1" -objects $file_obj
-if { ![get_property "is_locked" $file_obj] } {
-  set_property -name "synth_checkpoint_mode" -value "Singular" -objects $file_obj
-}
-
-
-# Set 'sources_1' fileset file properties for local files
-# None
-
-# Set IP repository paths
-set obj [get_filesets aurora_64b66b_4]
-set_property "ip_repo_paths" "[file normalize "$origin_dir/ip_repo"]" $obj
-
-# Rebuild user ip_repo's index before adding any source files
-update_ip_catalog -rebuild
-
-# Set 'sources_1' fileset object
-set obj [get_filesets sources_1]
-set files [list \
- [file normalize "${origin_dir}/7z030f/aurora_64b66b_4/aurora_64b66b_4/aurora_64b66b_4.xci"] \
-]
-add_files -norecurse -fileset $obj $files
-
-# Set 'sources_1' fileset file properties for remote files
-set file "$origin_dir/7z030f/aurora_64b66b_4/aurora_64b66b_4/aurora_64b66b_4.xci"
-set file [file normalize $file]
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "generate_files_for_reference" -value "0" -objects $file_obj
-set_property -name "registered_with_manager" -value "1" -objects $file_obj
-if { ![get_property "is_locked" $file_obj] } {
-  set_property -name "synth_checkpoint_mode" -value "Singular" -objects $file_obj
-}
 
 
 # Set 'sources_1' fileset file properties for local files
