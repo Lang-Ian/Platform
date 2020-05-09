@@ -594,3 +594,28 @@ move_dashboard_gadget -name {drc_1} -row 2 -col 0
 move_dashboard_gadget -name {timing_1} -row 0 -col 1
 move_dashboard_gadget -name {utilization_2} -row 1 -col 1
 move_dashboard_gadget -name {methodology_1} -row 2 -col 1
+
+
+
+
+# This stuff I had to hack in by hand.
+
+set file "[file normalize "$origin_dir/7z030f/aurora_64b66b_4/aurora_64b66b_4.xcix"]"
+add_files -norecurse [list "$file"]
+set file "[file normalize "$origin_dir/7z030f/aurora_64b66b_5/aurora_64b66b_5.xcix"]"
+add_files -norecurse [list "$file"]
+set file "[file normalize "$origin_dir/7z030f/aurora_64b66b_6/aurora_64b66b_6.xcix"]"
+add_files -norecurse [list "$file"]
+set file "[file normalize "$origin_dir/7z030f/aurora_64b66b_7/aurora_64b66b_7.xcix"]"
+add_files -norecurse [list "$file"]
+
+update_compile_order -fileset sources_1
+
+# Add the two separately exported block diagrams.
+
+
+set file "[file normalize "$origin_dir/src/bd/flasher.tcl"]"
+source [list "$file"]
+
+set file "[file normalize "$origin_dir/src/bd/dgrm.tcl"]"
+source [list "$file"]
