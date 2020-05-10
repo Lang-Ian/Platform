@@ -24,8 +24,11 @@ To build the project:
   start_gui
 
 Current status:
+
   Zynq runs
+  
   Ethernet runs on KR_LAN_A1
+  
   Aurora runs
 
 In due course, I will be adding a Petalinux build, maybe some homemade drivers plus...whatever else I decide to experiment with.
