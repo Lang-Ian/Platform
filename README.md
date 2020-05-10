@@ -9,7 +9,7 @@ Reference project for the following combination of boards:
   
   KR_LAN_A1
 
-This is a project that I am using to improve my skills at building an embedded system using a Zynq SoC.  My aims are manifold.  Principal amongst them are the following:
+This is a project that I am using to improve my skills at building an embedded system based a Zynq SoC.  My aims are manifold.  Principal amongst them are the following:
 
 1)  Linux
 2)  Ethernet
