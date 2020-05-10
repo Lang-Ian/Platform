@@ -1,8 +1,12 @@
 # Platform
 Reference project for the following combination of boards:
+
   KRM-3Z7030        https://www.knowres.com/product/krm-3z7030/
+  
   KRC3701           https://www.knowres.com/product/krc3701/
+  
   HTG-FMC-x4-SFP    http://www.hitechglobal.com/FMCModules/FMC_4SFP+_Module.htm
+  
   KR_LAN_A1
 
 This is a project that I am using to improve my skills at building an embedded system using a Zynq SoC.  My aims are manifold.  Principal amongst them are the following:
