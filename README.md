@@ -16,8 +16,11 @@ This is a project that I am using to improve my skills at building an embedded s
 To build the project:
 
   git clone https://github.com/Lang-Ian/Platform.git
+  
   cd Platform/HW/
+  
   vivado -mode tcl -source Platform.tcl -tclargs --project_name TEST_PROJECT
+  
   start_gui
 
 Current status:
