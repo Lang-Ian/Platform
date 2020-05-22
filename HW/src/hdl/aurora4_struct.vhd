@@ -57,7 +57,7 @@ ARCHITECTURE struct OF aurora4 IS
    SIGNAL gt_refclk1_internal : std_logic;
    SIGNAL sys_reset_internal  : std_logic;
    SIGNAL user_clk_internal   : std_logic;
-   SIGNAL init_clk_internal              : std_logic;
+   SIGNAL init_clk_internal   : std_logic;
 
 
    -- Component Declarations
@@ -272,10 +272,11 @@ ARCHITECTURE struct OF aurora4 IS
    PORT (
       clk_in1     : IN     std_logic;
 --      clk_out1_ce : IN     std_logic;
-      clkfb_in    : IN     std_logic;
+ -- not required with MMCM      clkfb_in    : IN     std_logic;
       reset       : IN     std_logic;
       clk_out1    : OUT    std_logic;
-      clkfb_out   : OUT    std_logic;
+      clk_out2    : OUT    std_logic;    -- Added after exporting from HDS.
+  -- not required with MMCM     clkfb_out   : OUT    std_logic;
       locked      : OUT    std_logic
    );
    END COMPONENT clk_wizard_0;
@@ -540,10 +541,11 @@ BEGIN
       );
    generate_69M44 : clk_wizard_0
       PORT MAP (
-         clkfb_in    => clk_out1,
+-- not required with MMCM         clkfb_in    => clk_out1,
 --         clk_out1_ce => Q,
          clk_out1    => raw_clk,
-         clkfb_out   => clk_out1,
+         clk_out2    => lvds_clk_156M25,   -- This clock, for the MIG, I added after exporting from HDS.
+ -- not required with MMCM       clkfb_out   => clk_out1,
          reset       => reset,
          locked      => D,
          clk_in1     => lvds_clk
@@ -582,6 +584,7 @@ I => raw_clk -- 1-bit input: Primary clock
    gt_refclk1 <= gt_refclk1_internal;
    sys_reset  <= sys_reset_internal;
    user_clk   <= user_clk_internal;
-   init_clk <= init_clk_internal;
+   init_clk_69M44 <= init_clk_internal;
+
 
 END ARCHITECTURE struct;

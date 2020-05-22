@@ -283,6 +283,22 @@
         </spirit:parameter>
       </spirit:parameters>
     </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>MIG_reset</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>MIG_reset_N</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
   </spirit:busInterfaces>
   <spirit:memoryMaps>
     <spirit:memoryMap>
@@ -320,7 +336,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>ea545af8</spirit:value>
+            <spirit:value>f4fef7fa</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -336,7 +352,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>ea545af8</spirit:value>
+            <spirit:value>f4fef7fa</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -566,6 +582,19 @@
       </spirit:port>
       <spirit:port>
         <spirit:name>flasher_enable</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_vhdlsynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_vhdlbehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>MIG_reset_N</spirit:name>
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
@@ -936,7 +965,7 @@
       <spirit:file>
         <spirit:name>hdl/general_v1_0.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_ea545af8</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_f4fef7fa</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -1066,8 +1095,8 @@
         <xilinx:taxonomy>AXI_Peripheral</xilinx:taxonomy>
       </xilinx:taxonomies>
       <xilinx:displayName>general_v1.0</xilinx:displayName>
-      <xilinx:coreRevision>100</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2020-05-04T19:47:24Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>106</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2020-05-21T19:34:34Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@6f69559d_ARCHIVE_LOCATION">/home/ian/work/IP/repo/general_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@6543c16c_ARCHIVE_LOCATION">/home/ian/work/IP/repo/general_1.0</xilinx:tag>
@@ -2489,14 +2518,84 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@1839c58_ARCHIVE_LOCATION">/home/ian/work/IP/repo/general_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@7fa6b7f8_ARCHIVE_LOCATION">/home/ian/work/IP/repo/general_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@4afe2a25_ARCHIVE_LOCATION">/home/ian/work/IP/repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3dd7b7ae_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74ce9f91_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12c01d8d_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11e067ca_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ca7c7cb_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@337cd377_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3a436ada_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@55339056_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31138d20_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@459c79f7_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4212c539_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@80e515_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@47e2c2ce_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1ad7df28_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1153bbd3_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15eab6e5_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c1408fa_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41221c2e_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26301ea6_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1d9016ea_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f7e970e_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@679ba62c_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ebd6985_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@403cb8f8_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15063c8_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@23d1bc82_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@75c530e4_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5287e2e4_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@220216cf_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@296b57cf_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@c033339_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@66236b52_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7126b297_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2cb61fcd_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74746632_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7cfc081d_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18229f5a_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@56a56e26_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d1ab10_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@58aff3e2_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2dc3f796_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3595b3e4_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2a9c02a3_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64fbee41_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@68dee64c_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b697d45_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@338ca5c3_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@604bd23d_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3df380a4_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1d395b64_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6af70d75_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@42ff8381_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1271729f_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@133e08bf_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e6bc1fd_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41a0e249_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44937ca6_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@15c83c9a_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@66338547_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14624026_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@82e0c10_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1ccb3ae_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ae5e174_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20069f2d_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7378caea_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@55df8a03_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41b2561_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5766a2d_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@16c8070a_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b4711ae_ARCHIVE_LOCATION">/home/ian/work/Platform/HW/ip_repo/general_1.0</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.2</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="384bff88"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="15b80856"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="ed1368d5"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="e90fa681"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="83534535"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="2c3927e8"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="dcbef87c"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="f2eb1214"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="f129aeef"/>
     </xilinx:packagingInfo>

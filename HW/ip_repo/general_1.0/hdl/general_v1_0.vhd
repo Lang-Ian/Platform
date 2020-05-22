@@ -31,6 +31,7 @@ entity general_v1_0 is
     aurora_power_down:     out std_logic;
     aurora_loopback:       out std_logic_vector(2 downto 0);
     flasher_enable:        out std_logic;
+    MIG_reset_N:           out std_logic;
 
     -- User ports ends
     -- Do not modify the ports beyond this line
@@ -149,6 +150,7 @@ architecture arch_imp of general_v1_0 is
     aurora_power_down:         std_logic_vector(0 downto 0);
     aurora_loopback:           std_logic_vector(2 downto 0);
     flasher_enable:            std_logic_vector(0 downto 0);
+    MIG_reset:                 std_logic_vector(0 downto 0);
   end record;
 
   CONSTANT r_registers : t_registers := (
@@ -157,7 +159,7 @@ architecture arch_imp of general_v1_0 is
    std_logic_vector'( 0=>'1' ),                            -- as above
    std_logic_vector'( 0=>'0' ),                            -- '0', the clock is enabled
    ( others => (others=>'0') ),
---   std_logic_vector'( "--------------------------------" ), -- I don't particularly need to reset on these flip-flops as they will follow aurora_status_4 after the first clock cycle.
+--   std_logic_vector'( "--------------------------------" ), -- I don't particularly need to reset these flip-flops as they will follow aurora_status_4 after the first clock cycle.
 --   std_logic_vector'( "--------------------------------" ),
 --   std_logic_vector'( "--------------------------------" ),
 --   std_logic_vector'( "--------------------------------" ),
@@ -167,7 +169,8 @@ architecture arch_imp of general_v1_0 is
    r_aurora_status_toggle_count_4,
    std_logic_vector'( "0" ),
    std_logic_vector'( "000" ),
-   std_logic_vector'( "0" )
+   std_logic_vector'( "0" ),
+   std_logic_vector'( "1" )
    );
 
 
@@ -192,6 +195,7 @@ clocked_logic: process ( s00_axi_aclk, s00_axi_aresetn ) is
   variable registers : t_registers;
   variable temp : std_logic_vector(7 downto 0);
   variable count : unsigned(7 downto 0);
+  variable count2 : unsigned(7 downto 0);
   variable aurora_status_retimed : t_aurora_status_4_retimed;  -- I've made this a signal, merely so that I can put an attribute on it.
 
 
@@ -202,6 +206,7 @@ if s00_axi_aresetn='0' then
      p_axi     <= r_axi;
      registers := r_registers;
      count     := (others=>'1');
+     count2    := (others=>'1');
 
      aurora_status_retimed := r_aurora_status_4_retimed;
 
@@ -240,6 +245,7 @@ elsif rising_edge( s00_axi_aclk ) then
                                  when x"2C"  => n_axi.axi_rdata(registers.aurora_power_down'range)       :=     registers.aurora_power_down;
                                  when x"30"  => n_axi.axi_rdata(registers.aurora_loopback'range)         :=     registers.aurora_loopback;
                                  when x"34"  => n_axi.axi_rdata(registers.flasher_enable'range)          :=     registers.flasher_enable;
+                                 when x"38"  => n_axi.axi_rdata(registers.MIG_reset'range)               :=     registers.MIG_reset;
 
 
                                  when x"80" => n_axi.axi_rdata(15 downto 0) :=  registers.aurora_status_toggle_count(4).channel_up;
@@ -332,6 +338,9 @@ end case;
                                                    end if;
                                    when x"34"  => if s00_axi_wstrb(0) = '1' then
                                                       registers.flasher_enable          :=   s00_axi_wdata(registers.flasher_enable'range);
+                                                   end if;
+                                   when x"38"  => if s00_axi_wstrb(0) = '1' then
+                                                      registers.MIG_reset          :=   s00_axi_wdata(registers.MIG_reset'range);
                                                    end if;
 
 
@@ -460,14 +469,6 @@ end case;
               count        := (others=>'1');
           end if;
 
-      -- USB Reset - extend the USB reset pulse to 256 clock cycles
-      elsif registers.usb_reset = "1" then
-          count := count - to_unsigned( 1, count'length );
-          if count = to_unsigned( 0, count'length ) then
-              registers.usb_reset := "0";
-              count        := (others=>'1');
-          end if;
-
       -- Soft Interrupt - extend the soft interrupt pulse to 256 clock cycles
       elsif registers.soft_interrupt = "1" then
           count := count - to_unsigned( 1, count'length );
@@ -476,6 +477,26 @@ end case;
               count        := (others=>'1');
           end if;
       end if;
+
+     -- MIG Reset
+     if registers.MIG_reset = "1" then
+         count2 := count2 - to_unsigned( 1, count2'length );
+         if count2 = to_unsigned( 0, count2'length ) then
+             registers.MIG_reset := "0";
+             count2        := (others=>'1');
+         end if;
+
+     -- USB Reset - extend the USB reset pulse to 256 clock cycles
+     elsif registers.usb_reset = "1" then
+          count2 := count2 - to_unsigned( 1, count2'length );
+          if count2 = to_unsigned( 0, count2'length ) then
+              registers.usb_reset := "0";
+              count2        := (others=>'1');
+          end if;
+     end if;
+
+
+
 
 
   registers.aurora_status(4)  := aurora_status_retimed(2)(4);   -- I'm re-timing these three times, mostly so that I can edge detect channel_up, lane_up and gt_pll_lock.
@@ -494,15 +515,17 @@ end case;
   p_axi                 <= n_axi;  -- present state = next_state
 
   -- Outputs
-  aurora_pma_init       <= registers.aurora_pma_init(0);
-  aurora_reset_pb       <= registers.aurora_reset_pb(0);
-  HiTech_Global_clk_sel <= registers.HiTech_Global_clk_sel(0);
-  LED_control           <= registers.LED_control(1 downto 0);
-  usb_reset             <= registers.usb_reset(0);
-  soft_interrupt        <= registers.soft_interrupt(0);
-  aurora_power_down     <= registers.aurora_power_down(0);
-  aurora_loopback       <= registers.aurora_loopback(2 downto 0);
-  flasher_enable        <= registers.flasher_enable(0);
+  aurora_pma_init       <=     registers.aurora_pma_init(0);
+  aurora_reset_pb       <=     registers.aurora_reset_pb(0);
+  HiTech_Global_clk_sel <=     registers.HiTech_Global_clk_sel(0);
+  LED_control           <=     registers.LED_control(1 downto 0);
+  usb_reset             <=     registers.usb_reset(0);
+  soft_interrupt        <=     registers.soft_interrupt(0);
+  aurora_power_down     <=     registers.aurora_power_down(0);
+  aurora_loopback       <=     registers.aurora_loopback(2 downto 0);
+  flasher_enable        <=     registers.flasher_enable(0);
+  MIG_reset_N           <= not registers.MIG_reset(0);
+
 
 end if;
 

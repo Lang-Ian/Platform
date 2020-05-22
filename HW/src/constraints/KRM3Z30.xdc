@@ -1114,18 +1114,11 @@ set_false_path -to [get_pins -of [get_cells -hier -filter { name =~  *idelayctrl
 #TIMING #1 Critical Warning The clocks raw_clk and clk_fpga_2 are related (timed together) but they have no common primary clock.  The design could
 #fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks raw_clk] -to [get_clocks clk_fpga_2]
 #set_false_path -from [get_clocks -of_objects [get_pins aurora_0/U_1/inst/plle2_adv_inst/CLKOUT0]] -to [get_clocks clk_fpga_2]
-set_false_path -to [get_pins {i_dgrm_wrapper/dgrm_i/general_0/U0/aurora_status_retimed_reg[1][4][2]/D}]
 
 set_false_path -from [get_clocks -of_objects [get_pins aurora_0/master_0/inst/clock_module_i/mmcm_adv_inst/CLKOUT0]] -to [get_clocks clk_fpga_2]
 
 set_clock_groups -logically_exclusive -group [get_clocks -include_generated_clocks {gmii_clk_25m_out gmii_clk_2_5m_out}] -group [get_clocks -include_generated_clocks gmii_clk_125m_out]
 
-set_false_path -from [get_pins aurora_0/master_0/inst/aurora_64b66b_4_core_i/aurora_64b66b_4_wrapper_i/u_cdc_gt_cplllock_i/s_level_out_d5_reg/C] -to [get_pins {i_dgrm_wrapper/dgrm_i/general_0/U0/aurora_status_retimed_reg[1][4][4]/D}]
-set_false_path -from [get_pins aurora_0/slave_2/inst/aurora_64b66b_6_wrapper_i/u_cdc_gt_cplllock_i/s_level_out_d5_reg/C] -to [get_pins {i_dgrm_wrapper/dgrm_i/general_0/U0/aurora_status_retimed_reg[1][6][4]/D}]
-set_false_path -from [get_pins aurora_0/slave_1/inst/aurora_64b66b_5_wrapper_i/txresetfsm_i/MMCM_RESET_reg/C] -to [get_pins {i_dgrm_wrapper/dgrm_i/general_0/U0/aurora_status_retimed_reg[1][5][4]/D}]
-set_false_path -from [get_pins aurora_0/slave_3/inst/aurora_64b66b_7_wrapper_i/u_cdc_gt_cplllock_i/s_level_out_d5_reg/C] -to [get_pins {i_dgrm_wrapper/dgrm_i/general_0/U0/aurora_status_retimed_reg[1][7][4]/D}]
 
-set_false_path -from [get_pins aurora_0/slave_1/inst/aurora_64b66b_5_wrapper_i/u_cdc_gt_cplllock_i/s_level_out_d5_reg/C] -to [get_pins {i_dgrm_wrapper/dgrm_i/general_0/U0/aurora_status_retimed_reg[1][5][4]/D}]
-set_false_path -from [get_pins aurora_0/master_0/inst/aurora_64b66b_4_core_i/aurora_64b66b_4_wrapper_i/txresetfsm_i/MMCM_RESET_reg/C] -to [get_pins {i_dgrm_wrapper/dgrm_i/general_0/U0/aurora_status_retimed_reg[1][4][4]/D}]
-set_false_path -from [get_pins aurora_0/slave_2/inst/aurora_64b66b_6_wrapper_i/txresetfsm_i/MMCM_RESET_reg/C] -to [get_pins {i_dgrm_wrapper/dgrm_i/general_0/U0/aurora_status_retimed_reg[1][6][4]/D}]
-set_false_path -from [get_pins aurora_0/slave_3/inst/aurora_64b66b_7_wrapper_i/txresetfsm_i/MMCM_RESET_reg/C] -to [get_pins {i_dgrm_wrapper/dgrm_i/general_0/U0/aurora_status_retimed_reg[1][7][4]/D}]
+
+

@@ -137,7 +137,8 @@ ENTITY aurora4 IS
       txn               : OUT    std_logic_vector (3 DOWNTO 0);
       txp               : OUT    std_logic_vector (3 DOWNTO 0);
       user_clk          : OUT    std_logic;
-      init_clk : out std_logic  -- decided to add this after exporting from HDL Designer
+      init_clk_69M44    : out    std_logic;  -- decided to add these two after exporting from HDL Designer
+      lvds_clk_156M25   : out    std_logic
    );
 
 -- Declarations

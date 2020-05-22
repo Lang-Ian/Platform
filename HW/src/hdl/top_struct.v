@@ -34,6 +34,24 @@
 //import krc3600_pkg::*;
 module top(
    // Port Declarations
+
+  // DDR3 - added afer exporting from HDL Designer
+  output [13:0]DDR3_0_addr,
+  output [2:0]DDR3_0_ba,
+  output DDR3_0_cas_n,
+  output [0:0]DDR3_0_ck_n,
+  output [0:0]DDR3_0_ck_p,
+  output [0:0]DDR3_0_cke,
+  output [1:0]DDR3_0_dm,
+  inout [15:0]DDR3_0_dq,
+  inout [1:0]DDR3_0_dqs_n,
+  inout [1:0]DDR3_0_dqs_p,
+  output [0:0]DDR3_0_odt,
+  output DDR3_0_ras_n,
+  output DDR3_0_reset_n,
+  output DDR3_0_we_n,
+
+
    // KRM3Z730 dedicated LEDs
    output  wire    [3:0]   LED,
    // I/O Groups
@@ -685,11 +703,31 @@ aurora4 aurora_0(
    .txn               (TXN),
    .txp               (TXP),
    .user_clk          (user_clk),
-.init_clk ( init_clk )  // Added after exporting from HDS
+.init_clk_69M44 ( init_clk ),  // Added these two after exporting from HDS
+.lvds_clk_156M25( lvds_clk_156M25 )
 );
 
 
 dgrm_wrapper i_dgrm_wrapper(
+
+   .MIG_clk       ( lvds_clk_156M25 ),
+   .init_calib_complete_0 ( init_calib_complete_0 ),
+
+   .DDR3_0_addr     ( DDR3_0_addr ),
+   .DDR3_0_ba    ( DDR3_0_ba ),
+   .DDR3_0_cas_n    ( DDR3_0_cas_n ),
+   .DDR3_0_ck_n    ( DDR3_0_ck_n ),
+   .DDR3_0_ck_p    ( DDR3_0_ck_p ),
+   .DDR3_0_cke    ( DDR3_0_cke ),
+   .DDR3_0_dm    ( DDR3_0_dm ),
+   .DDR3_0_dq    ( DDR3_0_dq ),
+   .DDR3_0_dqs_n    ( DDR3_0_dqs_n ),
+   .DDR3_0_dqs_p    ( DDR3_0_dqs_p ),
+   .DDR3_0_odt    ( DDR3_0_odt ),
+   .DDR3_0_ras_n    ( DDR3_0_ras_n ),
+   .DDR3_0_reset_n    ( DDR3_0_reset_n ),
+   .DDR3_0_we_n    ( DDR3_0_we_n ),
+
    .DDR_addr                (DDR_addr),
    .DDR_ba                  (DDR_ba),
    .DDR_cas_n               (DDR_cas_n),
@@ -705,8 +743,8 @@ dgrm_wrapper i_dgrm_wrapper(
    .DDR_ras_n               (DDR_ras_n),
    .DDR_reset_n             (DDR_reset_n),
    .DDR_we_n                (DDR_we_n),
-   .FCLK_CLK2_0             (FCLK_CLK2_0),
-   .FCLK_CLK3_0             (drp_clk_in),
+   .FCLK_CLK2             (FCLK_CLK2_0),
+   .FCLK_CLK3             (drp_clk_in),
    .FIXED_IO_ddr_vrn        (FIXED_IO_ddr_vrn),
    .FIXED_IO_ddr_vrp        (FIXED_IO_ddr_vrp),
    .FIXED_IO_mio            (FIXED_IO_mio),
@@ -718,6 +756,7 @@ dgrm_wrapper i_dgrm_wrapper(
    .IIC_0_0_scl_io          (X1_2_006),
    .IIC_0_0_sda_io          (X1_2_007),
    .LED_0                   (LED_0),
+
    .M00_AXI_0_araddr        (s_axi_araddr0),
    .M00_AXI_0_arprot        (),
    .M00_AXI_0_arready       (s_axi_arready0),
@@ -794,6 +833,7 @@ dgrm_wrapper i_dgrm_wrapper(
    .M03_AXI_0_wready        (s_axi_wready3),
    .M03_AXI_0_wstrb         (s_axi_wstrb3),
    .M03_AXI_0_wvalid        (s_axi_wvalid3),
+
    .MDIO_PHY_0_mdc          (X2_1_009),
    .MDIO_PHY_0_mdio_io      (X2_1_008),
    .M_AXIS_0_tdata          (s_axi_tx_tdata0),
@@ -838,7 +878,7 @@ dgrm_wrapper i_dgrm_wrapper(
 //   .phy_reset_0             (),
 //   .pll_reset_0             (),
    .GPIO2_1_tri_o           (GPIO2_1_tri_o),
-   .sys_reset               (sys_reset),
+   .sys_reset_N               ( ~sys_reset ),
    .usb_reset_0             (usb_reset),
    .user_clk                (user_clk),
    .LED_control_0           (LED_control)
@@ -898,12 +938,17 @@ assign X2_1_205 = GPIO_0_tri_o[8] ? GPIO_0_tri_o[1] : LED_0[1];
 assign X2_1_204 = GPIO_0_tri_o[8] ? GPIO_0_tri_o[0] : LED_0[0];
 assign X1_2_102 = CLK_SEL;
 
+// 4 LEDs on the KRM-3Z7030
+
+
+
 assign LED = ( LED_control == 2'b01 ) ? (
                                         {Q_gt_refclk1[26], Q_init_clk[26], Q_user_clk[26], Q_drp_clk_in[26]}
 // pragma translate_off
                                       ^ {Q_gt_refclk1[4],  Q_init_clk[4],  Q_user_clk[4],  Q_drp_clk_in[4]}
 // pragma translate_on
                                         ) :
+             ( LED_control == 2'b00 ) ? ( {init_calib_complete_0,     init_calib_complete_0,    init_calib_complete_0,     init_calib_complete_0}    ) :
              ( LED_control == 2'b10 ) ? ( {lane_up3,     lane_up2,    lane_up1,     lane_up0}    ) :
              ( LED_control == 2'b11 ) ? ( {channel_up3,  channel_up2, channel_up1,  channel_up0} ) : "1111";
 // HDL Embedded Text Block 2 eb2
