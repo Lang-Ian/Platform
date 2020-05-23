@@ -218,14 +218,14 @@ set_property -name "used_in_implementation" -value "0" -objects $file_obj
 set_property -name "used_in_synthesis" -value "0" -objects $file_obj
 
 
-# Set 'sources_1' fileset file properties for local files
-set file "flasher/flasher.bd"
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "registered_with_manager" -value "1" -objects $file_obj
+## Set 'sources_1' fileset file properties for local files
+#set file "flasher/flasher.bd"
+#set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+#set_property -name "registered_with_manager" -value "1" -objects $file_obj
 
-set file "dgrm/dgrm.bd"
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "registered_with_manager" -value "1" -objects $file_obj
+#set file "dgrm/dgrm.bd"
+#set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+#set_property -name "registered_with_manager" -value "1" -objects $file_obj
 
 set file "dgrm_mig_7series_0_0/mig_b.prj"
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
