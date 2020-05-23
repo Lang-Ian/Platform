@@ -705,3 +705,59 @@ move_dashboard_gadget -name {drc_1} -row 2 -col 0
 move_dashboard_gadget -name {timing_1} -row 0 -col 1
 move_dashboard_gadget -name {utilization_2} -row 1 -col 1
 move_dashboard_gadget -name {methodology_1} -row 2 -col 1
+
+
+#                                  ---oOo---
+
+
+# From here down, I had to hack in myself to get the script to run properly.
+
+set file "[file normalize "$origin_dir/7z030f/aurora_64b66b_4/aurora_64b66b_4.xcix"]"
+add_files -norecurse [list "$file"]
+set file "[file normalize "$origin_dir/7z030f/aurora_64b66b_5/aurora_64b66b_5.xcix"]"
+add_files -norecurse [list "$file"]
+set file "[file normalize "$origin_dir/7z030f/aurora_64b66b_6/aurora_64b66b_6.xcix"]"
+add_files -norecurse [list "$file"]
+set file "[file normalize "$origin_dir/7z030f/aurora_64b66b_7/aurora_64b66b_7.xcix"]"
+add_files -norecurse [list "$file"]
+
+update_compile_order -fileset sources_1
+
+# Add the two separately exported block diagrams.
+
+
+set file "[file normalize "$origin_dir/src/bd/flasher.tcl"]"
+source [list "$file"]
+
+set file "[file normalize "$origin_dir/src/bd/dgrm.tcl"]"
+source [list "$file"]
+
+
+# Fix the conflicting clock speed properties that Vivado seems to make of its own accord.  This basically
+# consists of disconnnecting CLK2 and CLK3 from the Zynq, making the two pins external and then reconnecting them.
+
+#disconnect_bd_net /processing_system7_0_FCLK_CLK2 [get_bd_pins processing_system7_0/FCLK_CLK2]
+#make_bd_pins_external  [get_bd_pins processing_system7_0/FCLK_CLK2]
+#connect_bd_net [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins processing_system7_0/FCLK_CLK2]
+
+#disconnect_bd_net /processing_system7_0_FCLK_CLK3 [get_bd_pins processing_system7_0/FCLK_CLK3]
+#make_bd_pins_external  [get_bd_pins processing_system7_0/FCLK_CLK3]
+#connect_bd_net [get_bd_pins processing_system7_0/FCLK_CLK3] [get_bd_pins axi_interconnect_1/M03_ACLK]
+
+
+#delete_bd_objs [get_bd_nets processing_system7_0_FCLK_CLK3]
+#delete_bd_objs [get_bd_ports FCLK_CLK3_0]
+
+#make_bd_pins_external  [get_bd_pins processing_system7_0/FCLK_CLK3]
+
+#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/ACLK]
+#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/M00_ACLK]
+#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/M01_ACLK]
+#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/M02_ACLK]
+#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/M03_ACLK]
+#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/S00_ACLK]
+#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins proc_sys_reset_3/slowest_sync_clk]
+
+#regenerate_bd_layout
+
+#validate_bd_design
