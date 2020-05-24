@@ -49,6 +49,9 @@
 #
 #*****************************************************************************************
 
+# To run this script:
+#    vivado -mode tcl -source Platform.tcl -tclargs --project_name TEST_PROJECT --origin_dir .
+
 # Set the reference directory for source file relative paths (by default the value is script directory path)
 set origin_dir "."
 
@@ -170,8 +173,6 @@ add_files -norecurse -fileset $obj $files
 
 # Add local files from the original project (-no_copy_sources specified)
 set files [list \
- [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/flasher/flasher.bd" ]\
- [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/dgrm/dgrm.bd" ]\
  [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v" ]\
  [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/flasher/hdl/flasher_wrapper.v" ]\
  [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/dgrm/ip/dgrm_mig_7series_0_0/mig_b.prj" ]\
@@ -219,14 +220,6 @@ set_property -name "used_in_synthesis" -value "0" -objects $file_obj
 
 
 # Set 'sources_1' fileset file properties for local files
-set file "flasher/flasher.bd"
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "registered_with_manager" -value "1" -objects $file_obj
-
-set file "dgrm/dgrm.bd"
-set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
-set_property -name "registered_with_manager" -value "1" -objects $file_obj
-
 set file "dgrm_mig_7series_0_0/mig_b.prj"
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "scoped_to_cells" -value "dgrm_mig_7series_0_0" -objects $file_obj
@@ -240,9 +233,6 @@ set_property -name "scoped_to_cells" -value "dgrm_mig_7series_0_0" -objects $fil
 set obj [get_filesets sources_1]
 set_property -name "top" -value "top" -objects $obj
 
-# Set IP repository paths
-set obj [get_filesets aurora_64b66b_6]
-set_property "ip_repo_paths" "[file normalize "$origin_dir/ip_repo"]" $obj
 
 # Rebuild user ip_repo's index before adding any source files
 update_ip_catalog -rebuild
@@ -269,9 +259,6 @@ if { ![get_property "is_locked" $file_obj] } {
 # None
 
 # Set IP repository paths
-set obj [get_filesets aurora_64b66b_7]
-set_property "ip_repo_paths" "[file normalize "$origin_dir/ip_repo"]" $obj
-
 # Rebuild user ip_repo's index before adding any source files
 update_ip_catalog -rebuild
 
@@ -297,9 +284,6 @@ if { ![get_property "is_locked" $file_obj] } {
 # None
 
 # Set IP repository paths
-set obj [get_filesets aurora_64b66b_5]
-set_property "ip_repo_paths" "[file normalize "$origin_dir/ip_repo"]" $obj
-
 # Rebuild user ip_repo's index before adding any source files
 update_ip_catalog -rebuild
 
@@ -325,9 +309,6 @@ if { ![get_property "is_locked" $file_obj] } {
 # None
 
 # Set IP repository paths
-set obj [get_filesets aurora_64b66b_4]
-set_property "ip_repo_paths" "[file normalize "$origin_dir/ip_repo"]" $obj
-
 # Rebuild user ip_repo's index before adding any source files
 update_ip_catalog -rebuild
 
@@ -724,40 +705,28 @@ add_files -norecurse [list "$file"]
 update_compile_order -fileset sources_1
 
 # Add the two separately exported block diagrams.
-
-
 set file "[file normalize "$origin_dir/src/bd/flasher.tcl"]"
 source [list "$file"]
 
 set file "[file normalize "$origin_dir/src/bd/dgrm.tcl"]"
 source [list "$file"]
 
+delete_bd_objs [get_bd_intf_nets axi_interconnect_1_M00_AXI] [get_bd_intf_ports M00_AXI_0]
+delete_bd_objs [get_bd_intf_nets axi_interconnect_1_M01_AXI] [get_bd_intf_ports M01_AXI_0]
+delete_bd_objs [get_bd_intf_nets axi_interconnect_1_M02_AXI] [get_bd_intf_ports M02_AXI_0]
+delete_bd_objs [get_bd_intf_nets axi_interconnect_1_M03_AXI] [get_bd_intf_ports M03_AXI_0]
 
-# Fix the conflicting clock speed properties that Vivado seems to make of its own accord.  This basically
-# consists of disconnnecting CLK2 and CLK3 from the Zynq, making the two pins external and then reconnecting them.
+startgroup
+make_bd_pins_external  [get_bd_cells axi_interconnect_1]
+make_bd_intf_pins_external  [get_bd_cells axi_interconnect_1]
+endgroup
 
-#disconnect_bd_net /processing_system7_0_FCLK_CLK2 [get_bd_pins processing_system7_0/FCLK_CLK2]
-#make_bd_pins_external  [get_bd_pins processing_system7_0/FCLK_CLK2]
-#connect_bd_net [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins processing_system7_0/FCLK_CLK2]
-
-#disconnect_bd_net /processing_system7_0_FCLK_CLK3 [get_bd_pins processing_system7_0/FCLK_CLK3]
-#make_bd_pins_external  [get_bd_pins processing_system7_0/FCLK_CLK3]
-#connect_bd_net [get_bd_pins processing_system7_0/FCLK_CLK3] [get_bd_pins axi_interconnect_1/M03_ACLK]
+assign_bd_address [get_bd_addr_segs {M02_AXI_0/Reg }]
 
 
-#delete_bd_objs [get_bd_nets processing_system7_0_FCLK_CLK3]
-#delete_bd_objs [get_bd_ports FCLK_CLK3_0]
+exclude_bd_addr_seg [get_bd_addr_segs processing_system7_0/Data/SEG_M02_AXI_0_Reg]
+exclude_bd_addr_seg [get_bd_addr_segs M00_AXI_0/Reg] -target_address_space [get_bd_addr_spaces processing_system7_0/Data]
+exclude_bd_addr_seg [get_bd_addr_segs M01_AXI_0/Reg] -target_address_space [get_bd_addr_spaces processing_system7_0/Data]
+exclude_bd_addr_seg [get_bd_addr_segs M03_AXI_0/Reg] -target_address_space [get_bd_addr_spaces processing_system7_0/Data]
 
-#make_bd_pins_external  [get_bd_pins processing_system7_0/FCLK_CLK3]
-
-#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/ACLK]
-#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/M00_ACLK]
-#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/M01_ACLK]
-#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/M02_ACLK]
-#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/M03_ACLK]
-#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {54} Ref_Clk0 {None} Ref_Clk1 {None} Ref_Clk2 {None}}  [get_bd_pins axi_interconnect_1/S00_ACLK]
-#apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/processing_system7_0/FCLK_CLK3 (54 MHz)} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins proc_sys_reset_3/slowest_sync_clk]
-
-#regenerate_bd_layout
-
-#validate_bd_design
+validate_bd_design
