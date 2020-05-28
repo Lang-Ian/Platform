@@ -16,6 +16,7 @@ This is a project that I am using to improve my skills at building an embedded s
 3)  DMA
 4)  Serial Tansceivers
 5)  Linux Drivers
+6)  Linux Interrupts
 
 To build the project:
 
