@@ -171,15 +171,16 @@ set files [list \
 ]
 add_files -norecurse -fileset $obj $files
 
-# Import local files from the original project
+# Add local files from the original project (-no_copy_sources specified)
+
 set files [list \
- 
  [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v" ]\
  [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/flasher/hdl/flasher_wrapper.v" ]\
  [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/dgrm/ip/dgrm_mig_7series_0_0/mig_b.prj" ]\
  [file normalize "${origin_dir}/Platform/Platform.srcs/sources_1/bd/dgrm/ip/dgrm_mig_7series_0_0/mig_a.prj" ]\
 ]
-set imported_files [import_files -fileset sources_1 $files]
+set added_files [add_files -fileset sources_1 $files]
+
 
 # Set 'sources_1' fileset file properties for remote files
 set file "$origin_dir/src/hdl/Ethernet_LEDs.vhd"
