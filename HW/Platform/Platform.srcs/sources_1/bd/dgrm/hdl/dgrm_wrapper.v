@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
-//Date        : Thu May 21 21:38:52 2020
+//Date        : Fri May 29 16:28:33 2020
 //Host        : hystou running 64-bit Ubuntu 16.04.6 LTS
 //Command     : generate_target dgrm_wrapper.bd
 //Design      : dgrm_wrapper
@@ -55,158 +55,78 @@ module dgrm_wrapper
     LED_0,
     LED_control_0,
     M00_AXI_0_araddr,
-    M00_AXI_0_arburst,
-    M00_AXI_0_arcache,
-    M00_AXI_0_arid,
-    M00_AXI_0_arlen,
-    M00_AXI_0_arlock,
     M00_AXI_0_arprot,
-    M00_AXI_0_arqos,
     M00_AXI_0_arready,
-    M00_AXI_0_arregion,
-    M00_AXI_0_arsize,
     M00_AXI_0_arvalid,
     M00_AXI_0_awaddr,
-    M00_AXI_0_awburst,
-    M00_AXI_0_awcache,
-    M00_AXI_0_awid,
-    M00_AXI_0_awlen,
-    M00_AXI_0_awlock,
     M00_AXI_0_awprot,
-    M00_AXI_0_awqos,
     M00_AXI_0_awready,
-    M00_AXI_0_awregion,
-    M00_AXI_0_awsize,
     M00_AXI_0_awvalid,
-    M00_AXI_0_bid,
     M00_AXI_0_bready,
     M00_AXI_0_bresp,
     M00_AXI_0_bvalid,
     M00_AXI_0_rdata,
-    M00_AXI_0_rid,
-    M00_AXI_0_rlast,
     M00_AXI_0_rready,
     M00_AXI_0_rresp,
     M00_AXI_0_rvalid,
     M00_AXI_0_wdata,
-    M00_AXI_0_wlast,
     M00_AXI_0_wready,
     M00_AXI_0_wstrb,
     M00_AXI_0_wvalid,
     M01_AXI_0_araddr,
-    M01_AXI_0_arburst,
-    M01_AXI_0_arcache,
-    M01_AXI_0_arid,
-    M01_AXI_0_arlen,
-    M01_AXI_0_arlock,
     M01_AXI_0_arprot,
-    M01_AXI_0_arqos,
     M01_AXI_0_arready,
-    M01_AXI_0_arregion,
-    M01_AXI_0_arsize,
     M01_AXI_0_arvalid,
     M01_AXI_0_awaddr,
-    M01_AXI_0_awburst,
-    M01_AXI_0_awcache,
-    M01_AXI_0_awid,
-    M01_AXI_0_awlen,
-    M01_AXI_0_awlock,
     M01_AXI_0_awprot,
-    M01_AXI_0_awqos,
     M01_AXI_0_awready,
-    M01_AXI_0_awregion,
-    M01_AXI_0_awsize,
     M01_AXI_0_awvalid,
-    M01_AXI_0_bid,
     M01_AXI_0_bready,
     M01_AXI_0_bresp,
     M01_AXI_0_bvalid,
     M01_AXI_0_rdata,
-    M01_AXI_0_rid,
-    M01_AXI_0_rlast,
     M01_AXI_0_rready,
     M01_AXI_0_rresp,
     M01_AXI_0_rvalid,
     M01_AXI_0_wdata,
-    M01_AXI_0_wlast,
     M01_AXI_0_wready,
     M01_AXI_0_wstrb,
     M01_AXI_0_wvalid,
     M02_AXI_0_araddr,
-    M02_AXI_0_arburst,
-    M02_AXI_0_arcache,
-    M02_AXI_0_arid,
-    M02_AXI_0_arlen,
-    M02_AXI_0_arlock,
     M02_AXI_0_arprot,
-    M02_AXI_0_arqos,
     M02_AXI_0_arready,
-    M02_AXI_0_arregion,
-    M02_AXI_0_arsize,
     M02_AXI_0_arvalid,
     M02_AXI_0_awaddr,
-    M02_AXI_0_awburst,
-    M02_AXI_0_awcache,
-    M02_AXI_0_awid,
-    M02_AXI_0_awlen,
-    M02_AXI_0_awlock,
     M02_AXI_0_awprot,
-    M02_AXI_0_awqos,
     M02_AXI_0_awready,
-    M02_AXI_0_awregion,
-    M02_AXI_0_awsize,
     M02_AXI_0_awvalid,
-    M02_AXI_0_bid,
     M02_AXI_0_bready,
     M02_AXI_0_bresp,
     M02_AXI_0_bvalid,
     M02_AXI_0_rdata,
-    M02_AXI_0_rid,
-    M02_AXI_0_rlast,
     M02_AXI_0_rready,
     M02_AXI_0_rresp,
     M02_AXI_0_rvalid,
     M02_AXI_0_wdata,
-    M02_AXI_0_wlast,
     M02_AXI_0_wready,
     M02_AXI_0_wstrb,
     M02_AXI_0_wvalid,
     M03_AXI_0_araddr,
-    M03_AXI_0_arburst,
-    M03_AXI_0_arcache,
-    M03_AXI_0_arid,
-    M03_AXI_0_arlen,
-    M03_AXI_0_arlock,
     M03_AXI_0_arprot,
-    M03_AXI_0_arqos,
     M03_AXI_0_arready,
-    M03_AXI_0_arregion,
-    M03_AXI_0_arsize,
     M03_AXI_0_arvalid,
     M03_AXI_0_awaddr,
-    M03_AXI_0_awburst,
-    M03_AXI_0_awcache,
-    M03_AXI_0_awid,
-    M03_AXI_0_awlen,
-    M03_AXI_0_awlock,
     M03_AXI_0_awprot,
-    M03_AXI_0_awqos,
     M03_AXI_0_awready,
-    M03_AXI_0_awregion,
-    M03_AXI_0_awsize,
     M03_AXI_0_awvalid,
-    M03_AXI_0_bid,
     M03_AXI_0_bready,
     M03_AXI_0_bresp,
     M03_AXI_0_bvalid,
     M03_AXI_0_rdata,
-    M03_AXI_0_rid,
-    M03_AXI_0_rlast,
     M03_AXI_0_rready,
     M03_AXI_0_rresp,
     M03_AXI_0_rvalid,
     M03_AXI_0_wdata,
-    M03_AXI_0_wlast,
     M03_AXI_0_wready,
     M03_AXI_0_wstrb,
     M03_AXI_0_wvalid,
@@ -225,6 +145,8 @@ module dgrm_wrapper
     M_AXIS_3_tdata,
     M_AXIS_3_tready,
     M_AXIS_3_tvalid,
+    PMOD_1_tri_io,
+    PMOD_2_tri_io,
     RGMII_0_rd,
     RGMII_0_rx_ctl,
     RGMII_0_rxc,
@@ -301,158 +223,78 @@ module dgrm_wrapper
   output [7:0]LED_0;
   output [1:0]LED_control_0;
   output [31:0]M00_AXI_0_araddr;
-  output [1:0]M00_AXI_0_arburst;
-  output [3:0]M00_AXI_0_arcache;
-  output [11:0]M00_AXI_0_arid;
-  output [7:0]M00_AXI_0_arlen;
-  output [0:0]M00_AXI_0_arlock;
   output [2:0]M00_AXI_0_arprot;
-  output [3:0]M00_AXI_0_arqos;
   input [0:0]M00_AXI_0_arready;
-  output [3:0]M00_AXI_0_arregion;
-  output [2:0]M00_AXI_0_arsize;
   output [0:0]M00_AXI_0_arvalid;
   output [31:0]M00_AXI_0_awaddr;
-  output [1:0]M00_AXI_0_awburst;
-  output [3:0]M00_AXI_0_awcache;
-  output [11:0]M00_AXI_0_awid;
-  output [7:0]M00_AXI_0_awlen;
-  output [0:0]M00_AXI_0_awlock;
   output [2:0]M00_AXI_0_awprot;
-  output [3:0]M00_AXI_0_awqos;
   input [0:0]M00_AXI_0_awready;
-  output [3:0]M00_AXI_0_awregion;
-  output [2:0]M00_AXI_0_awsize;
   output [0:0]M00_AXI_0_awvalid;
-  input [11:0]M00_AXI_0_bid;
   output [0:0]M00_AXI_0_bready;
   input [1:0]M00_AXI_0_bresp;
   input [0:0]M00_AXI_0_bvalid;
   input [31:0]M00_AXI_0_rdata;
-  input [11:0]M00_AXI_0_rid;
-  input [0:0]M00_AXI_0_rlast;
   output [0:0]M00_AXI_0_rready;
   input [1:0]M00_AXI_0_rresp;
   input [0:0]M00_AXI_0_rvalid;
   output [31:0]M00_AXI_0_wdata;
-  output [0:0]M00_AXI_0_wlast;
   input [0:0]M00_AXI_0_wready;
   output [3:0]M00_AXI_0_wstrb;
   output [0:0]M00_AXI_0_wvalid;
   output [31:0]M01_AXI_0_araddr;
-  output [1:0]M01_AXI_0_arburst;
-  output [3:0]M01_AXI_0_arcache;
-  output [11:0]M01_AXI_0_arid;
-  output [7:0]M01_AXI_0_arlen;
-  output [0:0]M01_AXI_0_arlock;
   output [2:0]M01_AXI_0_arprot;
-  output [3:0]M01_AXI_0_arqos;
   input [0:0]M01_AXI_0_arready;
-  output [3:0]M01_AXI_0_arregion;
-  output [2:0]M01_AXI_0_arsize;
   output [0:0]M01_AXI_0_arvalid;
   output [31:0]M01_AXI_0_awaddr;
-  output [1:0]M01_AXI_0_awburst;
-  output [3:0]M01_AXI_0_awcache;
-  output [11:0]M01_AXI_0_awid;
-  output [7:0]M01_AXI_0_awlen;
-  output [0:0]M01_AXI_0_awlock;
   output [2:0]M01_AXI_0_awprot;
-  output [3:0]M01_AXI_0_awqos;
   input [0:0]M01_AXI_0_awready;
-  output [3:0]M01_AXI_0_awregion;
-  output [2:0]M01_AXI_0_awsize;
   output [0:0]M01_AXI_0_awvalid;
-  input [11:0]M01_AXI_0_bid;
   output [0:0]M01_AXI_0_bready;
   input [1:0]M01_AXI_0_bresp;
   input [0:0]M01_AXI_0_bvalid;
   input [31:0]M01_AXI_0_rdata;
-  input [11:0]M01_AXI_0_rid;
-  input [0:0]M01_AXI_0_rlast;
   output [0:0]M01_AXI_0_rready;
   input [1:0]M01_AXI_0_rresp;
   input [0:0]M01_AXI_0_rvalid;
   output [31:0]M01_AXI_0_wdata;
-  output [0:0]M01_AXI_0_wlast;
   input [0:0]M01_AXI_0_wready;
   output [3:0]M01_AXI_0_wstrb;
   output [0:0]M01_AXI_0_wvalid;
   output [31:0]M02_AXI_0_araddr;
-  output [1:0]M02_AXI_0_arburst;
-  output [3:0]M02_AXI_0_arcache;
-  output [11:0]M02_AXI_0_arid;
-  output [7:0]M02_AXI_0_arlen;
-  output [0:0]M02_AXI_0_arlock;
   output [2:0]M02_AXI_0_arprot;
-  output [3:0]M02_AXI_0_arqos;
   input [0:0]M02_AXI_0_arready;
-  output [3:0]M02_AXI_0_arregion;
-  output [2:0]M02_AXI_0_arsize;
   output [0:0]M02_AXI_0_arvalid;
   output [31:0]M02_AXI_0_awaddr;
-  output [1:0]M02_AXI_0_awburst;
-  output [3:0]M02_AXI_0_awcache;
-  output [11:0]M02_AXI_0_awid;
-  output [7:0]M02_AXI_0_awlen;
-  output [0:0]M02_AXI_0_awlock;
   output [2:0]M02_AXI_0_awprot;
-  output [3:0]M02_AXI_0_awqos;
   input [0:0]M02_AXI_0_awready;
-  output [3:0]M02_AXI_0_awregion;
-  output [2:0]M02_AXI_0_awsize;
   output [0:0]M02_AXI_0_awvalid;
-  input [11:0]M02_AXI_0_bid;
   output [0:0]M02_AXI_0_bready;
   input [1:0]M02_AXI_0_bresp;
   input [0:0]M02_AXI_0_bvalid;
   input [31:0]M02_AXI_0_rdata;
-  input [11:0]M02_AXI_0_rid;
-  input [0:0]M02_AXI_0_rlast;
   output [0:0]M02_AXI_0_rready;
   input [1:0]M02_AXI_0_rresp;
   input [0:0]M02_AXI_0_rvalid;
   output [31:0]M02_AXI_0_wdata;
-  output [0:0]M02_AXI_0_wlast;
   input [0:0]M02_AXI_0_wready;
   output [3:0]M02_AXI_0_wstrb;
   output [0:0]M02_AXI_0_wvalid;
   output [31:0]M03_AXI_0_araddr;
-  output [1:0]M03_AXI_0_arburst;
-  output [3:0]M03_AXI_0_arcache;
-  output [11:0]M03_AXI_0_arid;
-  output [7:0]M03_AXI_0_arlen;
-  output [0:0]M03_AXI_0_arlock;
   output [2:0]M03_AXI_0_arprot;
-  output [3:0]M03_AXI_0_arqos;
   input [0:0]M03_AXI_0_arready;
-  output [3:0]M03_AXI_0_arregion;
-  output [2:0]M03_AXI_0_arsize;
   output [0:0]M03_AXI_0_arvalid;
   output [31:0]M03_AXI_0_awaddr;
-  output [1:0]M03_AXI_0_awburst;
-  output [3:0]M03_AXI_0_awcache;
-  output [11:0]M03_AXI_0_awid;
-  output [7:0]M03_AXI_0_awlen;
-  output [0:0]M03_AXI_0_awlock;
   output [2:0]M03_AXI_0_awprot;
-  output [3:0]M03_AXI_0_awqos;
   input [0:0]M03_AXI_0_awready;
-  output [3:0]M03_AXI_0_awregion;
-  output [2:0]M03_AXI_0_awsize;
   output [0:0]M03_AXI_0_awvalid;
-  input [11:0]M03_AXI_0_bid;
   output [0:0]M03_AXI_0_bready;
   input [1:0]M03_AXI_0_bresp;
   input [0:0]M03_AXI_0_bvalid;
   input [31:0]M03_AXI_0_rdata;
-  input [11:0]M03_AXI_0_rid;
-  input [0:0]M03_AXI_0_rlast;
   output [0:0]M03_AXI_0_rready;
   input [1:0]M03_AXI_0_rresp;
   input [0:0]M03_AXI_0_rvalid;
   output [31:0]M03_AXI_0_wdata;
-  output [0:0]M03_AXI_0_wlast;
   input [0:0]M03_AXI_0_wready;
   output [3:0]M03_AXI_0_wstrb;
   output [0:0]M03_AXI_0_wvalid;
@@ -471,6 +313,8 @@ module dgrm_wrapper
   output [63:0]M_AXIS_3_tdata;
   input M_AXIS_3_tready;
   output M_AXIS_3_tvalid;
+  inout [3:0]PMOD_1_tri_io;
+  inout [3:0]PMOD_2_tri_io;
   input [3:0]RGMII_0_rd;
   input RGMII_0_rx_ctl;
   input RGMII_0_rxc;
@@ -554,158 +398,78 @@ module dgrm_wrapper
   wire [7:0]LED_0;
   wire [1:0]LED_control_0;
   wire [31:0]M00_AXI_0_araddr;
-  wire [1:0]M00_AXI_0_arburst;
-  wire [3:0]M00_AXI_0_arcache;
-  wire [11:0]M00_AXI_0_arid;
-  wire [7:0]M00_AXI_0_arlen;
-  wire [0:0]M00_AXI_0_arlock;
   wire [2:0]M00_AXI_0_arprot;
-  wire [3:0]M00_AXI_0_arqos;
   wire [0:0]M00_AXI_0_arready;
-  wire [3:0]M00_AXI_0_arregion;
-  wire [2:0]M00_AXI_0_arsize;
   wire [0:0]M00_AXI_0_arvalid;
   wire [31:0]M00_AXI_0_awaddr;
-  wire [1:0]M00_AXI_0_awburst;
-  wire [3:0]M00_AXI_0_awcache;
-  wire [11:0]M00_AXI_0_awid;
-  wire [7:0]M00_AXI_0_awlen;
-  wire [0:0]M00_AXI_0_awlock;
   wire [2:0]M00_AXI_0_awprot;
-  wire [3:0]M00_AXI_0_awqos;
   wire [0:0]M00_AXI_0_awready;
-  wire [3:0]M00_AXI_0_awregion;
-  wire [2:0]M00_AXI_0_awsize;
   wire [0:0]M00_AXI_0_awvalid;
-  wire [11:0]M00_AXI_0_bid;
   wire [0:0]M00_AXI_0_bready;
   wire [1:0]M00_AXI_0_bresp;
   wire [0:0]M00_AXI_0_bvalid;
   wire [31:0]M00_AXI_0_rdata;
-  wire [11:0]M00_AXI_0_rid;
-  wire [0:0]M00_AXI_0_rlast;
   wire [0:0]M00_AXI_0_rready;
   wire [1:0]M00_AXI_0_rresp;
   wire [0:0]M00_AXI_0_rvalid;
   wire [31:0]M00_AXI_0_wdata;
-  wire [0:0]M00_AXI_0_wlast;
   wire [0:0]M00_AXI_0_wready;
   wire [3:0]M00_AXI_0_wstrb;
   wire [0:0]M00_AXI_0_wvalid;
   wire [31:0]M01_AXI_0_araddr;
-  wire [1:0]M01_AXI_0_arburst;
-  wire [3:0]M01_AXI_0_arcache;
-  wire [11:0]M01_AXI_0_arid;
-  wire [7:0]M01_AXI_0_arlen;
-  wire [0:0]M01_AXI_0_arlock;
   wire [2:0]M01_AXI_0_arprot;
-  wire [3:0]M01_AXI_0_arqos;
   wire [0:0]M01_AXI_0_arready;
-  wire [3:0]M01_AXI_0_arregion;
-  wire [2:0]M01_AXI_0_arsize;
   wire [0:0]M01_AXI_0_arvalid;
   wire [31:0]M01_AXI_0_awaddr;
-  wire [1:0]M01_AXI_0_awburst;
-  wire [3:0]M01_AXI_0_awcache;
-  wire [11:0]M01_AXI_0_awid;
-  wire [7:0]M01_AXI_0_awlen;
-  wire [0:0]M01_AXI_0_awlock;
   wire [2:0]M01_AXI_0_awprot;
-  wire [3:0]M01_AXI_0_awqos;
   wire [0:0]M01_AXI_0_awready;
-  wire [3:0]M01_AXI_0_awregion;
-  wire [2:0]M01_AXI_0_awsize;
   wire [0:0]M01_AXI_0_awvalid;
-  wire [11:0]M01_AXI_0_bid;
   wire [0:0]M01_AXI_0_bready;
   wire [1:0]M01_AXI_0_bresp;
   wire [0:0]M01_AXI_0_bvalid;
   wire [31:0]M01_AXI_0_rdata;
-  wire [11:0]M01_AXI_0_rid;
-  wire [0:0]M01_AXI_0_rlast;
   wire [0:0]M01_AXI_0_rready;
   wire [1:0]M01_AXI_0_rresp;
   wire [0:0]M01_AXI_0_rvalid;
   wire [31:0]M01_AXI_0_wdata;
-  wire [0:0]M01_AXI_0_wlast;
   wire [0:0]M01_AXI_0_wready;
   wire [3:0]M01_AXI_0_wstrb;
   wire [0:0]M01_AXI_0_wvalid;
   wire [31:0]M02_AXI_0_araddr;
-  wire [1:0]M02_AXI_0_arburst;
-  wire [3:0]M02_AXI_0_arcache;
-  wire [11:0]M02_AXI_0_arid;
-  wire [7:0]M02_AXI_0_arlen;
-  wire [0:0]M02_AXI_0_arlock;
   wire [2:0]M02_AXI_0_arprot;
-  wire [3:0]M02_AXI_0_arqos;
   wire [0:0]M02_AXI_0_arready;
-  wire [3:0]M02_AXI_0_arregion;
-  wire [2:0]M02_AXI_0_arsize;
   wire [0:0]M02_AXI_0_arvalid;
   wire [31:0]M02_AXI_0_awaddr;
-  wire [1:0]M02_AXI_0_awburst;
-  wire [3:0]M02_AXI_0_awcache;
-  wire [11:0]M02_AXI_0_awid;
-  wire [7:0]M02_AXI_0_awlen;
-  wire [0:0]M02_AXI_0_awlock;
   wire [2:0]M02_AXI_0_awprot;
-  wire [3:0]M02_AXI_0_awqos;
   wire [0:0]M02_AXI_0_awready;
-  wire [3:0]M02_AXI_0_awregion;
-  wire [2:0]M02_AXI_0_awsize;
   wire [0:0]M02_AXI_0_awvalid;
-  wire [11:0]M02_AXI_0_bid;
   wire [0:0]M02_AXI_0_bready;
   wire [1:0]M02_AXI_0_bresp;
   wire [0:0]M02_AXI_0_bvalid;
   wire [31:0]M02_AXI_0_rdata;
-  wire [11:0]M02_AXI_0_rid;
-  wire [0:0]M02_AXI_0_rlast;
   wire [0:0]M02_AXI_0_rready;
   wire [1:0]M02_AXI_0_rresp;
   wire [0:0]M02_AXI_0_rvalid;
   wire [31:0]M02_AXI_0_wdata;
-  wire [0:0]M02_AXI_0_wlast;
   wire [0:0]M02_AXI_0_wready;
   wire [3:0]M02_AXI_0_wstrb;
   wire [0:0]M02_AXI_0_wvalid;
   wire [31:0]M03_AXI_0_araddr;
-  wire [1:0]M03_AXI_0_arburst;
-  wire [3:0]M03_AXI_0_arcache;
-  wire [11:0]M03_AXI_0_arid;
-  wire [7:0]M03_AXI_0_arlen;
-  wire [0:0]M03_AXI_0_arlock;
   wire [2:0]M03_AXI_0_arprot;
-  wire [3:0]M03_AXI_0_arqos;
   wire [0:0]M03_AXI_0_arready;
-  wire [3:0]M03_AXI_0_arregion;
-  wire [2:0]M03_AXI_0_arsize;
   wire [0:0]M03_AXI_0_arvalid;
   wire [31:0]M03_AXI_0_awaddr;
-  wire [1:0]M03_AXI_0_awburst;
-  wire [3:0]M03_AXI_0_awcache;
-  wire [11:0]M03_AXI_0_awid;
-  wire [7:0]M03_AXI_0_awlen;
-  wire [0:0]M03_AXI_0_awlock;
   wire [2:0]M03_AXI_0_awprot;
-  wire [3:0]M03_AXI_0_awqos;
   wire [0:0]M03_AXI_0_awready;
-  wire [3:0]M03_AXI_0_awregion;
-  wire [2:0]M03_AXI_0_awsize;
   wire [0:0]M03_AXI_0_awvalid;
-  wire [11:0]M03_AXI_0_bid;
   wire [0:0]M03_AXI_0_bready;
   wire [1:0]M03_AXI_0_bresp;
   wire [0:0]M03_AXI_0_bvalid;
   wire [31:0]M03_AXI_0_rdata;
-  wire [11:0]M03_AXI_0_rid;
-  wire [0:0]M03_AXI_0_rlast;
   wire [0:0]M03_AXI_0_rready;
   wire [1:0]M03_AXI_0_rresp;
   wire [0:0]M03_AXI_0_rvalid;
   wire [31:0]M03_AXI_0_wdata;
-  wire [0:0]M03_AXI_0_wlast;
   wire [0:0]M03_AXI_0_wready;
   wire [3:0]M03_AXI_0_wstrb;
   wire [0:0]M03_AXI_0_wvalid;
@@ -727,6 +491,38 @@ module dgrm_wrapper
   wire [63:0]M_AXIS_3_tdata;
   wire M_AXIS_3_tready;
   wire M_AXIS_3_tvalid;
+  wire [0:0]PMOD_1_tri_i_0;
+  wire [1:1]PMOD_1_tri_i_1;
+  wire [2:2]PMOD_1_tri_i_2;
+  wire [3:3]PMOD_1_tri_i_3;
+  wire [0:0]PMOD_1_tri_io_0;
+  wire [1:1]PMOD_1_tri_io_1;
+  wire [2:2]PMOD_1_tri_io_2;
+  wire [3:3]PMOD_1_tri_io_3;
+  wire [0:0]PMOD_1_tri_o_0;
+  wire [1:1]PMOD_1_tri_o_1;
+  wire [2:2]PMOD_1_tri_o_2;
+  wire [3:3]PMOD_1_tri_o_3;
+  wire [0:0]PMOD_1_tri_t_0;
+  wire [1:1]PMOD_1_tri_t_1;
+  wire [2:2]PMOD_1_tri_t_2;
+  wire [3:3]PMOD_1_tri_t_3;
+  wire [0:0]PMOD_2_tri_i_0;
+  wire [1:1]PMOD_2_tri_i_1;
+  wire [2:2]PMOD_2_tri_i_2;
+  wire [3:3]PMOD_2_tri_i_3;
+  wire [0:0]PMOD_2_tri_io_0;
+  wire [1:1]PMOD_2_tri_io_1;
+  wire [2:2]PMOD_2_tri_io_2;
+  wire [3:3]PMOD_2_tri_io_3;
+  wire [0:0]PMOD_2_tri_o_0;
+  wire [1:1]PMOD_2_tri_o_1;
+  wire [2:2]PMOD_2_tri_o_2;
+  wire [3:3]PMOD_2_tri_o_3;
+  wire [0:0]PMOD_2_tri_t_0;
+  wire [1:1]PMOD_2_tri_t_1;
+  wire [2:2]PMOD_2_tri_t_2;
+  wire [3:3]PMOD_2_tri_t_3;
   wire [3:0]RGMII_0_rd;
   wire RGMII_0_rx_ctl;
   wire RGMII_0_rxc;
@@ -774,6 +570,46 @@ module dgrm_wrapper
         .IO(MDIO_PHY_0_mdio_io),
         .O(MDIO_PHY_0_mdio_i),
         .T(MDIO_PHY_0_mdio_t));
+  IOBUF PMOD_1_tri_iobuf_0
+       (.I(PMOD_1_tri_o_0),
+        .IO(PMOD_1_tri_io[0]),
+        .O(PMOD_1_tri_i_0),
+        .T(PMOD_1_tri_t_0));
+  IOBUF PMOD_1_tri_iobuf_1
+       (.I(PMOD_1_tri_o_1),
+        .IO(PMOD_1_tri_io[1]),
+        .O(PMOD_1_tri_i_1),
+        .T(PMOD_1_tri_t_1));
+  IOBUF PMOD_1_tri_iobuf_2
+       (.I(PMOD_1_tri_o_2),
+        .IO(PMOD_1_tri_io[2]),
+        .O(PMOD_1_tri_i_2),
+        .T(PMOD_1_tri_t_2));
+  IOBUF PMOD_1_tri_iobuf_3
+       (.I(PMOD_1_tri_o_3),
+        .IO(PMOD_1_tri_io[3]),
+        .O(PMOD_1_tri_i_3),
+        .T(PMOD_1_tri_t_3));
+  IOBUF PMOD_2_tri_iobuf_0
+       (.I(PMOD_2_tri_o_0),
+        .IO(PMOD_2_tri_io[0]),
+        .O(PMOD_2_tri_i_0),
+        .T(PMOD_2_tri_t_0));
+  IOBUF PMOD_2_tri_iobuf_1
+       (.I(PMOD_2_tri_o_1),
+        .IO(PMOD_2_tri_io[1]),
+        .O(PMOD_2_tri_i_1),
+        .T(PMOD_2_tri_t_1));
+  IOBUF PMOD_2_tri_iobuf_2
+       (.I(PMOD_2_tri_o_2),
+        .IO(PMOD_2_tri_io[2]),
+        .O(PMOD_2_tri_i_2),
+        .T(PMOD_2_tri_t_2));
+  IOBUF PMOD_2_tri_iobuf_3
+       (.I(PMOD_2_tri_o_3),
+        .IO(PMOD_2_tri_io[3]),
+        .O(PMOD_2_tri_i_3),
+        .T(PMOD_2_tri_t_3));
   dgrm dgrm_i
        (.DDR3_0_addr(DDR3_0_addr),
         .DDR3_0_ba(DDR3_0_ba),
@@ -824,158 +660,78 @@ module dgrm_wrapper
         .LED_0(LED_0),
         .LED_control_0(LED_control_0),
         .M00_AXI_0_araddr(M00_AXI_0_araddr),
-        .M00_AXI_0_arburst(M00_AXI_0_arburst),
-        .M00_AXI_0_arcache(M00_AXI_0_arcache),
-        .M00_AXI_0_arid(M00_AXI_0_arid),
-        .M00_AXI_0_arlen(M00_AXI_0_arlen),
-        .M00_AXI_0_arlock(M00_AXI_0_arlock),
         .M00_AXI_0_arprot(M00_AXI_0_arprot),
-        .M00_AXI_0_arqos(M00_AXI_0_arqos),
         .M00_AXI_0_arready(M00_AXI_0_arready),
-        .M00_AXI_0_arregion(M00_AXI_0_arregion),
-        .M00_AXI_0_arsize(M00_AXI_0_arsize),
         .M00_AXI_0_arvalid(M00_AXI_0_arvalid),
         .M00_AXI_0_awaddr(M00_AXI_0_awaddr),
-        .M00_AXI_0_awburst(M00_AXI_0_awburst),
-        .M00_AXI_0_awcache(M00_AXI_0_awcache),
-        .M00_AXI_0_awid(M00_AXI_0_awid),
-        .M00_AXI_0_awlen(M00_AXI_0_awlen),
-        .M00_AXI_0_awlock(M00_AXI_0_awlock),
         .M00_AXI_0_awprot(M00_AXI_0_awprot),
-        .M00_AXI_0_awqos(M00_AXI_0_awqos),
         .M00_AXI_0_awready(M00_AXI_0_awready),
-        .M00_AXI_0_awregion(M00_AXI_0_awregion),
-        .M00_AXI_0_awsize(M00_AXI_0_awsize),
         .M00_AXI_0_awvalid(M00_AXI_0_awvalid),
-        .M00_AXI_0_bid(M00_AXI_0_bid),
         .M00_AXI_0_bready(M00_AXI_0_bready),
         .M00_AXI_0_bresp(M00_AXI_0_bresp),
         .M00_AXI_0_bvalid(M00_AXI_0_bvalid),
         .M00_AXI_0_rdata(M00_AXI_0_rdata),
-        .M00_AXI_0_rid(M00_AXI_0_rid),
-        .M00_AXI_0_rlast(M00_AXI_0_rlast),
         .M00_AXI_0_rready(M00_AXI_0_rready),
         .M00_AXI_0_rresp(M00_AXI_0_rresp),
         .M00_AXI_0_rvalid(M00_AXI_0_rvalid),
         .M00_AXI_0_wdata(M00_AXI_0_wdata),
-        .M00_AXI_0_wlast(M00_AXI_0_wlast),
         .M00_AXI_0_wready(M00_AXI_0_wready),
         .M00_AXI_0_wstrb(M00_AXI_0_wstrb),
         .M00_AXI_0_wvalid(M00_AXI_0_wvalid),
         .M01_AXI_0_araddr(M01_AXI_0_araddr),
-        .M01_AXI_0_arburst(M01_AXI_0_arburst),
-        .M01_AXI_0_arcache(M01_AXI_0_arcache),
-        .M01_AXI_0_arid(M01_AXI_0_arid),
-        .M01_AXI_0_arlen(M01_AXI_0_arlen),
-        .M01_AXI_0_arlock(M01_AXI_0_arlock),
         .M01_AXI_0_arprot(M01_AXI_0_arprot),
-        .M01_AXI_0_arqos(M01_AXI_0_arqos),
         .M01_AXI_0_arready(M01_AXI_0_arready),
-        .M01_AXI_0_arregion(M01_AXI_0_arregion),
-        .M01_AXI_0_arsize(M01_AXI_0_arsize),
         .M01_AXI_0_arvalid(M01_AXI_0_arvalid),
         .M01_AXI_0_awaddr(M01_AXI_0_awaddr),
-        .M01_AXI_0_awburst(M01_AXI_0_awburst),
-        .M01_AXI_0_awcache(M01_AXI_0_awcache),
-        .M01_AXI_0_awid(M01_AXI_0_awid),
-        .M01_AXI_0_awlen(M01_AXI_0_awlen),
-        .M01_AXI_0_awlock(M01_AXI_0_awlock),
         .M01_AXI_0_awprot(M01_AXI_0_awprot),
-        .M01_AXI_0_awqos(M01_AXI_0_awqos),
         .M01_AXI_0_awready(M01_AXI_0_awready),
-        .M01_AXI_0_awregion(M01_AXI_0_awregion),
-        .M01_AXI_0_awsize(M01_AXI_0_awsize),
         .M01_AXI_0_awvalid(M01_AXI_0_awvalid),
-        .M01_AXI_0_bid(M01_AXI_0_bid),
         .M01_AXI_0_bready(M01_AXI_0_bready),
         .M01_AXI_0_bresp(M01_AXI_0_bresp),
         .M01_AXI_0_bvalid(M01_AXI_0_bvalid),
         .M01_AXI_0_rdata(M01_AXI_0_rdata),
-        .M01_AXI_0_rid(M01_AXI_0_rid),
-        .M01_AXI_0_rlast(M01_AXI_0_rlast),
         .M01_AXI_0_rready(M01_AXI_0_rready),
         .M01_AXI_0_rresp(M01_AXI_0_rresp),
         .M01_AXI_0_rvalid(M01_AXI_0_rvalid),
         .M01_AXI_0_wdata(M01_AXI_0_wdata),
-        .M01_AXI_0_wlast(M01_AXI_0_wlast),
         .M01_AXI_0_wready(M01_AXI_0_wready),
         .M01_AXI_0_wstrb(M01_AXI_0_wstrb),
         .M01_AXI_0_wvalid(M01_AXI_0_wvalid),
         .M02_AXI_0_araddr(M02_AXI_0_araddr),
-        .M02_AXI_0_arburst(M02_AXI_0_arburst),
-        .M02_AXI_0_arcache(M02_AXI_0_arcache),
-        .M02_AXI_0_arid(M02_AXI_0_arid),
-        .M02_AXI_0_arlen(M02_AXI_0_arlen),
-        .M02_AXI_0_arlock(M02_AXI_0_arlock),
         .M02_AXI_0_arprot(M02_AXI_0_arprot),
-        .M02_AXI_0_arqos(M02_AXI_0_arqos),
         .M02_AXI_0_arready(M02_AXI_0_arready),
-        .M02_AXI_0_arregion(M02_AXI_0_arregion),
-        .M02_AXI_0_arsize(M02_AXI_0_arsize),
         .M02_AXI_0_arvalid(M02_AXI_0_arvalid),
         .M02_AXI_0_awaddr(M02_AXI_0_awaddr),
-        .M02_AXI_0_awburst(M02_AXI_0_awburst),
-        .M02_AXI_0_awcache(M02_AXI_0_awcache),
-        .M02_AXI_0_awid(M02_AXI_0_awid),
-        .M02_AXI_0_awlen(M02_AXI_0_awlen),
-        .M02_AXI_0_awlock(M02_AXI_0_awlock),
         .M02_AXI_0_awprot(M02_AXI_0_awprot),
-        .M02_AXI_0_awqos(M02_AXI_0_awqos),
         .M02_AXI_0_awready(M02_AXI_0_awready),
-        .M02_AXI_0_awregion(M02_AXI_0_awregion),
-        .M02_AXI_0_awsize(M02_AXI_0_awsize),
         .M02_AXI_0_awvalid(M02_AXI_0_awvalid),
-        .M02_AXI_0_bid(M02_AXI_0_bid),
         .M02_AXI_0_bready(M02_AXI_0_bready),
         .M02_AXI_0_bresp(M02_AXI_0_bresp),
         .M02_AXI_0_bvalid(M02_AXI_0_bvalid),
         .M02_AXI_0_rdata(M02_AXI_0_rdata),
-        .M02_AXI_0_rid(M02_AXI_0_rid),
-        .M02_AXI_0_rlast(M02_AXI_0_rlast),
         .M02_AXI_0_rready(M02_AXI_0_rready),
         .M02_AXI_0_rresp(M02_AXI_0_rresp),
         .M02_AXI_0_rvalid(M02_AXI_0_rvalid),
         .M02_AXI_0_wdata(M02_AXI_0_wdata),
-        .M02_AXI_0_wlast(M02_AXI_0_wlast),
         .M02_AXI_0_wready(M02_AXI_0_wready),
         .M02_AXI_0_wstrb(M02_AXI_0_wstrb),
         .M02_AXI_0_wvalid(M02_AXI_0_wvalid),
         .M03_AXI_0_araddr(M03_AXI_0_araddr),
-        .M03_AXI_0_arburst(M03_AXI_0_arburst),
-        .M03_AXI_0_arcache(M03_AXI_0_arcache),
-        .M03_AXI_0_arid(M03_AXI_0_arid),
-        .M03_AXI_0_arlen(M03_AXI_0_arlen),
-        .M03_AXI_0_arlock(M03_AXI_0_arlock),
         .M03_AXI_0_arprot(M03_AXI_0_arprot),
-        .M03_AXI_0_arqos(M03_AXI_0_arqos),
         .M03_AXI_0_arready(M03_AXI_0_arready),
-        .M03_AXI_0_arregion(M03_AXI_0_arregion),
-        .M03_AXI_0_arsize(M03_AXI_0_arsize),
         .M03_AXI_0_arvalid(M03_AXI_0_arvalid),
         .M03_AXI_0_awaddr(M03_AXI_0_awaddr),
-        .M03_AXI_0_awburst(M03_AXI_0_awburst),
-        .M03_AXI_0_awcache(M03_AXI_0_awcache),
-        .M03_AXI_0_awid(M03_AXI_0_awid),
-        .M03_AXI_0_awlen(M03_AXI_0_awlen),
-        .M03_AXI_0_awlock(M03_AXI_0_awlock),
         .M03_AXI_0_awprot(M03_AXI_0_awprot),
-        .M03_AXI_0_awqos(M03_AXI_0_awqos),
         .M03_AXI_0_awready(M03_AXI_0_awready),
-        .M03_AXI_0_awregion(M03_AXI_0_awregion),
-        .M03_AXI_0_awsize(M03_AXI_0_awsize),
         .M03_AXI_0_awvalid(M03_AXI_0_awvalid),
-        .M03_AXI_0_bid(M03_AXI_0_bid),
         .M03_AXI_0_bready(M03_AXI_0_bready),
         .M03_AXI_0_bresp(M03_AXI_0_bresp),
         .M03_AXI_0_bvalid(M03_AXI_0_bvalid),
         .M03_AXI_0_rdata(M03_AXI_0_rdata),
-        .M03_AXI_0_rid(M03_AXI_0_rid),
-        .M03_AXI_0_rlast(M03_AXI_0_rlast),
         .M03_AXI_0_rready(M03_AXI_0_rready),
         .M03_AXI_0_rresp(M03_AXI_0_rresp),
         .M03_AXI_0_rvalid(M03_AXI_0_rvalid),
         .M03_AXI_0_wdata(M03_AXI_0_wdata),
-        .M03_AXI_0_wlast(M03_AXI_0_wlast),
         .M03_AXI_0_wready(M03_AXI_0_wready),
         .M03_AXI_0_wstrb(M03_AXI_0_wstrb),
         .M03_AXI_0_wvalid(M03_AXI_0_wvalid),
@@ -996,6 +752,12 @@ module dgrm_wrapper
         .M_AXIS_3_tdata(M_AXIS_3_tdata),
         .M_AXIS_3_tready(M_AXIS_3_tready),
         .M_AXIS_3_tvalid(M_AXIS_3_tvalid),
+        .PMOD_1_tri_i({PMOD_1_tri_i_3,PMOD_1_tri_i_2,PMOD_1_tri_i_1,PMOD_1_tri_i_0}),
+        .PMOD_1_tri_o({PMOD_1_tri_o_3,PMOD_1_tri_o_2,PMOD_1_tri_o_1,PMOD_1_tri_o_0}),
+        .PMOD_1_tri_t({PMOD_1_tri_t_3,PMOD_1_tri_t_2,PMOD_1_tri_t_1,PMOD_1_tri_t_0}),
+        .PMOD_2_tri_i({PMOD_2_tri_i_3,PMOD_2_tri_i_2,PMOD_2_tri_i_1,PMOD_2_tri_i_0}),
+        .PMOD_2_tri_o({PMOD_2_tri_o_3,PMOD_2_tri_o_2,PMOD_2_tri_o_1,PMOD_2_tri_o_0}),
+        .PMOD_2_tri_t({PMOD_2_tri_t_3,PMOD_2_tri_t_2,PMOD_2_tri_t_1,PMOD_2_tri_t_0}),
         .RGMII_0_rd(RGMII_0_rd),
         .RGMII_0_rx_ctl(RGMII_0_rx_ctl),
         .RGMII_0_rxc(RGMII_0_rxc),

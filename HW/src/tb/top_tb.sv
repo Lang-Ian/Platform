@@ -192,6 +192,17 @@ initial begin : main
 							  read_check( .address( debug ), .expected( 32'hAAAAAAAA ) );
                 top_tb.i_top.i_dgrm_wrapper.dgrm_i.processing_system7_0.inst.write_data( debug,4, 32'h69696969, resp);
 							  read_check( .address( debug ), .expected( 32'h96969696 ) );
+
+
+                $display( "writng to an Aurora register " );
+							  read_check( .address( 32'h83c00000 ), .expected( 32'h9ABCDEF0 ) );
+							  read_check( .address( 32'h83c00004 ), .expected( 32'h9ABCDEF0 ) );
+                top_tb.i_top.i_dgrm_wrapper.dgrm_i.processing_system7_0.inst.write_data( 32'h83c00000, 4, 32'h5caff01d, resp);
+                top_tb.i_top.i_dgrm_wrapper.dgrm_i.processing_system7_0.inst.write_data( 32'h83c00004, 4, 32'hdefaca2e, resp);
+							  read_check( .address( 32'h83c00000 ), .expected( 32'h5caff01d ) );
+							  read_check( .address( 32'h83c00004 ), .expected( 32'hdefaca2e ) );
+
+
                 $display( "checking register LED_control" );
 								for( int value=0; value<4; value++ )
                     begin
