@@ -29,6 +29,8 @@
 #include "xil_exception.h"
 #include "xscugic.h"
 static XGpioPs psGpioInstancePtr;
+static XGpio GPIOInstance_Ptr;       // Had to move this up to the top so that I can use it in the ISR.
+
 extern XGpioPs_Config XGpioPs_ConfigTable[XPAR_XGPIOPS_NUM_INSTANCES];
 static int iPinNumber = 10;
 XScuGic InterruptController; /* Instance of the Interrupt Controller */
@@ -50,6 +52,8 @@ XTmrCtr_Stop(data,TmrCtrNumber);
 // PS GPIO Writting
 print("LED 'DS23' Turned ON \r\n");
 XGpioPs_WritePin(&psGpioInstancePtr,iPinNumber,1);
+XGpio_DiscreteWrite( &GPIOInstance_Ptr, 2, 0x00000009 );  // Turn on outer LEDs
+
 XTmrCtr_Reset(data,TmrCtrNumber);
 print(" Timer ISR Exit\n \n \r");
 print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\n");
@@ -134,7 +138,7 @@ return XST_SUCCESS;
 
 int main()
 {
-static XGpio GPIOInstance_Ptr;
+//static XGpio GPIOInstance_Ptr;
 XGpioPs_Config*GpioConfigPtr;
 XTmrCtr TimerInstancePtr;
 int xStatus;
@@ -166,6 +170,9 @@ print("GPIO INIT FAILED\n\r");
 //Step-2 :AXI GPIO Set the Direction
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 XGpio_SetDataDirection(&GPIOInstance_Ptr, 1,1);
+XGpio_SetDataDirection(&GPIOInstance_Ptr, 2,0);  // I'm going to drive two LEDs, one from the PS and one from PL.  This is the PL.
+XGpio_DiscreteWrite( &GPIOInstance_Ptr, 2, 0x00000009 );  // Start with two outer LEDs lit.
+
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Step-3 :AXI Timer Initialization
@@ -263,6 +270,7 @@ print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\r\n");
 print("SW5 PUSH Button pressed \n\r");
 print("LED 'DS23' Turned OFF \r\n");
 XGpioPs_WritePin(&psGpioInstancePtr,iPinNumber,0);
+XGpio_DiscreteWrite( &GPIOInstance_Ptr, 2, 0x00000003 );  // Light two LEDs
 //Start Timer
 XTmrCtr_Start(&TimerInstancePtr,0);
 print("timer start \n\r");
@@ -305,6 +313,7 @@ case '2' :
 	print("SW7 PUSH Button pressed \n\r");
 	print("LED 'DS23' Turned OFF \r\n");
 	XGpioPs_WritePin(&psGpioInstancePtr,iPinNumber,0);
+	XGpio_DiscreteWrite( &GPIOInstance_Ptr, 2, 0x0000000C );  // Turn on two LEDs
 	//Start Timer
 	XTmrCtr_Start(&TimerInstancePtr,0);
 	print("timer start \n\r");
