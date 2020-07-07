@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
-//Date        : Fri May 29 16:28:33 2020
+//Date        : Fri May 29 22:14:20 2020
 //Host        : hystou running 64-bit Ubuntu 16.04.6 LTS
 //Command     : generate_target dgrm_wrapper.bd
 //Design      : dgrm_wrapper
@@ -145,8 +145,9 @@ module dgrm_wrapper
     M_AXIS_3_tdata,
     M_AXIS_3_tready,
     M_AXIS_3_tvalid,
-    PMOD_1_tri_io,
     PMOD_2_tri_io,
+    PMOD_PL_tri_io,
+    PMOD_PS_tri_io,
     RGMII_0_rd,
     RGMII_0_rx_ctl,
     RGMII_0_rxc,
@@ -313,8 +314,9 @@ module dgrm_wrapper
   output [63:0]M_AXIS_3_tdata;
   input M_AXIS_3_tready;
   output M_AXIS_3_tvalid;
-  inout [3:0]PMOD_1_tri_io;
   inout [3:0]PMOD_2_tri_io;
+  inout [1:0]PMOD_PL_tri_io;
+  inout [1:0]PMOD_PS_tri_io;
   input [3:0]RGMII_0_rd;
   input RGMII_0_rx_ctl;
   input RGMII_0_rxc;
@@ -491,22 +493,6 @@ module dgrm_wrapper
   wire [63:0]M_AXIS_3_tdata;
   wire M_AXIS_3_tready;
   wire M_AXIS_3_tvalid;
-  wire [0:0]PMOD_1_tri_i_0;
-  wire [1:1]PMOD_1_tri_i_1;
-  wire [2:2]PMOD_1_tri_i_2;
-  wire [3:3]PMOD_1_tri_i_3;
-  wire [0:0]PMOD_1_tri_io_0;
-  wire [1:1]PMOD_1_tri_io_1;
-  wire [2:2]PMOD_1_tri_io_2;
-  wire [3:3]PMOD_1_tri_io_3;
-  wire [0:0]PMOD_1_tri_o_0;
-  wire [1:1]PMOD_1_tri_o_1;
-  wire [2:2]PMOD_1_tri_o_2;
-  wire [3:3]PMOD_1_tri_o_3;
-  wire [0:0]PMOD_1_tri_t_0;
-  wire [1:1]PMOD_1_tri_t_1;
-  wire [2:2]PMOD_1_tri_t_2;
-  wire [3:3]PMOD_1_tri_t_3;
   wire [0:0]PMOD_2_tri_i_0;
   wire [1:1]PMOD_2_tri_i_1;
   wire [2:2]PMOD_2_tri_i_2;
@@ -523,6 +509,22 @@ module dgrm_wrapper
   wire [1:1]PMOD_2_tri_t_1;
   wire [2:2]PMOD_2_tri_t_2;
   wire [3:3]PMOD_2_tri_t_3;
+  wire [0:0]PMOD_PL_tri_i_0;
+  wire [1:1]PMOD_PL_tri_i_1;
+  wire [0:0]PMOD_PL_tri_io_0;
+  wire [1:1]PMOD_PL_tri_io_1;
+  wire [0:0]PMOD_PL_tri_o_0;
+  wire [1:1]PMOD_PL_tri_o_1;
+  wire [0:0]PMOD_PL_tri_t_0;
+  wire [1:1]PMOD_PL_tri_t_1;
+  wire [0:0]PMOD_PS_tri_i_0;
+  wire [1:1]PMOD_PS_tri_i_1;
+  wire [0:0]PMOD_PS_tri_io_0;
+  wire [1:1]PMOD_PS_tri_io_1;
+  wire [0:0]PMOD_PS_tri_o_0;
+  wire [1:1]PMOD_PS_tri_o_1;
+  wire [0:0]PMOD_PS_tri_t_0;
+  wire [1:1]PMOD_PS_tri_t_1;
   wire [3:0]RGMII_0_rd;
   wire RGMII_0_rx_ctl;
   wire RGMII_0_rxc;
@@ -570,26 +572,6 @@ module dgrm_wrapper
         .IO(MDIO_PHY_0_mdio_io),
         .O(MDIO_PHY_0_mdio_i),
         .T(MDIO_PHY_0_mdio_t));
-  IOBUF PMOD_1_tri_iobuf_0
-       (.I(PMOD_1_tri_o_0),
-        .IO(PMOD_1_tri_io[0]),
-        .O(PMOD_1_tri_i_0),
-        .T(PMOD_1_tri_t_0));
-  IOBUF PMOD_1_tri_iobuf_1
-       (.I(PMOD_1_tri_o_1),
-        .IO(PMOD_1_tri_io[1]),
-        .O(PMOD_1_tri_i_1),
-        .T(PMOD_1_tri_t_1));
-  IOBUF PMOD_1_tri_iobuf_2
-       (.I(PMOD_1_tri_o_2),
-        .IO(PMOD_1_tri_io[2]),
-        .O(PMOD_1_tri_i_2),
-        .T(PMOD_1_tri_t_2));
-  IOBUF PMOD_1_tri_iobuf_3
-       (.I(PMOD_1_tri_o_3),
-        .IO(PMOD_1_tri_io[3]),
-        .O(PMOD_1_tri_i_3),
-        .T(PMOD_1_tri_t_3));
   IOBUF PMOD_2_tri_iobuf_0
        (.I(PMOD_2_tri_o_0),
         .IO(PMOD_2_tri_io[0]),
@@ -610,6 +592,26 @@ module dgrm_wrapper
         .IO(PMOD_2_tri_io[3]),
         .O(PMOD_2_tri_i_3),
         .T(PMOD_2_tri_t_3));
+  IOBUF PMOD_PL_tri_iobuf_0
+       (.I(PMOD_PL_tri_o_0),
+        .IO(PMOD_PL_tri_io[0]),
+        .O(PMOD_PL_tri_i_0),
+        .T(PMOD_PL_tri_t_0));
+  IOBUF PMOD_PL_tri_iobuf_1
+       (.I(PMOD_PL_tri_o_1),
+        .IO(PMOD_PL_tri_io[1]),
+        .O(PMOD_PL_tri_i_1),
+        .T(PMOD_PL_tri_t_1));
+  IOBUF PMOD_PS_tri_iobuf_0
+       (.I(PMOD_PS_tri_o_0),
+        .IO(PMOD_PS_tri_io[0]),
+        .O(PMOD_PS_tri_i_0),
+        .T(PMOD_PS_tri_t_0));
+  IOBUF PMOD_PS_tri_iobuf_1
+       (.I(PMOD_PS_tri_o_1),
+        .IO(PMOD_PS_tri_io[1]),
+        .O(PMOD_PS_tri_i_1),
+        .T(PMOD_PS_tri_t_1));
   dgrm dgrm_i
        (.DDR3_0_addr(DDR3_0_addr),
         .DDR3_0_ba(DDR3_0_ba),
@@ -752,12 +754,15 @@ module dgrm_wrapper
         .M_AXIS_3_tdata(M_AXIS_3_tdata),
         .M_AXIS_3_tready(M_AXIS_3_tready),
         .M_AXIS_3_tvalid(M_AXIS_3_tvalid),
-        .PMOD_1_tri_i({PMOD_1_tri_i_3,PMOD_1_tri_i_2,PMOD_1_tri_i_1,PMOD_1_tri_i_0}),
-        .PMOD_1_tri_o({PMOD_1_tri_o_3,PMOD_1_tri_o_2,PMOD_1_tri_o_1,PMOD_1_tri_o_0}),
-        .PMOD_1_tri_t({PMOD_1_tri_t_3,PMOD_1_tri_t_2,PMOD_1_tri_t_1,PMOD_1_tri_t_0}),
         .PMOD_2_tri_i({PMOD_2_tri_i_3,PMOD_2_tri_i_2,PMOD_2_tri_i_1,PMOD_2_tri_i_0}),
         .PMOD_2_tri_o({PMOD_2_tri_o_3,PMOD_2_tri_o_2,PMOD_2_tri_o_1,PMOD_2_tri_o_0}),
         .PMOD_2_tri_t({PMOD_2_tri_t_3,PMOD_2_tri_t_2,PMOD_2_tri_t_1,PMOD_2_tri_t_0}),
+        .PMOD_PL_tri_i({PMOD_PL_tri_i_1,PMOD_PL_tri_i_0}),
+        .PMOD_PL_tri_o({PMOD_PL_tri_o_1,PMOD_PL_tri_o_0}),
+        .PMOD_PL_tri_t({PMOD_PL_tri_t_1,PMOD_PL_tri_t_0}),
+        .PMOD_PS_tri_i({PMOD_PS_tri_i_1,PMOD_PS_tri_i_0}),
+        .PMOD_PS_tri_o({PMOD_PS_tri_o_1,PMOD_PS_tri_o_0}),
+        .PMOD_PS_tri_t({PMOD_PS_tri_t_1,PMOD_PS_tri_t_0}),
         .RGMII_0_rd(RGMII_0_rd),
         .RGMII_0_rx_ctl(RGMII_0_rx_ctl),
         .RGMII_0_rxc(RGMII_0_rxc),
