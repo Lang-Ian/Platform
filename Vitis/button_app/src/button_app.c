@@ -30,21 +30,6 @@
 *
 ******************************************************************************/
 
-/*
- * helloworld.c: simple test application
- *
- * This application configures UART 16550 to baud rate 9600.
- * PS7 UART (Zynq) is not initialized by this application, since
- * bootrom/bsp configures it to baud rate 115200
- *
- * ------------------------------------------------
- * | UART TYPE   BAUD RATE                        |
- * ------------------------------------------------
- *   uartns550   9600
- *   uartlite    Configurable only in HW design
- *   ps7_uart    115200 (configured by bootrom/bsp)
- */
-
 #include <stdio.h>
 #include "platform.h"
 #include "xil_printf.h"
@@ -53,17 +38,16 @@
 #include "xgpiops.h"
 #include "sleep.h"
 
-
+static XGpio   GPIOInstance_Ptr;
+static XGpioPs psGpioInstancePtr;
 
 static int InterruptFlag;
-static XGpioPs psGpioInstancePtr;
-static XGpio   GPIOInstance_Ptr;
+//const u32 iPinNumber        = 10;
+const u32 iPinNumberEMIO    = 54;    // https://forums.xilinx.com/t5/Embedded-Development-Tools/EMIO-PIN-numbers-ZYNQ-platform/td-p/273212
+const u32 iPinNumberEMIO1    = 55;
 
-
-static int iPinNumber     = 10;
-static int iPinNumberEMIO = 54;  // https://forums.xilinx.com/t5/Embedded-Development-Tools/EMIO-PIN-numbers-ZYNQ-platform/td-p/273212
-u32 uPinDirection = 0x1;
-u32 uPinDirectionEMIO = 0x0;
+//const u32 uPinDirection     = 0x1;
+const u32 uPinDirectionEMIO = 0x0;
 
 
 int xStatus;
@@ -72,19 +56,16 @@ XGpioPs_Config *GpioConfigPtr;
 u32 Readstatus=0;
 
 
-
+/*
 void InterruptHandler( void *data, u8 TmrCtrNumber )
 {
 print( "PMOD ISR \n \r ");
-
-
 print("LED ON \r\n");
-XGpioPs_WritePin( &psGpioInstancePtr, iPinNumber, 1 );
-XGpio_DiscreteWrite( &GPIOInstance_Ptr, 2, 0x00000009 );  // Turn on outer LEDs
-
+XGpio_DiscreteWrite( &GPIOInstance_Ptr, 2, 0x00000009    );  // Turn on outer LEDs
+//XGpioPs_WritePin(    &psGpioInstancePtr,   iPinNumber, 1 );
 InterruptFlag = 1;
 }
-
+*/
 
 
 
@@ -92,37 +73,43 @@ int main()  // UG585, General Purpose I/O
 {
     init_platform();
 
-    print( "Two PS switches will be polled; two PL switches will use interrupts\n\r" );
+    print( "Switch Polling Application\n\r" );
 
-    // AXI GPIO Initialization
+
+    // AXI GPIO
+    // Initialization
     xStatus = XGpio_Initialize( &GPIOInstance_Ptr, XPAR_I_DGRM_WRAPPER_DGRM_I_PMOD_DEVICE_ID );
     if( XST_SUCCESS != xStatus )
     	print("GPIO INIT FAILED\n\r");
+    // Set the Direction
+    XGpio_SetDataDirection( &GPIOInstance_Ptr, 1, 3 );           // Port 1 can read two of the four PMOD switches in its bottom two bits.
+    XGpio_SetDataDirection( &GPIOInstance_Ptr, 2, 0 );           // Port 2 drives the four PMOD LEDs.
+    XGpio_DiscreteWrite(    &GPIOInstance_Ptr, 2, 0x00000005 );  // Start with two LEDs lit.
 
-    // AXI GPIO Set the Direction
-    XGpio_SetDataDirection( &GPIOInstance_Ptr, 1, 3);  // Port 1 can read two of the four PMOD switches in its bottom two bits.
-    XGpio_SetDataDirection( &GPIOInstance_Ptr, 2, 0);  // Port 2 drives the four PMOD LEDs.
-    XGpio_DiscreteWrite( &GPIOInstance_Ptr, 2, 0x00000005 );  // Start with two LEDs lit.
 
-
-    // PS GPIO Intialization
+    // PS GPIO
+    // Intialization
     GpioConfigPtr = XGpioPs_LookupConfig( XPAR_PS7_GPIO_0_DEVICE_ID );
     if( GpioConfigPtr == NULL )
     	return XST_FAILURE;
     xStatus = XGpioPs_CfgInitialize( &psGpioInstancePtr, GpioConfigPtr, GpioConfigPtr->BaseAddr );
     if( XST_SUCCESS != xStatus )
     	print(" PS GPIO INIT FAILED \n\r");
+    // Set the Direction
+    XGpioPs_SetDirection(            &psGpioInstancePtr, XGPIOPS_BANK2, 0 );
 
 
-    // Step-8 :PS GPIO set to Output
-    XGpioPs_SetDirectionPin(    &psGpioInstancePtr, iPinNumber,     uPinDirection);
-    XGpioPs_SetOutputEnablePin( &psGpioInstancePtr, iPinNumber,     1 );
+
+//    XGpioPs_SetDirectionPin(    &psGpioInstancePtr, iPinNumber,     uPinDirection);
+//    XGpioPs_SetOutputEnablePin( &psGpioInstancePtr, iPinNumber,     1 );
 
 
-    XGpioPs_SetDirectionPin(    &psGpioInstancePtr, iPinNumberEMIO, uPinDirectionEMIO);
-    XGpioPs_SetOutputEnablePin( &psGpioInstancePtr, iPinNumberEMIO, 0);
-
-
+    /*
+    XGpioPs_SetDirectionPin(    &psGpioInstancePtr, iPinNumberEMIO, uPinDirectionEMIO );
+    XGpioPs_SetOutputEnablePin( &psGpioInstancePtr, iPinNumberEMIO, 0 );
+    XGpioPs_SetDirectionPin(    &psGpioInstancePtr, iPinNumberEMIO, uPinDirectionEMIO );
+    XGpioPs_SetOutputEnablePin( &psGpioInstancePtr, iPinNumberEMIO, 0 );
+*/
 
     while( 1 )
     {
@@ -132,8 +119,10 @@ int main()  // UG585, General Purpose I/O
         XGpio_DiscreteWrite( &GPIOInstance_Ptr, 2, ~XGpio_DiscreteRead( &GPIOInstance_Ptr, 2 ) );
 
 
+        // Individual Pin Reads
 
 
+/*
 
         // Print out the two PS switches
         //CRAPprintf( "PS switch status = %d\n\r",  (int) XGpio_DiscreteRead( &psGpioInstancePtr, 1 ) );
@@ -145,13 +134,14 @@ int main()  // UG585, General Purpose I/O
          printf( "PS switch status +1 = %d\n\r", (int) Readstatus );
 
          usleep( 500000 );
-
-         // Print out the two PMOD switches connected over AXI
-         printf( "AXI GPIO Channel 1 (bottom 2 bits connected) = %d\n\r", (int) XGpio_DiscreteRead( &GPIOInstance_Ptr, 1 ) );
+*/
 
 
-         // Print out the two PMOD switches connected over AXI
-         printf( "PS GPIO Bank 2 (bottom 2 bits connected) = %d\n\r", (int) XGpioPs_Read( &psGpioInstancePtr, XGPIOPS_BANK2 ) );
+        // Bank Reads
+        // 2-bits AXI
+        printf( "AXI GPIO[1:0] = %d\n\r", (int) XGpio_DiscreteRead( &GPIOInstance_Ptr,  1 ) );
+        // 2-bits PS EMIO
+        printf( "PS GPIO [1:0] = %d\n\r", (int) XGpioPs_Read(       &psGpioInstancePtr, XGPIOPS_BANK2 ) );
 
     }
 
