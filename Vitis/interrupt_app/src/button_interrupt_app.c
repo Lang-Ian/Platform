@@ -1,3 +1,10 @@
+/*
+ * BUTTON APPLICATION NUMBER 3
+ * WHAT IT DOES:
+ * 1) Prints a message every time round the background loop.
+ * 2) Whenever you press or unpress the PL Interrupt, you get a message.
+ */
+
 // This file is a total mess.  But it works!
 // It can be useful to refer to:  http://ece-research.unm.edu/jimp/codesign/labs/V2Pro/EDK_INTERRUPT_DEMO_TUT/MY_INTC_CODE/GpioInterrupt.c
 // Ian Lang
@@ -83,7 +90,7 @@ int xStatus;
 
 int SetUpInterruptSystem( XScuGic *XScuGicInstancePtr )
 {
-	printf( "HERE 1!" );
+	printf( "HERE 1!\n\r" );
 
 
 /*
@@ -107,7 +114,7 @@ int ScuGicInterrupt_Init( u16 DeviceId, XGpio *GPIOInstancePtr )
 int Status;
 
 
-printf( "HERE 2!" );
+printf( "HERE 2!\n\r" );
 
 /*
 * Initialize the interrupt controller driver so that it is ready to
@@ -244,7 +251,7 @@ void GPIO_InterruptHandler(void *InstancePtr)
 	GPIOInstance_Ptr = (XGpio *) InstancePtr;
 
 
-	printf( "THIS IS IAN'S INTERRUPT HAnDLER.  CHANGE ITS NAME AND FILL IT OUT!\n\t" );
+	printf( "THIS IS IAN'S INTERRUPT HAnDLER TRIGGERED WHENEVER YOU PRESS OR UNPRESS A PL BUTTON!\n\r" );
 
 
 	// Experimental - clear interrupt without checking anything.
