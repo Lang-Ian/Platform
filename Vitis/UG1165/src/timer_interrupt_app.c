@@ -1,23 +1,11 @@
 /*
-* Copyright (c) 2009 Xilinx, Inc. All rights reserved.
-*
-* Xilinx, Inc.
-* XILINX IS PROVIDING THIS DESIGN, CODE, OR INFORMATION "AS IS" AS A
-* COURTESY TO YOU. BY PROVIDING THIS DESIGN, CODE, OR INFORMATION AS
-* ONE POSSIBLE IMPLEMENTATION OF THIS FEATURE, APPLICATION OR
-* STANDARD, XILINX IS MAKING NO REPRESENTATION THAT THIS IMPLEMENTATION
-* IS FREE FROM ANY CLAIMS OF INFRINGEMENT, AND YOU ARE RESPONSIBLE
-* FOR OBTAINING ANY RIGHTS YOU MAY REQUIRE FOR YOUR IMPLEMENTATION.
-* XILINX EXPRESSLY DISCLAIMS ANY WARRANTY WHATSOEVER WITH RESPECT TO
-* THE ADEQUACY OF THE IMPLEMENTATION, INCLUDING BUT NOT LIMITED TO
-* ANY WARRANTIES OR REPRESENTATIONS THAT THIS IMPLEMENTATION IS FREE
-* FROM CLAIMS OF INFRINGEMENT, IMPLIED WARRANTIES OF MERCHANTABILITY
-* AND FITNESS FOR A PARTICULAR PURPOSE.
-*
-*/
-/*
-* helloworld.c: simple test application
-*/
+ *   BUTTON APPLICATION NUMBER 2
+ *   What this application does:
+ *   Asks you to select a PS or PL button.
+ *   Polls until you press a button (only two of the four buttons are supported).
+ *   Turns off the LEDs and then sets the timer interrupt.
+ *   When the interrupt fires, switches them on again and gives you another shot.
+ */
 #include <stdio.h>
 #include "platform.h"
 #include "xil_types.h"
@@ -244,8 +232,8 @@ while(exit_flag != 1)
 {
 print(" SELECT the Operation from the Below Menu \r\n");
 print("###################### Menu Starts ########################\r\n");
-print("Press '1' to use NORMAL GPIO as an input (SW5 switch)\r\n");
-print("Press '2' to use EMIO as an input (SW7 switch)\r\n");
+print("Press '1' to use NORMAL GPIO as an input\r\n");
+print("Press '2' to use EMIO as an input\r\n");
 print("Press any other key to Exit\r\n");
 print(" ##################### Menu Ends #########################\r\n");
 choice = inbyte();
