@@ -14,6 +14,8 @@
 #include "xgpiops.h"
 #include "sleep.h"
 
+#include "general.h" // My custom AXI register block.
+
 static XGpio   GPIOInstance_Ptr;
 static XGpioPs psGpioInstancePtr;
 
@@ -50,6 +52,7 @@ int main()  // UG585, General Purpose I/O
     init_platform();
 
     print( "APPLICATION NUMBER 1:  Switch Polling\n\r" );
+    printf( "FPGA Version Number = 0x%8lx\n\r", GENERAL_mReadReg( XPAR_I_DGRM_WRAPPER_DGRM_I_GENERAL_0_S00_AXI_BASEADDR, GENERAL_S00_AXI_SLV_REG0_OFFSET ) );
 
 
     // AXI GPIO
