@@ -1,8 +1,8 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
-//Date        : Fri May 29 22:14:20 2020
-//Host        : hystou running 64-bit Ubuntu 16.04.6 LTS
+//Date        : Tue Sep  1 13:26:46 2020
+//Host        : hystou running 64-bit Ubuntu 16.04.7 LTS
 //Command     : generate_target dgrm_wrapper.bd
 //Design      : dgrm_wrapper
 //Purpose     : IP block netlist
@@ -146,7 +146,7 @@ module dgrm_wrapper
     M_AXIS_3_tready,
     M_AXIS_3_tvalid,
     PMOD_2_tri_io,
-    PMOD_PL_tri_io,
+    PMOD_PL_tri_i,
     PMOD_PS_tri_io,
     RGMII_0_rd,
     RGMII_0_rx_ctl,
@@ -175,6 +175,8 @@ module dgrm_wrapper
     aurora_status_6_0,
     aurora_status_7_0,
     init_calib_complete_0,
+    private_interrupt_0,
+    private_interrupt_1,
     soft_interrupt_0,
     sys_reset_N,
     usb_reset_0,
@@ -315,7 +317,7 @@ module dgrm_wrapper
   input M_AXIS_3_tready;
   output M_AXIS_3_tvalid;
   inout [3:0]PMOD_2_tri_io;
-  inout [1:0]PMOD_PL_tri_io;
+  input [1:0]PMOD_PL_tri_i;
   inout [1:0]PMOD_PS_tri_io;
   input [3:0]RGMII_0_rd;
   input RGMII_0_rx_ctl;
@@ -344,6 +346,8 @@ module dgrm_wrapper
   input [4:0]aurora_status_6_0;
   input [4:0]aurora_status_7_0;
   output init_calib_complete_0;
+  input private_interrupt_0;
+  input private_interrupt_1;
   output soft_interrupt_0;
   input sys_reset_N;
   output usb_reset_0;
@@ -509,14 +513,7 @@ module dgrm_wrapper
   wire [1:1]PMOD_2_tri_t_1;
   wire [2:2]PMOD_2_tri_t_2;
   wire [3:3]PMOD_2_tri_t_3;
-  wire [0:0]PMOD_PL_tri_i_0;
-  wire [1:1]PMOD_PL_tri_i_1;
-  wire [0:0]PMOD_PL_tri_io_0;
-  wire [1:1]PMOD_PL_tri_io_1;
-  wire [0:0]PMOD_PL_tri_o_0;
-  wire [1:1]PMOD_PL_tri_o_1;
-  wire [0:0]PMOD_PL_tri_t_0;
-  wire [1:1]PMOD_PL_tri_t_1;
+  wire [1:0]PMOD_PL_tri_i;
   wire [0:0]PMOD_PS_tri_i_0;
   wire [1:1]PMOD_PS_tri_i_1;
   wire [0:0]PMOD_PS_tri_io_0;
@@ -552,6 +549,8 @@ module dgrm_wrapper
   wire [4:0]aurora_status_6_0;
   wire [4:0]aurora_status_7_0;
   wire init_calib_complete_0;
+  wire private_interrupt_0;
+  wire private_interrupt_1;
   wire soft_interrupt_0;
   wire sys_reset_N;
   wire usb_reset_0;
@@ -592,16 +591,6 @@ module dgrm_wrapper
         .IO(PMOD_2_tri_io[3]),
         .O(PMOD_2_tri_i_3),
         .T(PMOD_2_tri_t_3));
-  IOBUF PMOD_PL_tri_iobuf_0
-       (.I(PMOD_PL_tri_o_0),
-        .IO(PMOD_PL_tri_io[0]),
-        .O(PMOD_PL_tri_i_0),
-        .T(PMOD_PL_tri_t_0));
-  IOBUF PMOD_PL_tri_iobuf_1
-       (.I(PMOD_PL_tri_o_1),
-        .IO(PMOD_PL_tri_io[1]),
-        .O(PMOD_PL_tri_i_1),
-        .T(PMOD_PL_tri_t_1));
   IOBUF PMOD_PS_tri_iobuf_0
        (.I(PMOD_PS_tri_o_0),
         .IO(PMOD_PS_tri_io[0]),
@@ -757,9 +746,7 @@ module dgrm_wrapper
         .PMOD_2_tri_i({PMOD_2_tri_i_3,PMOD_2_tri_i_2,PMOD_2_tri_i_1,PMOD_2_tri_i_0}),
         .PMOD_2_tri_o({PMOD_2_tri_o_3,PMOD_2_tri_o_2,PMOD_2_tri_o_1,PMOD_2_tri_o_0}),
         .PMOD_2_tri_t({PMOD_2_tri_t_3,PMOD_2_tri_t_2,PMOD_2_tri_t_1,PMOD_2_tri_t_0}),
-        .PMOD_PL_tri_i({PMOD_PL_tri_i_1,PMOD_PL_tri_i_0}),
-        .PMOD_PL_tri_o({PMOD_PL_tri_o_1,PMOD_PL_tri_o_0}),
-        .PMOD_PL_tri_t({PMOD_PL_tri_t_1,PMOD_PL_tri_t_0}),
+        .PMOD_PL_tri_i(PMOD_PL_tri_i),
         .PMOD_PS_tri_i({PMOD_PS_tri_i_1,PMOD_PS_tri_i_0}),
         .PMOD_PS_tri_o({PMOD_PS_tri_o_1,PMOD_PS_tri_o_0}),
         .PMOD_PS_tri_t({PMOD_PS_tri_t_1,PMOD_PS_tri_t_0}),
@@ -790,6 +777,8 @@ module dgrm_wrapper
         .aurora_status_6_0(aurora_status_6_0),
         .aurora_status_7_0(aurora_status_7_0),
         .init_calib_complete_0(init_calib_complete_0),
+        .private_interrupt_0(private_interrupt_0),
+        .private_interrupt_1(private_interrupt_1),
         .soft_interrupt_0(soft_interrupt_0),
         .sys_reset_N(sys_reset_N),
         .usb_reset_0(usb_reset_0),
