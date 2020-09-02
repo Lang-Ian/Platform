@@ -574,6 +574,7 @@ wire         sys_reset;
 wire   [1:0] LED_control;
 
 
+
 // Instances
 //  Instances
 //
@@ -884,12 +885,15 @@ dgrm_wrapper i_dgrm_wrapper(
    .LED_control_0           (LED_control),
 
   // Post HDS
-  .PMOD_PL_tri_io ( {X1_2_200, X1_2_201} ),
+  .PMOD_PL_tri_i  ( {X1_2_200, X1_2_201} ),
   .PMOD_PS_tri_io ( {X1_2_202, X1_2_203} ),
 
 //.PMOD_2_tri_io ( {X1_2_204, X1_2_205, X1_2_206, X1_2_207} ),
 //.PMOD_1_tri_io ( {X1_2_300, X1_2_301, X1_2_302, X1_2_303} ),
-  .PMOD_2_tri_io ( {X1_2_304, X1_2_305, X1_2_306, X1_2_307} )
+  .PMOD_2_tri_io ( {X1_2_304, X1_2_305, X1_2_306, X1_2_307} ),
+
+.private_interrupt_0( X1_2_201 ),
+.private_interrupt_1( X1_2_200 )
 );
 
 flasher_wrapper i_flasher(
