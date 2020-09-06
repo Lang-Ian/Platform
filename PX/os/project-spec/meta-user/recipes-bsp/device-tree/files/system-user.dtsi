@@ -1,0 +1,23 @@
+/include/ "system-conf.dtsi"
+/ {
+};
+
+
+
+
+&gem1 {
+	phy-handle = <&phy1>;
+        gmii2rgmii-phy-handle = <&i_dgrm_wrapper_dgrm_i_ethernet_gmii2rgmii_1>;
+	status = "okay";
+	xlnx,ptp-enet-clock = <0x4f790d8>;
+	ps7_ethernet_1_mdio: mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+                phy1: phy@7 {
+                        /* compatible = "marvell,88e1510,88e1118r"; */
+                        device_type = "ethernet-phy";
+	                phy-mode = "rgmii-id";
+                        reg = <7>;
+                };
+	};
+};
