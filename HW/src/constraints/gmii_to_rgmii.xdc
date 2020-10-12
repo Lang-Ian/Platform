@@ -48,11 +48,34 @@ set_case_analysis 1 [get_pins -hier -filter {name =~ *i_bufgmux_gmii_clk/S1}]
 # set_property IODELAY_GROUP gpr1 [get_cells -hier -filter {name =~ *delay_rgmii_rxd*}]
 
 
+
+# Use these constraints to modify input delay on RGMII signals
+set_input_delay -clock [get_clocks dgrm_gmii2rgmii_1_0_rgmii_rx_clk] -max -1.5 [get_ports {X2_1_102 X2_1_101 X2_1_011 X2_1_010 X2_1_200}]
+set_input_delay -clock [get_clocks dgrm_gmii2rgmii_1_0_rgmii_rx_clk] -min -2.8 [get_ports {X2_1_102 X2_1_101 X2_1_011 X2_1_010 X2_1_200}]
+set_input_delay -clock [get_clocks dgrm_gmii2rgmii_1_0_rgmii_rx_clk] -clock_fall -max -1.5 -add_delay [get_ports {X2_1_102 X2_1_101 X2_1_011 X2_1_010 X2_1_200}]
+set_input_delay -clock [get_clocks dgrm_gmii2rgmii_1_0_rgmii_rx_clk] -clock_fall -min -2.8 -add_delay [get_ports {X2_1_102 X2_1_101 X2_1_011 X2_1_010 X2_1_200}]
+
+
 # Use these constraints to modify output delay on RGMII signals if 2ns delay is added by external PHY
 set_output_delay -clock [get_clocks dgrm_gmii2rgmii_1_0_rgmii_tx_clk] -max -1.0 [get_ports {X2_1_107, X2_1_106, X2_1_104, X2_1_103, X2_1_108}]
 set_output_delay -clock [get_clocks dgrm_gmii2rgmii_1_0_rgmii_tx_clk] -min -2.6 [get_ports {X2_1_107, X2_1_106, X2_1_104, X2_1_103, X2_1_108}] -add_delay
 set_output_delay -clock [get_clocks dgrm_gmii2rgmii_1_0_rgmii_tx_clk] -clock_fall -max -1.0 [get_ports {X2_1_107, X2_1_106, X2_1_104, X2_1_103, X2_1_108}]
 set_output_delay -clock [get_clocks dgrm_gmii2rgmii_1_0_rgmii_tx_clk] -clock_fall -min -2.6 [get_ports {X2_1_107, X2_1_106, X2_1_104, X2_1_103, X2_1_108}]
+
+#The above constraints can be modified to allow the tool to meet timing. Use the following constraint to modify the slew in the IOB:
+#set_property slew FAST [get_ports [list X2_1_107 X2_1_106 X2_1_104 X2_1_103 X2_1_108 X2_1_105]]
+
+
+
+#The MMCM can be used to generate GMII clocks when C_EXTERNAL_CLOCK is set to 0. For more information, see Figure 3-5.
+#The MMCM settings are based on the CLKIN1 pin of the MMCM, which has the frequency of 200 MHz for Zynq-7000 and 3745 MHz for Zynq Ultrascale+ MPSoC.
+#If any other frequencies are used, update using the following constraints.
+#Use the following example for Zynq Ultrascale+ MPSoC.
+#set_property DIVCLK_DIVIDE {1} [get_cells -hier -regexp -nocase {.*gmii.*mmcm.*}]
+#set_property CLKIN1_PERIOD {5} [get_cells -hier -regexp -nocase {.*gmii.*mmcm.*}]
+#set_property CLKFBOUT_MULT_F {8.000} [get_cells -hier -regexp -nocase {.*gmii.*mmcm.*}]
+#set_property CLKOUT1_DIVIDE {40} [get_cells -hier -regexp -nocase {.*gmii.*mmcm.*}]
+#set_property CLKOUT2_DIVIDE {40} [get_cells -hier -regexp -nocase {.*gmii.*mmcm.*}]
 
 
 
@@ -77,4 +100,3 @@ set_output_delay -clock [get_clocks dgrm_gmii2rgmii_1_0_rgmii_tx_clk] -clock_fal
 #set_property CLKFBOUT_MULT_F {8.000} [get_cells -hier -regexp -nocase {.*gmii.*mmcm.*}]
 #set_property CLKOUT1_DIVIDE {40} [get_cells -hier -regexp -nocase {.*gmii.*mmcm.*}]
 #set_property CLKOUT2_DIVIDE {40} [get_cells -hier -regexp -nocase {.*gmii.*mmcm.*}]
-
