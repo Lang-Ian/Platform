@@ -1,65 +1,49 @@
-# Elektrobit Austria
-# Ian.Lang@elektrobit.com
-# References
-# ug835
-# To do:  pass in the technology and the module name.
-# File needs a good tidy up and removal of gash stuff!
-# Add a waveform file.
+# Reference:  https://core.tcl-lang.org/tcllib/doc/trunk/embedded/md/tcllib/files/modules/cmdline/cmdline.md
+
+package require Tcl 8.5
+package require try;
+package require cmdline 1.3.1;
+
+set options {
+    { top.arg           "Module Name"     }
+    { technology.arg    "Technology"      }
+    { project.arg       "Project Name"    }
+    { project.arg       "Project Name"    }
+    { stay              "stay in Vivado"  }
+}
 
 
-puts "--Export--"
+try {
+    array set params [::cmdline::getoptions argv $options "arguments:"]
+    } trap {CMDLINE USAGE} {msg o} {
+                                   puts $msg
+                                   exit 1
+                                   }
 
-#puts ${::argv}
+puts "Module Name  = $params(top)"
+puts "Technology   = $params(technology)"
+puts "Project Name = $params(project)"
 
-create_project -part "xcku040-ffva1156-2-i" ${::argv} -force
 
-set_property  ip_repo_paths  . [current_project]
+create_project -part $params(technology) $params(top)  ./sandbox/ -force
+
+set_property  ip_repo_paths  ./HW [current_project]
 update_ip_catalog
 
-# Build the Block Diagram
-source ./tb/bd/mta3g_decoder_th.tcl
+# Add the RTL (NEEDS A SEARCH)
+add_files -norecurse {
+./HW/src/hdl/Ethernet_LEDs.vhd
+./HW/src/hdl/aurora4_struct.vhd
+./HW/src/hdl/aurora4_entity.vhd
+./HW/src/hdl/top_struct.v
+./HW/src/hdl/krc3600_usb_hub_reset.vhd
+}
 
-make_wrapper -files [get_files ./${::argv}.srcs/sources_1/bd/mta3g_decoder_th/mta3g_decoder_th.bd] -top
-add_files -norecurse ./${::argv}.srcs/sources_1/bd/mta3g_decoder_th/hdl/mta3g_decoder_th_wrapper.v
+# Build the Block Diagram (NEEDS A SEARCH)
+source ./HW/src/bd/dgrm.tcl
 
-puts "--New--"
+# Make the wrapper
+make_wrapper -files [get_files ./sandbox/platform.srcs/sources_1/bd/dgrm/dgrm.bd] -top
+add_files -norecurse ./sandbox/platform.srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v
 
-add_files -norecurse ./tb/mta3g_decoder.svh
-add_files -norecurse {./tb/mta3g_decoder.svh ./tb/mta3g_decoder_pkg.sv ./tb/prbs_pkg.sv ./tb/mta3g_decoder_tb.sv}
-update_compile_order -fileset sources_1
-set_property top mta3g_decoder_tb [get_filesets sim_1]
-
-add_files -norecurse ./tb/sim/mta3g_decoder_tb_behav.wcfg
-
-#set_property target_simulator Questa [current_project]
-#update_ip_catalog
-
-set_property compxlib.questa_compiled_library_dir C:/questasim64_2019.1/questa_simlib [current_project]
-update_ip_catalog
-
-puts "--New End--"
-
-update_compile_order -fileset sources_1
-set_property top mta3g_decoder_th_wrapper [current_fileset]
-generate_target Simulation [get_files ./${::argv}.srcs/sources_1/bd/mta3g_decoder_th/mta3g_decoder_th.bd]
-#export_ip_user_files -of_objects [get_files ./${::argv}.srcs/sources_1/bd/mta3g_decoder_th/mta3g_decoder_th.bd] -no_script -sync -force -quiet
-export_simulation -of_objects [get_files ./${::argv}.srcs/sources_1/bd/mta3g_decoder_th/mta3g_decoder_th.bd]
-
-puts "--Done--"
-
-
-
-puts "--Really Done--"
-
-
-
-
-# A bit of transcript I might use.
-#add_files -norecurse ./tb/mta3g_decoder.svh
-#add_files -norecurse {./tb/mta3g_decoder.sv ./tb/mta3g_decoder_pkg.sv ./tb/prbs_pkg.sv ./tb/mta3g_decoder_tb.sv}
-#update_compile_order -fileset sources_1
-#set_property top mta3g_decoder_tb [get_filesets sim_1]
-#set_property top_lib xil_defaultlib [get_filesets sim_1]
-#update_ip_catalog
-#update_ip_catalog
-#launch_simulation
+exit
