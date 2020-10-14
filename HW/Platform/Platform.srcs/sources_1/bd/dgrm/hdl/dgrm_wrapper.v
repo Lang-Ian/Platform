@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
-//Date        : Tue Sep  1 13:26:46 2020
+//Date        : Tue Oct 13 00:10:41 2020
 //Host        : hystou running 64-bit Ubuntu 16.04.7 LTS
 //Command     : generate_target dgrm_wrapper.bd
 //Design      : dgrm_wrapper

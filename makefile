@@ -1,12 +1,14 @@
 SHELL = /bin/bash
 
+# I want to add a global interactive argument to this whole makefile that I can pass into the sub-stages.
+
 help:
 	@echo "	normal use: make export | import | build | package | copy | clean"
 
 
 export:
 	@echo --Exporting Block Diagram--
-	vivado -mode gui -notrace -source export.tcl -tclargs -top platform -technology xc7z030ffg676-1 -project in_memory
+	vivado -mode tcl -notrace -source export.tcl -tclargs -top platform -technology xc7z030ffg676-1 -project in_memory
 	$(shell touch $@)
 	@echo --Export Block Diagram Done--
 
