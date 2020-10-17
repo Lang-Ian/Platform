@@ -15,8 +15,9 @@ export:
 compile: export
 	@echo --Compiling Top-Level--
 	cd ./sandbox/questa; \
-	./platform.sh -lib_map_path /media/ian/Toshiba/Vivado/2019.2/xilinx_ibs
-	#source compile.do 2>&1 | tee -a compile.log
+	awk '!(/elaborate/&&NF==1 && !/\(\)/) && !(/simulate/&&NF==1 && !/\(\)/) {print $0}' ./platform.sh > ./temp.sh; \
+	chmod u+x ./temp.sh; \
+	./temp.sh -lib_map_path /media/ian/Toshiba/Vivado/2019.2/xilinx_ibs
 	@echo --Compile Top-Level Done--
 
 import:
