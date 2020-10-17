@@ -28,8 +28,10 @@ create_project -part $params(technology) $params(top)  ./sandbox/ -force
 set_property  ip_repo_paths  ./HW [current_project]
 update_ip_catalog
 
+create_fileset -simset platform_1
+
 # Add the RTL (NEEDS A SEARCH)
-add_files -norecurse {
+add_files -norecurse  {
 ./HW/src/hdl/Ethernet_LEDs.vhd
 ./HW/src/hdl/aurora4_struct.vhd
 ./HW/src/hdl/aurora4_entity.vhd
@@ -38,11 +40,12 @@ add_files -norecurse {
 }
 
 # Add the IPs
-add_files -norecurse ./HW/7z030f/aurora_64b66b_4/aurora_64b66b_4.xcix
-add_files -norecurse ./HW/7z030f/aurora_64b66b_5/aurora_64b66b_5.xcix
-add_files -norecurse ./HW/7z030f/aurora_64b66b_6/aurora_64b66b_6.xcix
-add_files -norecurse ./HW/7z030f/aurora_64b66b_7/aurora_64b66b_7.xcix
-add_files -norecurse ./HW/7z030f/clk_wizard_0/clk_wizard_0.xci
+add_files -norecurse  ./HW/7z030f/aurora_64b66b_4/aurora_64b66b_4.xcix
+add_files -norecurse  ./HW/7z030f/aurora_64b66b_5/aurora_64b66b_5.xcix
+add_files -norecurse  ./HW/7z030f/aurora_64b66b_6/aurora_64b66b_6.xcix
+add_files -norecurse  ./HW/7z030f/aurora_64b66b_7/aurora_64b66b_7.xcix
+add_files -norecurse  ./HW/7z030f/clk_wizard_0/clk_wizard_0.xci
+
 
 # Build the Block Diagram (NEEDS A SEARCH)
 source ./HW/src/bd/dgrm.tcl
@@ -50,15 +53,20 @@ source ./HW/src/bd/flasher.tcl
 
 # Make the wrapper
 make_wrapper -files [get_files ./sandbox/platform.srcs/sources_1/bd/dgrm/dgrm.bd] -top
-add_files -norecurse ./sandbox/platform.srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v
+add_files -norecurse  ./sandbox/platform.srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v
 
 make_wrapper -files [get_files ./sandbox/platform.srcs/sources_1/bd/flasher/flasher.bd] -top
-add_files -norecurse ./sandbox/platform.srcs/sources_1/bd/flasher/hdl/flasher_wrapper.v
+add_files -norecurse  ./sandbox/platform.srcs/sources_1/bd/flasher/hdl/flasher_wrapper.v
 
-set_property target_simulator Questa [current_project]
-set_property compxlib.questa_compiled_library_dir  /media/ian/Toshiba/Vivado/2019.2/xilinx_libs [current_project]
+# Export the comple script
+set_property top $params(top) [current_fileset -simset]
+update_compile_order
 
-# Find the top module.
-update_compile_order -fileset sources_1
+# Wow, if I do this first:
+launch_simulation -scripts_only -install_path /media/ian/Toshiba/Questa/2019.4/questasim/bin
 
-#exit
+# Then this also works:
+export_ip_user_files -no_script -force
+export_simulation -force -of_objects [get_filesets sim_1] -lib_map_path "/media/ian/Toshiba/Vivado/2019.2/xilinx_ibs" -export_source_files -directory "/home/ian/work/Platform/sandbox" -simulator questa  -ip_user_files_dir "/home/ian/work/Platform/sandbox/platform.ip_user_files" -ipstatic_source_dir "/home/ian/work/Platform/sandbox/platform.ip_user_files/ipstatic" -use_ip_compiled_libs
+
+export
