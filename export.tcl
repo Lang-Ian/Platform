@@ -1,4 +1,5 @@
-# Reference:  https://core.tcl-lang.org/tcllib/doc/trunk/embedded/md/tcllib/files/modules/cmdline/cmdline.md
+# Reference:  1) https://core.tcl-lang.org/tcllib/doc/trunk/embedded/md/tcllib/files/modules/cmdline/cmdline.md
+#             2) Vivado Design Suite, User Guide, Logic Simulation, UG900
 
 package require Tcl 8.5
 package require try;
@@ -69,4 +70,4 @@ launch_simulation -scripts_only -install_path /media/ian/Toshiba/Questa/2019.4/q
 export_ip_user_files -no_script -force
 export_simulation -force -of_objects [get_filesets sim_1] -lib_map_path "/media/ian/Toshiba/Vivado/2019.2/xilinx_ibs" -export_source_files -directory "/home/ian/work/Platform/sandbox" -simulator questa  -ip_user_files_dir "/home/ian/work/Platform/sandbox/platform.ip_user_files" -ipstatic_source_dir "/home/ian/work/Platform/sandbox/platform.ip_user_files/ipstatic" -use_ip_compiled_libs
 
-export
+exit
