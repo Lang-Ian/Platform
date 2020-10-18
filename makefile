@@ -1,7 +1,11 @@
 SHELL = /bin/bash
 
-# I want to add a global interactive argument to this whole makefile that I can pass into the sub-stages.
+# To do:
+# Add a global interactive argument so that each stage can be run manually.
 # Maybe add constants here for the arguments to export.tcl.
+# Do a search for the files to compile.
+
+LIBRARY = PLATFORM
 
 help:
 	@echo "	normal use: make export | compile | import | build | package | copy | clean"
@@ -18,7 +22,16 @@ compile: export
 	awk '!(/elaborate/&&NF==1 && !/\(\)/) && !(/simulate/&&NF==1 && !/\(\)/) {print $0}' ./platform.sh > ./temp.sh; \
 	chmod u+x ./temp.sh; \
 	./temp.sh -lib_map_path /media/ian/Toshiba/Vivado/2019.2/xilinx_ibs
+	$(shell touch $@)
 	@echo --Compile Top-Level Done--
+
+tb:	compile
+	@echo --Compiling Test-Bench--
+	cd ./sandbox/questa; \
+	vmap $(LIBRARY) questa_lib/msim/xil_defaultlib; \
+	vlib tb; \
+	vlog -work $(LIBRARY) ../../HW/src/tb/top_tb.sv; \
+	@echo --Compile Test-Bench Done--
 
 import:
 	cd ./PX/os; \
