@@ -1,6 +1,8 @@
 # Reference:  1) https://core.tcl-lang.org/tcllib/doc/trunk/embedded/md/tcllib/files/modules/cmdline/cmdline.md
 #             2) Vivado Design Suite, User Guide, Logic Simulation, UG900
 
+set XILINX_LIBS "/media/ian/Toshiba/Vivado/2019.2/xilinx_ibs"
+
 package require Tcl 8.5
 package require try;
 package require cmdline 1.3.1;
@@ -63,11 +65,18 @@ add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/flasher/hdl/f
 set_property top $params(top) [current_fileset -simset]
 update_compile_order
 
-# Wow, if I do this first:
+# Wow, if I do this first...
 launch_simulation -scripts_only -install_path /media/ian/Toshiba/Questa/2019.4/questasim/bin
 
-# Then this also works:
+# ...then this also works.
 export_ip_user_files -no_script -force
-export_simulation -force -of_objects [get_filesets sim_1] -lib_map_path "/media/ian/Toshiba/Vivado/2019.2/xilinx_ibs" -export_source_files -directory "/home/ian/work/Platform/sandbox" -simulator questa  -ip_user_files_dir "/home/ian/work/Platform/sandbox/$params(project).ip_user_files" -ipstatic_source_dir "/home/ian/work/Platform/sandbox/$params(project).ip_user_files/ipstatic" -use_ip_compiled_libs
+export_simulation -force \
+                  -of_objects [get_filesets sim_1] \
+                  -lib_map_path ${XILINX_LIBS} \
+                  -export_source_files -directory "./sandbox" \
+                  -simulator questa \
+                  -ip_user_files_dir "./sandbox/$params(project).ip_user_files" \
+                  -ipstatic_source_dir "./sandbox/$params(project).ip_user_files/ipstatic" \
+                  -use_ip_compiled_libs
 
 exit

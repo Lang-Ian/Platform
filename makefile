@@ -10,14 +10,15 @@ print-%: ; @echo $* = $($*)
 
 # The following constants can be overriden at the command line with -e CONSTANT=<whatever>
 TOP = PLATFORM
-VIVADO = batch# override at command line with -e VIVADO=tcl | -e VIVADO=gui
+VIVADO_MODE = batch# override at command line with -e VIVADO_MODE=tcl | -e VIVADO_MODE=gui
+XILINX_LIBS = /media/ian/Toshiba/Vivado/2019.2/xilinx_ibs
 
 help:
 	@echo "normal use: make export | compile | import | build | package | copy | clean"
 
 export:
 	@echo --Exporting Top-Level--
-	vivado -mode $(VIVADO) -notrace -nojournal -nolog -source export.tcl -tclargs -top $(TOP) -technology xc7z030ffg676-1 -project in_memory
+	vivado -mode $(VIVADO_MODE) -notrace -nojournal -nolog -source export.tcl -tclargs -top $(TOP) -technology xc7z030ffg676-1 -project in_memory
 	$(shell touch $@)
 	@echo --Export Top-Level Done--
 
@@ -29,7 +30,7 @@ compile: export
 	cd ./sandbox/questa; \
 	awk '!(/elaborate/&&NF==1 && !/\(\)/) && !(/simulate/&&NF==1 && !/\(\)/) {print $0}' ./$(TOP).sh > ./temp.sh; \
 	chmod u+x ./temp.sh; \
-	./temp.sh -lib_map_path /media/ian/Toshiba/Vivado/2019.2/xilinx_ibs;
+	./temp.sh -lib_map_path $(XILINX_LIBS);
 	$(shell touch $@)
 	@echo --Compile Top-Level Done--
 
