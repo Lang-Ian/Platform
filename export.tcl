@@ -24,12 +24,12 @@ puts "Module Name  = $params(top)"
 puts "Technology   = $params(technology)"
 puts "Project Name = $params(project)"
 
-create_project -part $params(technology) $params(top)  ./sandbox/ -force
+create_project -part $params(technology) $params(project)  ./sandbox/ -force
 
 set_property  ip_repo_paths  ./HW [current_project]
 update_ip_catalog
 
-create_fileset -simset platform_1
+create_fileset -simset $params(project)_1
 
 # Add the RTL (NEEDS A SEARCH)
 add_files -norecurse  {
@@ -53,11 +53,11 @@ source ./HW/src/bd/dgrm.tcl
 source ./HW/src/bd/flasher.tcl
 
 # Make the wrapper
-make_wrapper -files [get_files ./sandbox/platform.srcs/sources_1/bd/dgrm/dgrm.bd] -top
-add_files -norecurse  ./sandbox/platform.srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v
+make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/dgrm/dgrm.bd] -top
+add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v
 
-make_wrapper -files [get_files ./sandbox/platform.srcs/sources_1/bd/flasher/flasher.bd] -top
-add_files -norecurse  ./sandbox/platform.srcs/sources_1/bd/flasher/hdl/flasher_wrapper.v
+make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/flasher/flasher.bd] -top
+add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/flasher/hdl/flasher_wrapper.v
 
 # Export the comple script
 set_property top $params(top) [current_fileset -simset]
@@ -68,6 +68,6 @@ launch_simulation -scripts_only -install_path /media/ian/Toshiba/Questa/2019.4/q
 
 # Then this also works:
 export_ip_user_files -no_script -force
-export_simulation -force -of_objects [get_filesets sim_1] -lib_map_path "/media/ian/Toshiba/Vivado/2019.2/xilinx_ibs" -export_source_files -directory "/home/ian/work/Platform/sandbox" -simulator questa  -ip_user_files_dir "/home/ian/work/Platform/sandbox/platform.ip_user_files" -ipstatic_source_dir "/home/ian/work/Platform/sandbox/platform.ip_user_files/ipstatic" -use_ip_compiled_libs
+export_simulation -force -of_objects [get_filesets sim_1] -lib_map_path "/media/ian/Toshiba/Vivado/2019.2/xilinx_ibs" -export_source_files -directory "/home/ian/work/Platform/sandbox" -simulator questa  -ip_user_files_dir "/home/ian/work/Platform/sandbox/$params(project).ip_user_files" -ipstatic_source_dir "/home/ian/work/Platform/sandbox/$params(project).ip_user_files/ipstatic" -use_ip_compiled_libs
 
 exit
