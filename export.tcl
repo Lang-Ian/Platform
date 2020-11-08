@@ -1,5 +1,7 @@
 # Reference:  1) https://core.tcl-lang.org/tcllib/doc/trunk/embedded/md/tcllib/files/modules/cmdline/cmdline.md
 #             2) Vivado Design Suite, User Guide, Logic Simulation, UG900
+# To do:
+# Add a path to the IP library.
 
 set XILINX_LIBS "/media/ian/Toshiba/Vivado/2019.2/xilinx_ibs"
 
@@ -33,33 +35,37 @@ update_ip_catalog
 
 create_fileset -simset $params(project)_1
 
-# Add the RTL (NEEDS A SEARCH)
-add_files -norecurse  {
-./HW/src/hdl/Ethernet_LEDs.vhd
-./HW/src/hdl/aurora4_struct.vhd
-./HW/src/hdl/aurora4_entity.vhd
-./HW/src/hdl/top_struct.v
-./HW/src/hdl/krc3600_usb_hub_reset.vhd
+# Add the RTL
+set vhdl_files [glob ./HW/src/hdl/*.vhd]
+set verilog_files  [glob ./HW/src/hdl/*.v]
+set rtl_files [list {*}$vhdl_files {*}$verilog_files ]
+puts "Adding RTL ${rtl_files}"
+add_files -norecurse ${rtl_files}
+
+# Add the Xilinx IPs
+set ips [glob ./HW/7z030f/*/*.xcix]
+set ips [list {*}$ips [glob ./HW/7z030f/*/*.xci] ]
+puts "Adding Xilinx IPs ${ips}"
+add_files -norecurse  ${ips}
+
+# Build the Block Diagrams
+set bds [glob ./HW/src/bd/*.tcl]
+foreach {bd} [list {*}$bds] {
+  puts "Adding block diagam ${bd}"
+  source ${bd}
+  set fbasename [file rootname [file tail $bd]]; # remove the file extension
+  make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/${fbasename}/${fbasename}.bd] -top
+  add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/${fbasename}/hdl/${fbasename}_wrapper.v
 }
-
-# Add the IPs
-add_files -norecurse  ./HW/7z030f/aurora_64b66b_4/aurora_64b66b_4.xcix
-add_files -norecurse  ./HW/7z030f/aurora_64b66b_5/aurora_64b66b_5.xcix
-add_files -norecurse  ./HW/7z030f/aurora_64b66b_6/aurora_64b66b_6.xcix
-add_files -norecurse  ./HW/7z030f/aurora_64b66b_7/aurora_64b66b_7.xcix
-add_files -norecurse  ./HW/7z030f/clk_wizard_0/clk_wizard_0.xci
-
-
-# Build the Block Diagram (NEEDS A SEARCH)
-source ./HW/src/bd/dgrm.tcl
-source ./HW/src/bd/flasher.tcl
+#source ./HW/src/bd/dgrm.tcl
+#source ./HW/src/bd/flasher.tcl
 
 # Make the wrapper
-make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/dgrm/dgrm.bd] -top
-add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v
+#make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/dgrm/dgrm.bd] -top
+#add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v
 
-make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/flasher/flasher.bd] -top
-add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/flasher/hdl/flasher_wrapper.v
+#make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/flasher/flasher.bd] -top
+#add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/flasher/hdl/flasher_wrapper.v
 
 # Export the comple script
 set_property top $params(top) [current_fileset -simset]
@@ -79,4 +85,6 @@ export_simulation -force \
                   -ipstatic_source_dir "./sandbox/$params(project).ip_user_files/ipstatic" \
                   -use_ip_compiled_libs
 
+
+exec touch export
 exit
