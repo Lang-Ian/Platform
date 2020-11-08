@@ -57,24 +57,15 @@ foreach {bd} [list {*}$bds] {
   make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/${fbasename}/${fbasename}.bd] -top
   add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/${fbasename}/hdl/${fbasename}_wrapper.v
 }
-#source ./HW/src/bd/dgrm.tcl
-#source ./HW/src/bd/flasher.tcl
 
-# Make the wrapper
-#make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/dgrm/dgrm.bd] -top
-#add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v
-
-#make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/flasher/flasher.bd] -top
-#add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/flasher/hdl/flasher_wrapper.v
-
-# Export the comple script
+# Export the compile script
 set_property top $params(top) [current_fileset -simset]
 update_compile_order
 
-# Wow, if I do this first...
+# If I don't do this first,...
 launch_simulation -scripts_only -install_path /media/ian/Toshiba/Questa/2019.4/questasim/bin
 
-# ...then this also works.
+# ...then this doesn't work.
 export_ip_user_files -no_script -force
 export_simulation -force \
                   -of_objects [get_filesets sim_1] \
