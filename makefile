@@ -67,6 +67,7 @@ vmap:	compile
 
 all: ./HW/src/tb/top_tb.svo ./HW/src/tb/eth_tb.svo
 
+# I think this needs a directory change.
 ./HW/src/tb/top_tb.svo: ./HW/src/tb/top_tb.sv
 	vlog -work $(TOP) $<
 	touch $@
@@ -75,7 +76,10 @@ all: ./HW/src/tb/top_tb.svo ./HW/src/tb/eth_tb.svo
 	cp $< $@
 
 
-we're on p78 of the make book
+tb:
+
+
+#we're on p78 of the make book
 
 
 #COME BACK TO THIS
@@ -85,6 +89,15 @@ we're on p78 of the make book
 #COME BACK TO THIS 	cp $< $@
 #COME BACK TO THIS
 #COME BACK TO THIS all: $(objects)
+
+
+
+tb:
+	cd ./sandbox/questa; \
+	cat elaborate.do | sed 's/xil_defaultlib.$(TOP)/$(TOP).$(TB)/; s/$(TOP)_opt/$(TB)_opt/' > ./temp2.sh; \
+	chmod u+x ./temp2.sh; \
+	./temp2.sh
+	@echo --Compile Test-Bench Done--
 
 
 
