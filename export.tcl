@@ -76,6 +76,5 @@ export_simulation -force \
                   -ipstatic_source_dir "./sandbox/$params(project).ip_user_files/ipstatic" \
                   -use_ip_compiled_libs
 
-
 exec touch ./sandbox/.export
 exit

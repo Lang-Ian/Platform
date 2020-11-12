@@ -8,6 +8,7 @@ SHELL = /bin/bash
 # Maybe configure the simulation length.
 # Combine temp1 and temp2 and put them in the sandbox.
 # Pass OBJDIR into export script.
+# Add a hard link to wave.do.
 
 .PHONY: all clean help
 
@@ -29,12 +30,17 @@ SOURCEDIR = ./HW/src/tb
 SOURCES   := $(call rwildcard, ./HW/src/tb, *.sv)
 OBJ       := $(patsubst %.sv, %.svo, $(SOURCES))
 
-all: $(OBJDIR)/.sim
+all: $(OBJDIR)/.wave
+
+.PHONY: $(OBJDIR)/.wave
+$(OBJDIR)/.wave: $(OBJDIR)/.sim
+	cd $(OBJDIR)/questa; \
+	vsim -view vsim.wlf -do "source ../../wave.do"
 
 $(OBJDIR)/.sim: $(OBJDIR)/.optimize
 	@echo -- Running Simulation --
 	cd $(OBJDIR)/questa; \
-	vsim -c -do "vsim -voptargs=+acc $(TOP).$(TB)_opt; source ./wave.do;  run 100 us;  exit; "
+	vsim -c -do "vsim -voptargs=+acc $(TOP).$(TB)_opt; source ../../wave.do;  run 5 us;  exit;"
 	touch $@
 
 $(OBJDIR)/.optimize: $(OBJ)
