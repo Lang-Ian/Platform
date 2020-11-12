@@ -77,5 +77,5 @@ export_simulation -force \
                   -use_ip_compiled_libs
 
 
-exec touch export
+exec touch ./sandbox/.export
 exit

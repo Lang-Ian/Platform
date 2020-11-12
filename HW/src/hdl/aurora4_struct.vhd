@@ -11,7 +11,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 USE ieee.std_logic_arith.all;
 
-LIBRARY aurora4;
+--LIBRARY aurora4; this came from HDL Designer and I don't think I need it.
 LIBRARY unisim;
 use unisim.vcomponents.all;
 

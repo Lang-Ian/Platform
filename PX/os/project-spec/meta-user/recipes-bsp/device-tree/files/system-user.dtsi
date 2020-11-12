@@ -16,7 +16,7 @@
                 phy1: phy@7 {
                         /* compatible = "marvell,88e1510,88e1118r"; */
                         device_type = "ethernet-phy";
-	                phy-mode = "rgmii-id";
+	                phy-mode = "rgmii";
                         reg = <7>;
                 };
 	};

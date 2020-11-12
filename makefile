@@ -6,6 +6,8 @@ SHELL = /bin/bash
 # Do a search for the files to compile.
 # Understanding this makefile:  https://dev.to/deciduously/how-to-make-a-makefile-1dep
 # Maybe configure the simulation length.
+# Combine temp1 and temp2 and put them in the sandbox.
+# Pass OBJDIR into export script.
 
 .PHONY: all clean help
 

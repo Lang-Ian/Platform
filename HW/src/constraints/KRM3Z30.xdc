@@ -442,13 +442,9 @@ set_property IOSTANDARD LVDS_25 [get_ports X1_2_111]
 
 set_property PACKAGE_PIN AC14 [get_ports X1_2_200]
 set_property IOSTANDARD LVCMOS33 [get_ports X1_2_200]
-set_property DRIVE 8 [get_ports X1_2_200]
-set_property SLEW SLOW [get_ports X1_2_200]
 
 set_property PACKAGE_PIN AD14 [get_ports X1_2_201]
 set_property IOSTANDARD LVCMOS33 [get_ports X1_2_201]
-set_property DRIVE 8 [get_ports X1_2_201]
-set_property SLEW SLOW [get_ports X1_2_201]
 
 set_property PACKAGE_PIN AB15 [get_ports X1_2_202]
 set_property IOSTANDARD LVCMOS33 [get_ports X1_2_202]
@@ -652,26 +648,16 @@ set_property PULLUP true [get_ports X2_1_009]
 set_property PIO_DIRECTION OUTPUT [get_ports X2_1_009]
 
 set_property PACKAGE_PIN F13 [get_ports X2_1_010]
-set_property DRIVE 8 [get_ports X2_1_010]
-set_property SLEW SLOW [get_ports X2_1_010]
 
 set_property PACKAGE_PIN E13 [get_ports X2_1_011]
-set_property DRIVE 8 [get_ports X2_1_011]
-set_property SLEW SLOW [get_ports X2_1_011]
 
 #Bytegroup t1
 
 set_property PACKAGE_PIN H13 [get_ports X2_1_100]
-set_property DRIVE 8 [get_ports X2_1_100]
-set_property SLEW SLOW [get_ports X2_1_100]
 
 set_property PACKAGE_PIN H12 [get_ports X2_1_101]
-set_property DRIVE 8 [get_ports X2_1_101]
-set_property SLEW SLOW [get_ports X2_1_101]
 
 set_property PACKAGE_PIN K13 [get_ports X2_1_102]
-set_property DRIVE 8 [get_ports X2_1_102]
-set_property SLEW SLOW [get_ports X2_1_102]
 
 set_property PACKAGE_PIN J13 [get_ports X2_1_103]
 set_property DRIVE 8 [get_ports X2_1_103]
@@ -697,8 +683,6 @@ set_property DRIVE 8 [get_ports X2_1_109]
 set_property SLEW SLOW [get_ports X2_1_109]
 
 set_property PACKAGE_PIN J14 [get_ports X2_1_110]
-set_property DRIVE 8 [get_ports X2_1_110]
-set_property SLEW SLOW [get_ports X2_1_110]
 
 set_property PACKAGE_PIN H14 [get_ports X2_1_111]
 set_property IOSTANDARD LVCMOS18 [get_ports X2_1_111]
@@ -708,8 +692,6 @@ set_property SLEW SLOW [get_ports X2_1_111]
 #Bytegroup t2
 
 set_property PACKAGE_PIN D15 [get_ports X2_1_200]
-set_property DRIVE 8 [get_ports X2_1_200]
-set_property SLEW SLOW [get_ports X2_1_200]
 
 set_property PACKAGE_PIN D14 [get_ports X2_1_201]
 set_property IOSTANDARD LVCMOS18 [get_ports X2_1_201]
@@ -1116,9 +1098,4 @@ set_false_path -to [get_pins -of [get_cells -hier -filter { name =~  *idelayctrl
 #set_false_path -from [get_clocks -of_objects [get_pins aurora_0/U_1/inst/plle2_adv_inst/CLKOUT0]] -to [get_clocks clk_fpga_2]
 
 set_false_path -from [get_clocks -of_objects [get_pins aurora_0/master_0/inst/clock_module_i/mmcm_adv_inst/CLKOUT0]] -to [get_clocks clk_fpga_2]
-
-set_clock_groups -logically_exclusive -group [get_clocks -include_generated_clocks {gmii_clk_25m_out gmii_clk_2_5m_out}] -group [get_clocks -include_generated_clocks gmii_clk_125m_out]
-
-
-
 
