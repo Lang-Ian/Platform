@@ -5,6 +5,7 @@ SHELL = /bin/bash
 # Maybe add constants here for the arguments to export.tcl.
 # Do a search for the files to compile.
 # Understanding this makefile:  https://dev.to/deciduously/how-to-make-a-makefile-1dep
+# Maybe configure the simulation length.
 
 .PHONY: all clean help
 
@@ -21,17 +22,21 @@ TECHNOLOGY  = xc7z030ffg676-1
 VIVADO_MODE = batch# override at command line with -e VIVADO_MODE=tcl or -e VIVADO_MODE=gui
 XILINX_LIBS = /media/ian/Toshiba/Vivado/2019.2/xilinx_ibs
 
-OBJDIR    = ./sandbox;# max one deep
+OBJDIR    = ./sandbox# max one deep
 SOURCEDIR = ./HW/src/tb
-#SOURCES_ABSOLUTE := $(patsubst $(SOURCEDIR)/%.sv, $(shell pwd)/$(SOURCEDIR)/%.sv, $(RAW))
-#current_dir = $(shell pwd)
 SOURCES   := $(call rwildcard, ./HW/src/tb, *.sv)
 OBJ       := $(patsubst %.sv, %.svo, $(SOURCES))
 
-all: $(OBJDIR)/.optimize
+all: $(OBJDIR)/.sim
+
+$(OBJDIR)/.sim: $(OBJDIR)/.optimize
+	@echo -- Running Simulation --
+	cd $(OBJDIR)/questa; \
+	vsim -c -do "vsim -voptargs=+acc $(TOP).$(TB)_opt; source ./wave.do;  run 100 us;  exit; "
+	touch $@
 
 $(OBJDIR)/.optimize: $(OBJ)
-	@echo -- Optimizing Simulation --
+	@echo -- Optimizing --
 	cd $(OBJDIR)/questa; \
 	cat elaborate.do | sed 's/xil_defaultlib.$(TOP)/$(TOP).$(TB)/; s/$(TOP)_opt/$(TB)_opt/' > ./temp2.sh; \
 	chmod u+x ./temp2.sh; \
@@ -80,6 +85,10 @@ help:
 	@echo "normal use: make {.export | compile | import | build | package | copy | clean{} 1>&2 && false"
 
 
+
+
+#SOURCES_ABSOLUTE := $(patsubst $(SOURCEDIR)/%.sv, $(shell pwd)/$(SOURCEDIR)/%.sv, $(RAW))
+#current_dir = $(shell pwd)
 
 #	vmap $(TOP) questa_lib/msim/xil_defaultlib  ???
 
