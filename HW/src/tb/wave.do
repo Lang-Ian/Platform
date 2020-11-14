@@ -13,7 +13,7 @@ add wave -noupdate -divider flashe4
 add wave -noupdate /top_tb/i_top/i_flasher3/CLK_0
 add wave -noupdate /top_tb/i_top/i_flasher3/Q_0
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {123476 fs} 0}
+WaveRestoreCursors {{Cursor 1} {3355000000 fs} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
@@ -29,4 +29,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits fs
 update
-WaveRestoreZoom {0 fs} {1050 ps}
+WaveRestoreZoom {0 fs} {43050 ns}
