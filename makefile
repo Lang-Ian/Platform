@@ -28,10 +28,13 @@ TECHNOLOGY  = xc7z030ffg676-1
 VIVADO_MODE = batch# override at command line with -e VIVADO_MODE=tcl or -e VIVADO_MODE=gui
 XILINX_LIBS = /media/ian/Toshiba/Vivado/2019.2/xilinx_ibs
 OBJDIR     := ./sandbox# max one deep
+
+# Don't touch these unless you understand them :)
 SOURCES    := $(call rwildcard, ./HW/src/tb, *.sv)
-OBJ        := $(patsubst %.sv, %.svo, $(SOURCES))
+OBJ        := $(addprefix $(OBJDIR)/, $(addsuffix .svo, $(basename $(notdir $(SOURCES)))))
+#OBJ        := $(abspath $(OBJDIR)/$(notdir $(patsubst %.sv, %.svo, $(SOURCES))))
 DOFILES    := $(call rwildcard, ./HW/src/tb, *.do)
-DOLINKS    := $(abspath ./$(OBJDIR)/questa/$(notdir $(DOFILES)))
+DOLINKS    := $(abspath  $(OBJDIR)/questa/$(notdir $(DOFILES)))
 
 .PHONY: all
 all: $(OBJDIR)/.wave
@@ -53,9 +56,9 @@ $(OBJDIR)/.sim: $(DOFILES) $(OBJDIR)/.optimize
 dofiles: $(DOLINKS)
 
 $(DOLINKS):
+	@echo -- Linking Do Files --
 	mkdir -p $(dir $(DOLINKS))
 	ln  $(DOFILES) $(DOLINKS)
-	@echo linking
 
 $(OBJDIR)/.optimize: $(OBJ)
 	@echo -- Optimizing --
@@ -69,9 +72,9 @@ $(OBJDIR)/.optimize: $(OBJ)
 compile: $(OBJ)
 
 $(OBJ):  $(SOURCES) $(OBJDIR)/.vmap
-	@echo -- Compiling Test Bench Files --
+	@echo -- Compiling Test Bench --
 	cd $(OBJDIR)/questa; \
-	vlog  -work $(TOP) ../../$<
+	vlog  -work $(TOP) ../../$?
 	touch $@
 	@echo compiling
 
@@ -82,7 +85,7 @@ $(OBJDIR)/.vmap:	$(OBJDIR)/.compile
 	touch $@
 
 $(OBJDIR)/.compile: $(OBJDIR)/.export
-	@echo -- Compiling Exported DUT Top Level --
+	@echo -- Compiling Exported DUT --
 	cd $(OBJDIR)/questa; \
 	awk '!(/elaborate/&&NF==1 && !/\(\)/) && !(/simulate/&&NF==1 && !/\(\)/) {print $0}' ./$(TOP).sh > ./temp1.sh; \
 	chmod u+x ./temp1.sh; \
