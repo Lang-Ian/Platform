@@ -16,8 +16,10 @@ SHELL = /bin/bash
 # Write out .do files for working interactively?  Or make the makefile work from anywhere.
 # Replace the .. with named directory.
 # Make waveforms start in background.  Only start it if it isn't already running.
+# Add the sandbox to .gitignore.
+# Get the makefile to run from inside Modelsim.
 
-# Debug utility: use make print-X to print the value of variable X.
+# Debug utility: make print-X prints value of X
 print-%: ; @echo $* = $($*)
 
 # The following constants can be overriden at the command line with -e CONSTANT=<whatever>
