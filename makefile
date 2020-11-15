@@ -112,7 +112,8 @@ vivado:
 .PHONY: questa
 questa:
 	cd $(BUILDDIR)/questa; \
-	echo "vsim -voptargs=+acc $(TOP).$(TB)_opt" > ./go.do; \
+	rm ./simulate.do; \
+	echo "vsim -voptargs=+acc $(TOP).$(TB)_opt" > ./simulate.do; \
 	vsim
 
 .PHONY: clean
