@@ -19,6 +19,7 @@ SHELL = /bin/bash
 # Add the sandbox to .gitignore.
 # Get the makefile to run from inside Modelsim.
 # Don't attempt to cat simulate.do unless there is a directory there.
+# Edit the auto-generated .do files so that they still work.
 
 # Debug utility: make print-X prints value of X
 print-%: ; @echo $* = $($*)
