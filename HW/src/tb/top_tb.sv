@@ -22,8 +22,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 interface th_IF;
-	   parameter int T_CLK = 60;    // 166MHz
-	   parameter int T_MGT = 64;    // 156.25MHz
+	   parameter int T_CLK = 60;   // 166MHz
+	   parameter int T_MGT = 64;   // 156.25MHz
 
 
 
@@ -173,16 +173,15 @@ initial begin : main
         top_tb.i_top.i_dgrm_wrapper.dgrm_i.processing_system7_0.inst.fpga_soft_reset(32'h0);
 
 
-
         // Wait about 15us for reset to complete.
-        #150000
+        #15us
 
 		//Re-reset the PL
 		top_tb.i_top.i_dgrm_wrapper.dgrm_i.processing_system7_0.inst.fpga_soft_reset(32'h1);
 		top_tb.i_top.i_dgrm_wrapper.dgrm_i.processing_system7_0.inst.fpga_soft_reset(32'h0);
 
        // Wait about 15us for reset to complete.
-			 #150000
+			 #15us
 
 								// Turn on the flasher.
                 $display( "turning on the flasher (3 big LEDs)" );
