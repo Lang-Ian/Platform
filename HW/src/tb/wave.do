@@ -12,8 +12,10 @@ add wave -noupdate /top_tb/i_top/i_flasher2/Q_0
 add wave -noupdate -divider flashe4
 add wave -noupdate /top_tb/i_top/i_flasher3/CLK_0
 add wave -noupdate /top_tb/i_top/i_flasher3/Q_0
+add wave -noupdate -divider MASTER
+add wave -noupdate /top_tb/i_top/aurora_0/master_0/init_clk
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {3355000000 fs} 0}
+WaveRestoreCursors {{Cursor 1} {184763948 fs} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100

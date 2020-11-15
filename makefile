@@ -18,6 +18,7 @@ SHELL = /bin/bash
 # Make waveforms start in background.  Only start it if it isn't already running.
 # Add the sandbox to .gitignore.
 # Get the makefile to run from inside Modelsim.
+# Don't attempt to cat simulate.do unless there is a directory there.
 
 # Debug utility: make print-X prints value of X
 print-%: ; @echo $* = $($*)
@@ -110,6 +111,7 @@ vivado:
 .PHONY: questa
 questa:
 	cd $(BUILDDIR)/questa; \
+	echo "vsim -voptargs=+acc $(TOP).$(TB)_opt" > ./go.do; \
 	vsim
 
 .PHONY: clean
