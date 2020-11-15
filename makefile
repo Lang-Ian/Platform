@@ -5,16 +5,17 @@ SHELL = /bin/bash
 # Maybe add constants here for the arguments to export.tcl.
 # Do a search for the files to compile.
 # Understanding this makefile:  https://dev.to/deciduously/how-to-make-a-makefile-1dep
-# Maybe configure the simulation length.
+# Maybe configure the simulation length.  Add a constant.
 # Combine temp1 and temp2 and put them in the sandbox.
 # Pass BUILDDIR into export script.
-# Add a hard link to wave.do.
-# Figure out how to compile tb without optimizing.  It might need another stage.
+# Add a hard link to wave.do. DONE
+# Figure out how to compile tb without optimizing.  It might need another stage.  DONE
 # Add a constant so that you can control the text editor in Vivado.
 # Maybe pass the name of the file to be touched into export.tcl.
 # Decide when to call export based upon when a file has changed.
 # Write out .do files for working interactively?  Or make the makefile work from anywhere.
 # Replace the .. with named directory.
+# Make waveforms start in background.  Only start it if it isn't already running.
 
 # Debug utility: use make print-X to print the value of variable X.
 print-%: ; @echo $* = $($*)
