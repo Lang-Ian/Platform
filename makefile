@@ -17,9 +17,11 @@ SHELL = /bin/bash
 # Replace the .. with named directory.
 # Make waveforms start in background.  Only start it if it isn't already running.
 # Add the sandbox to .gitignore.
-# Get the makefile to run from inside Modelsim.
+# Get the makefile to run from inside Modelsim. NO BUT THE SCRIPTS DO
 # Don't attempt to cat simulate.do unless there is a directory there.
 # Edit the auto-generated .do files so that they still work.
+# It should be possible to run the simulation again - perhaps with a different test.
+# Update the RTL version number each build.
 
 # Debug utility: make print-X prints value of X
 print-%: ; @echo $* = $($*)

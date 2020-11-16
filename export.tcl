@@ -2,6 +2,7 @@
 #             2) Vivado Design Suite, User Guide, Logic Simulation, UG900
 # To do:
 # Add a path to the IP library.
+# Add paths to the RTL, IPs, BDs & sandobx.
 
 set XILINX_LIBS "/media/ian/Toshiba/Vivado/2019.2/xilinx_ibs"
 
@@ -10,11 +11,11 @@ package require try;
 package require cmdline 1.3.1;
 
 set options {
-    { top.arg           "Module Name"     }
-    { technology.arg    "Technology"      }
-    { project.arg       "Project Name"    }
-    { project.arg       "Project Name"    }
-    { interactive       "interactive mode"  }
+    { top.arg           "Module Name"   }
+    { technology.arg    "Technology"    }
+    { project.arg       "Project Name"  }
+    { project.arg       "Project Name"  }
+    { not_used          "not used"      }
 }
 
 try {
