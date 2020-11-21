@@ -124,4 +124,4 @@ clean:
 
 .PHONY: help
 help:
-	@echo "make {export|compile|simulate|all|questa|vivado|clean|help}"
+	@echo "make -f makefile.sim {export|compile|simulate|all|questa|vivado|clean|help}"

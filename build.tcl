@@ -58,7 +58,7 @@ foreach {bd} [list {*}$bds] {
   add_files -norecurse  ./buildbox/$params(project).srcs/sources_1/bd/${fbasename}/hdl/${fbasename}_wrapper.v
 }
 
-# Add the contstaints
+# Add the contstraints
 set constraints_files [glob ./HW/src/constraints/*.xdc]
 puts "Adding Xilinx IPs ${constraints_files}"
 add_files -norecurse  ${constraints_files}
