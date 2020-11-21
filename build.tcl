@@ -14,6 +14,7 @@ set options {
     { technology.arg    "Technology"    }
     { project.arg       "Project Name"  }
     { project.arg       "Project Name"  }
+    { sandbox.arg       "Sandbox Directory" }
     { not_used          "not used"      }
 }
 
@@ -28,7 +29,7 @@ puts "Module Name  = $params(top)"
 puts "Technology   = $params(technology)"
 puts "Project Name = $params(project)"
 
-create_project -part $params(technology) $params(project)  ./buildbox/ -force
+create_project -part $params(technology) $params(project)  $params(sandbox)/ -force
 
 set_property  ip_repo_paths  ./HW [current_project]
 update_ip_catalog
@@ -54,8 +55,8 @@ foreach {bd} [list {*}$bds] {
   puts "Adding block diagam ${bd}"
   source ${bd}
   set fbasename [file rootname [file tail $bd]]; # remove the file extension
-  make_wrapper -files [get_files ./buildbox/$params(project).srcs/sources_1/bd/${fbasename}/${fbasename}.bd] -top
-  add_files -norecurse  ./buildbox/$params(project).srcs/sources_1/bd/${fbasename}/hdl/${fbasename}_wrapper.v
+  make_wrapper -files [get_files $params(sandbox)/$params(project).srcs/sources_1/bd/${fbasename}/${fbasename}.bd] -top
+  add_files -norecurse  $params(sandbox)/$params(project).srcs/sources_1/bd/${fbasename}/hdl/${fbasename}_wrapper.v
 }
 
 # Add the contstraints
@@ -72,5 +73,5 @@ update_compile_order -fileset sim_1
 launch_runs synth_1
 wait_on_run synth_1
 
-exec touch ./buildbox/.build
+exec touch $params(sandbox)/.build
 exit
