@@ -1,5 +1,6 @@
 # Reference:  1) https://core.tcl-lang.org/tcllib/doc/trunk/embedded/md/tcllib/files/modules/cmdline/cmdline.md
-#             2) Vivado Design Suite, User Guide, Logic Simulation, UG900
+#             2) Vivado Design Suite User Guide, Logic Simulation, UG900
+#             3) Vivado Design Suite User Guide, Using Tcl Scripting, UG894
 # To do:
 # Add a path to the IP library.
 
@@ -25,12 +26,13 @@ try {
                                    exit 1
                                    }
 
+# Create Project
 puts "Module Name  = $params(top)"
 puts "Technology   = $params(technology)"
 puts "Project Name = $params(project)"
-
 create_project -part $params(technology) $params(project)  $params(sandbox)/ -force
 
+# IP Repository
 set_property  ip_repo_paths  ./HW [current_project]
 update_ip_catalog
 
@@ -64,14 +66,47 @@ set constraints_files [glob ./HW/src/constraints/*.xdc]
 puts "Adding Xilinx IPs ${constraints_files}"
 add_files -norecurse  ${constraints_files}
 
-# Update compile order for the fileset 'sources_1'
-set_property top top [current_fileset]
-update_compile_order -fileset sources_1
-update_compile_order -fileset sim_1
+# If you want to work with local source copies.
+#import_files -force -norecurse
 
-#Run synthesis and the default utilization report.
+# Update compile order for the default fileset, sources_1.
+set_property top top [current_fileset]
+#update_compile_order -fileset sources_1
+
+#Synthesis
 launch_runs synth_1
 wait_on_run synth_1
+open_run synth_1
+report_timing_summary -file $params(sandbox)/post_synth_timing_summary.rpt
+report_utilization -file $params(sandbox)/post_synth_util.rpt
+
+#Optimization
+opt_design
+
+# Place Design
+place_design
+report_clock_utilization -file $params(sandbox)/clock_util.rpt
+
+# Optionally run optimization if there are timing violations after placement
+if {[get_property SLACK [get_timing_paths -max_paths 1 -nworst 1 -setup]] < 0} {
+  puts "Found setup timing violations => running physical optimization"
+  phys_opt_design
+}
+write_checkpoint -force $params(sandbox)/post_place.dcp
+report_utilization -file $params(sandbox)/post_place_util.rpt
+report_timing_summary -file $params(sandbox)/post_place_timing_summary.rpt
+
+# Route Design
+route_design
+write_checkpoint -force $params(sandbox)/post_route.dcp
+report_route_status      -file $params(sandbox)/post_route_status.rpt
+report_timing_summary    -file $params(sandbox)/post_route_timing_summary.rpt
+report_power             -file $params(sandbox)/post_route_power.rpt
+report_drc               -file $params(sandbox)/post_imp_drc.rpt
+write_verilog            -force $params(sandbox)/cpu_impl_netlist.v -mode timesim -sdf_anno true
+
+# Bitstream
+write_bitstream -force $params(sandbox)/cpu.bit
 
 exec touch $params(sandbox)/.build
 exit

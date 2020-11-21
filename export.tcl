@@ -3,6 +3,8 @@
 # To do:
 # Add a path to the IP library.
 # Add paths to the RTL, IPs, BDs & sandobx.
+# I think it would be better to import the IPs simply by giving a directory path.  But I would have to do some reorganisation first.
+# I should also probably not have the relative directories to the RTL and block diagrams.
 
 set XILINX_LIBS "/media/ian/Toshiba/Vivado/2019.2/xilinx_ibs"
 
