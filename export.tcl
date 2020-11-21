@@ -15,6 +15,7 @@ set options {
     { technology.arg    "Technology"    }
     { project.arg       "Project Name"  }
     { project.arg       "Project Name"  }
+    { sandbox.arg       "Sandbox Directory"  }
     { not_used          "not used"      }
 }
 
@@ -29,7 +30,7 @@ puts "Module Name  = $params(top)"
 puts "Technology   = $params(technology)"
 puts "Project Name = $params(project)"
 
-create_project -part $params(technology) $params(project)  ./sandbox/ -force
+create_project -part $params(technology) $params(project)  $params(sandbox)/ -force
 
 set_property  ip_repo_paths  ./HW [current_project]
 update_ip_catalog
@@ -55,8 +56,8 @@ foreach {bd} [list {*}$bds] {
   puts "Adding block diagam ${bd}"
   source ${bd}
   set fbasename [file rootname [file tail $bd]]; # remove the file extension
-  make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/${fbasename}/${fbasename}.bd] -top
-  add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/${fbasename}/hdl/${fbasename}_wrapper.v
+  make_wrapper -files [get_files $params(sandbox)/$params(project).srcs/sources_1/bd/${fbasename}/${fbasename}.bd] -top
+  add_files -norecurse  $params(sandbox)/$params(project).srcs/sources_1/bd/${fbasename}/hdl/${fbasename}_wrapper.v
 }
 
 # Export the compile script
@@ -71,11 +72,11 @@ export_ip_user_files -no_script -force
 export_simulation -force \
                   -of_objects [get_filesets sim_1] \
                   -lib_map_path ${XILINX_LIBS} \
-                  -export_source_files -directory "./sandbox" \
+                  -export_source_files -directory "$params(sandbox)" \
                   -simulator questa \
-                  -ip_user_files_dir "./sandbox/$params(project).ip_user_files" \
-                  -ipstatic_source_dir "./sandbox/$params(project).ip_user_files/ipstatic" \
+                  -ip_user_files_dir   "$params(sandbox)/$params(project).ip_user_files" \
+                  -ipstatic_source_dir "$params(sandbox)/$params(project).ip_user_files/ipstatic" \
                   -use_ip_compiled_libs
 
-exec touch ./sandbox/.export
+exec touch $params(sandbox)/.export
 exit

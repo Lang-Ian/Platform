@@ -105,7 +105,7 @@ export: $(BUILDDIR)/.export
 
 $(BUILDDIR)/.export:
 	@echo -- Exporting DUT Top Level --
-	vivado -mode $(VIVADO_MODE) -notrace -nojournal -nolog -source export.tcl -tclargs -top $(TOP) -technology $(TECHNOLOGY) -project in_memory
+	vivado -mode $(VIVADO_MODE) -notrace -nojournal -nolog -source export.tcl -tclargs -top $(TOP) -technology $(TECHNOLOGY) -project in_memory -sandbox $(BUILDDIR)
 
 .PHONY: vivado
 vivado:
