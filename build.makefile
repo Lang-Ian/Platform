@@ -36,9 +36,12 @@ $(BUILDDIR)/.build:  $(BUILDDIR)/.synth
 	@echo "-- P&R --"
 	vivado -mode $(VIVADO_MODE) -notrace -journal $(BUILDDIR)/vivado.journal -log $(BUILDDIR)/vivado.log -source build.tcl -tclargs -top $(TOP) -technology $(TECHNOLOGY) -project in_memory -sandbox $(BUILDDIR) -stage build
 
-$(BUILDDIR)/.synth:
+$(BUILDDIR)/.synth: $(BUILDDIR)
 	@echo "-- Synthesizing --"
-	vivado -mode $(VIVADO_MODE) -notrace -nojournal -nolog -source build.tcl -tclargs -top $(TOP) -technology $(TECHNOLOGY) -project in_memory -sandbox $(BUILDDIR) -stage synth
+	vivado -mode $(VIVADO_MODE) -notrace -journal $(BUILDDIR)/vivado.journal -log $(BUILDDIR)/vivado.log -source build.tcl -tclargs -top $(TOP) -technology $(TECHNOLOGY) -project in_memory -sandbox $(BUILDDIR) -stage synth
+
+$(BUILDDIR):
+	mkdir $(BUILDDIR)
 
 .PHONY: vivado
 vivado:
@@ -50,4 +53,4 @@ clean:
 
 .PHONY: help
 help:
-	@echo "make -f makefile.build {all|vivado|clean|help}"
+	@echo "make -f build.makefile {all|vivado|clean|help}"

@@ -125,4 +125,4 @@ clean:
 
 .PHONY: help
 help:
-	@echo "make -f makefile.sim {export|compile|simulate|all|questa|vivado|clean|help}"
+	@echo "make -f sim.makefile {export|compile|simulate|all|questa|vivado|clean|help}"

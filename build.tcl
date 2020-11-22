@@ -94,6 +94,11 @@ switch $params(stage) {
           open_project $params(sandbox)/$params(project).xpr
           open_run synth_1 -name synth_1
 
+          reset_run impl_1
+          launch_runs impl_1 -jobs 4reset_run impl_1
+          launch_runs impl_1 -jobs 4
+
+
           #Optimization
           opt_design
 
