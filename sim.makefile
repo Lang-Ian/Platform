@@ -1,5 +1,7 @@
 SHELL = /bin/bash
 
+# Reference:  https://dev.to/deciduously/how-to-make-a-makefile-1dep
+
 # To do:
 # Add a global interactive argument so that each stage can be run manually.
 # Maybe add constants here for the arguments to export.tcl.
@@ -46,14 +48,11 @@ DOFILES     := $(wildcard $(SOURCEDIR)/*.do)
 DOLINKS     := $(abspath  $(BUILDDIR)/questa/$(notdir $(DOFILES)))
 
 .PHONY: all
-all: $(BUILDDIR)/.wave
+all: $(BUILDDIR)/.sim
 
-$(BUILDDIR)/.wave: $(BUILDDIR)/.sim
+simulate: $(BUILDDIR)/.sim
 	cd $(BUILDDIR)/questa; \
 	vsim -view vsim.wlf -do "source $(DOLINKS)"
-
-.PHONY: simulate
-simulate: $(BUILDDIR)/.sim
 
 $(BUILDDIR)/.sim: $(DOLINKS) $(BUILDDIR)/.optimize
 	@echo -- Running Simulation --
