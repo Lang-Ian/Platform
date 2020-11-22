@@ -117,7 +117,7 @@ switch $params(stage) {
           report_timing_summary    -file $params(sandbox)/post_route_timing_summary.rpt
           report_power             -file $params(sandbox)/post_route_power.rpt
           report_drc               -file $params(sandbox)/post_imp_drc.rpt
-          write_verilog            -force $params(sandbox)/cpu_impl_netlist.v -mode timesim -sdf_anno true
+          write_verilog            -force $params(sandbox)/$params(top)_netlist.v -mode timesim -sdf_anno true
 
           # Bitstream
           write_bitstream -force $params(sandbox)/$params(top).bit
@@ -125,6 +125,10 @@ switch $params(stage) {
 
   "export" {
            puts "-- exporting $params(top) to Petalinux --"
+
+           open_project $params(sandbox)/$params(project).xpr
+
+           write_hw_platform -fixed -force  -include_bit -file ./SW/platform.xsa
            }
 
   default { puts "-- stage  = $params(stage) --" }
