@@ -1,8 +1,9 @@
 # Reference:  1) https://core.tcl-lang.org/tcllib/doc/trunk/embedded/md/tcllib/files/modules/cmdline/cmdline.md
 #             2) Vivado Design Suite User Guide, Logic Simulation, UG900
 #             3) Vivado Design Suite User Guide, Using Tcl Scripting, UG894
+#             4)  Vivado Design Suite Tcl Command Reference Guide, UG835
 # To do:
-# Add a path to the IP library.
+# Add a path to the IP library
 
 set XILINX_LIBS "/media/ian/Toshiba/Vivado/2019.2/xilinx_ibs"
 
