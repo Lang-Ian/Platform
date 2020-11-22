@@ -34,14 +34,14 @@ $(BUILDDIR)/.export:  $(BUILDDIR)/.build
 
 $(BUILDDIR)/.build:  $(BUILDDIR)/.synth
 	@echo "-- P&R --"
-	vivado -mode $(VIVADO_MODE) -notrace -journal $(BUILDDIR)/vivado.journal -log $(BUILDDIR)/vivado.log -source build.tcl -tclargs -top $(TOP) -technology $(TECHNOLOGY) -project in_memory -sandbox $(BUILDDIR) -stage build
+	vivado -mode $(VIVADO_MODE)  -journal $(BUILDDIR)/vivado.journal -log $(BUILDDIR)/vivado.log -source build.tcl -tclargs -top $(TOP) -technology $(TECHNOLOGY) -project in_memory -sandbox $(BUILDDIR) -stage build
 
-$(BUILDDIR)/.synth: $(BUILDDIR)
+$(BUILDDIR)/.synth: dir
 	@echo "-- Synthesizing --"
-	vivado -mode $(VIVADO_MODE) -notrace -journal $(BUILDDIR)/vivado.journal -log $(BUILDDIR)/vivado.log -source build.tcl -tclargs -top $(TOP) -technology $(TECHNOLOGY) -project in_memory -sandbox $(BUILDDIR) -stage synth
+	vivado -mode $(VIVADO_MODE)  -journal $(BUILDDIR)/vivado.journal -log $(BUILDDIR)/vivado.log -source build.tcl -tclargs -top $(TOP) -technology $(TECHNOLOGY) -project in_memory -sandbox $(BUILDDIR) -stage synth
 
-$(BUILDDIR):
-	mkdir $(BUILDDIR)
+dir:
+	mkdir -p $(BUILDDIR)
 
 .PHONY: vivado
 vivado:

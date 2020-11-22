@@ -94,45 +94,47 @@ switch $params(stage) {
           open_project $params(sandbox)/$params(project).xpr
           open_run synth_1 -name synth_1
 
-          reset_run impl_1
-          launch_runs impl_1 -jobs 4reset_run impl_1
           launch_runs impl_1 -jobs 4
+          wait_on_run impl_1
 
-
-          #Optimization
-          opt_design
-
-          # Place Design
-          place_design
-          report_clock_utilization -file $params(sandbox)/clock_util.rpt
-
-          # Optionally run optimization if there are timing violations after placement
-          if {[get_property SLACK [get_timing_paths -max_paths 1 -nworst 1 -setup]] < 0} {
-            puts "Found setup timing violations => running physical optimization"
-            phys_opt_design
-          }
-          write_checkpoint -force $params(sandbox)/post_place.dcp
-          report_utilization -file $params(sandbox)/post_place_util.rpt
-          report_timing_summary -file $params(sandbox)/post_place_timing_summary.rpt
-
-          # Route Design
-          route_design
-          write_checkpoint -force $params(sandbox)/post_route.dcp
-          report_route_status      -file $params(sandbox)/post_route_status.rpt
-          report_timing_summary    -file $params(sandbox)/post_route_timing_summary.rpt
-          report_power             -file $params(sandbox)/post_route_power.rpt
-          report_drc               -file $params(sandbox)/post_imp_drc.rpt
-          write_verilog            -force $params(sandbox)/$params(top)_netlist.v -mode timesim -sdf_anno true
+#          #Optimization
+#          opt_design#
+#
+#          # Place Design
+#          place_design
+#          report_clock_utilization -file $params(sandbox)/clock_util.rpt
+#
+#          # Optionally run optimization if there are timing violations after placement
+#          if {[get_property SLACK [get_timing_paths -max_paths 1 -nworst 1 -setup]] < 0} {
+#            puts "Found setup timing violations => running physical optimization"
+#            phys_opt_design
+#          }
+#          write_checkpoint -force $params(sandbox)/post_place.dcp
+#          report_utilization -file $params(sandbox)/post_place_util.rpt
+#          report_timing_summary -file $params(sandbox)/post_place_timing_summary.rpt
+#
+#          # Route Design
+#          route_design
+#          write_checkpoint -force $params(sandbox)/post_route.dcp
+#          report_route_status      -file $params(sandbox)/post_route_status.rpt
+#          report_timing_summary    -file $params(sandbox)/post_route_timing_summary.rpt
+#          report_power             -file $params(sandbox)/post_route_power.rpt
+#          report_drc               -file $params(sandbox)/post_imp_drc.rpt
+#          write_verilog            -force $params(sandbox)/$params(top)_netlist.v -mode timesim -sdf_anno true
 
           # Bitstream
-          write_bitstream -force $params(sandbox)/$params(top).bit
+#          write_bitstream -force $params(sandbox)/$params(top).bit
           }
 
   "export" {
-           puts "-- exporting $params(top) to Petalinux --"
-
            open_project $params(sandbox)/$params(project).xpr
 
+           puts "-- writing bitstream $params(top).bit --"
+           open_run impl_1
+           launch_runs impl_1 -to_step write_bitstream -jobs 4
+           wait_on_run impl_1
+
+           puts "-- exporting $params(top).xsa for Petalinux --"
            write_hw_platform -fixed -force  -include_bit -file ./SW/platform.xsa
            }
 
