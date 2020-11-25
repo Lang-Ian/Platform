@@ -17,7 +17,7 @@ set options {
     { project.arg       "Project Name"  }
     { project.arg       "Project Name"  }
     { sandbox.arg       "Sandbox Directory" }
-    { stage.arg         "synth|build|export" }
+    { stage.arg         "synth|build|write|export" }
     { not_used          "not used"      }
 }
 
@@ -98,14 +98,16 @@ switch $params(stage) {
           wait_on_run impl_1
           }
 
-  "export" {
+  "write" {
            open_project $params(sandbox)/$params(project).xpr
-
            puts "-- writing bitstream $params(top).bit --"
            open_run impl_1
            launch_runs impl_1 -to_step write_bitstream -jobs 4
            wait_on_run impl_1
+           }
 
+  "export" {
+           open_project $params(sandbox)/$params(project).xpr
            puts "-- exporting $params(top).xsa for Petalinux --"
            write_hw_platform -fixed -force  -include_bit -file $params(sandbox)/platform.xsa
            }
