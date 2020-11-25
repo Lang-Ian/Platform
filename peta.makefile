@@ -14,10 +14,11 @@ current_dir  := $(notdir $(mkfile_dir))
 EXPORTDIR    := $(abspath  $(mkfile_dir)/buildbox)
 BUILDDIR     := $(abspath  $(mkfile_dir)/petabox)
 SOURCE       := $(abspath  $(EXPORTDIR)/$(TOP).xsa)
+CONFIGDIR    := $(abspath  $(mkfile_dir)/PX)
 
 .PHONY: all
 # change to $(BUILDDIR)/.package
-all:  $(BUILDDIR)/.import
+all:  $(BUILDDIR)/.build
 
 copy: $(BUILDDIR)/.package
 	cd $(BUILDDIR)/os/images/linux; \
@@ -33,22 +34,44 @@ $(BUILDDIR)/.package: $(BUILDDIR)/.build
 	touch $@
 
 $(BUILDDIR)/.build: $(BUILDDIR)/.import
+	@echo "-- Building Petalinux --"
 	cd $(BUILDDIR)/os; \
 	petalinux-build
 	touch $@
 
-$(BUILDDIR)/.import: $(BUILDDIR)/.create
-	@echo "-- Importing Vivado zip file --"
+.PHONY: rootfs
+rootfs: $(BUILDDIR)/.import
+	@echo "-- Configuring Root File System through the GUI --"
+	cd $(BUILDDIR)/os; \
+	petalinux-config -c rootfs
+
+.PHONY: kernel
+kernel: $(BUILDDIR)/.import
+	@echo "-- Configuring Kernel through the GUI --"
+	cd $(BUILDDIR)/os; \
+	petalinux-config -c kernel
+
+.PHONY: import
+import: $(BUILDDIR)/os
+	@echo "-- Importing .xsa file with GUI stage --"
+	cd $(BUILDDIR)/os; \
+	petalinux-config --get-hw-description=$(EXPORTDIR)
+	touch $(BUILDDIR)/.import
+
+$(BUILDDIR)/.import: $(BUILDDIR)/os
+	@echo "-- Importing .xsa file in silent mode --"
 	cd $(BUILDDIR)/os; \
 	petalinux-config --silentconfig --get-hw-description=$(EXPORTDIR)
 	touch $@
 
-$(BUILDDIR)/.create:
+$(BUILDDIR)/os:
 	@echo "-- Creating petalinux os --"
 	mkdir -p $(BUILDDIR)
 	cd $(BUILDDIR); \
 	petalinux-create -t project -n os --template zynq
-	touch $@
+	cp -r $(CONFIGDIR)/config $(BUILDDIR)/os/project-spec/configs
+	cp -r $(CONFIGDIR)/rootfs_config $(BUILDDIR)/os/project-spec/configs
+	cp -r $(CONFIGDIR)/system-user.dtsi $(BUILDDIR)/os/project-spec/meta-user/recipes-bsp/device-tree/files
 
 .PHONY: clean
 clean:
@@ -56,4 +79,4 @@ clean:
 
 .PHONY: help
 help:
-	@echo "make -f post_route_status.makefile {import|build|package|copy|clean|help}"
+	@echo "make -f post_route_status.makefile {import|kernel|rootfs|build|all|sdcopy|clean|help}"
