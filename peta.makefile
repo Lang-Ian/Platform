@@ -1,6 +1,5 @@
 SHELL = /bin/bash
 
-
 # Debug utility: make print-X prints value of X
 print-%: ; @echo $* = $($*)
 
@@ -69,8 +68,8 @@ $(BUILDDIR)/os:
 	mkdir -p $(BUILDDIR)
 	cd $(BUILDDIR); \
 	petalinux-create -t project -n os --template zynq
-	cp -r $(CONFIGDIR)/config $(BUILDDIR)/os/project-spec/configs
-	cp -r $(CONFIGDIR)/rootfs_config $(BUILDDIR)/os/project-spec/configs
+	ln -f $(CONFIGDIR)/config $(BUILDDIR)/os/project-spec/configs
+	ln -f $(CONFIGDIR)/rootfs_config $(BUILDDIR)/os/project-spec/configs
 	touch $@
 
 .PHONY: clean
