@@ -18,7 +18,7 @@ CONFIGDIR    := $(abspath  $(mkfile_dir)/PX)
 
 .PHONY: all
 # change to $(BUILDDIR)/.package
-all:  $(BUILDDIR)/.build
+all:  $(BUILDDIR)/.package
 
 copy: $(BUILDDIR)/.package
 	cd $(BUILDDIR)/os/images/linux; \
@@ -35,6 +35,7 @@ $(BUILDDIR)/.package: $(BUILDDIR)/.build
 
 $(BUILDDIR)/.build: $(BUILDDIR)/.import
 	@echo "-- Building Petalinux --"
+	cp -r $(CONFIGDIR)/system-user.dtsi $(BUILDDIR)/os/project-spec/meta-user/recipes-bsp/device-tree/files
 	cd $(BUILDDIR)/os; \
 	petalinux-build
 	touch $@
@@ -71,7 +72,7 @@ $(BUILDDIR)/os:
 	petalinux-create -t project -n os --template zynq
 	cp -r $(CONFIGDIR)/config $(BUILDDIR)/os/project-spec/configs
 	cp -r $(CONFIGDIR)/rootfs_config $(BUILDDIR)/os/project-spec/configs
-	cp -r $(CONFIGDIR)/system-user.dtsi $(BUILDDIR)/os/project-spec/meta-user/recipes-bsp/device-tree/files
+	touch $@
 
 .PHONY: clean
 clean:
