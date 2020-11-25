@@ -17,14 +17,13 @@ SOURCE       := $(abspath  $(EXPORTDIR)/$(TOP).xsa)
 CONFIGDIR    := $(abspath  $(mkfile_dir)/PX)
 
 .PHONY: all
-# change to $(BUILDDIR)/.package
 all:  $(BUILDDIR)/.package
 
+.PHONY: copy
 copy: $(BUILDDIR)/.package
-	cd $(BUILDDIR)/os/images/linux; \
-	cp BOOT.BIN /media/ian/BOOT; \
-	cp image.ub /media/ian/BOOT; \
-	cp system.dtb /media/ian/BOOT; \
+	cp $(BUILDDIR)/os/images/linux/BOOT.BIN -r /media/ian/BOOT
+	cp $(BUILDDIR)/os/images/linux/image.ub -r /media/ian/BOOT
+	cp $(BUILDDIR)/os/images/linux/system.dtb -r /media/ian/BOOT
 	umount /media/ian/BOOT; \
 	umount /media/ian/ROOT_FS; \
 
@@ -80,4 +79,4 @@ clean:
 
 .PHONY: help
 help:
-	@echo "make -f post_route_status.makefile {import|kernel|rootfs|build|all|sdcopy|clean|help}"
+	@echo "make -f post_route_status.makefile {all|import|kernel|rootfs|copy|clean|help}"
