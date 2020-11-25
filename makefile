@@ -1,12 +1,23 @@
-sim:
-	make -f makefile.sim
-
+.PHONY: build
 build:
-	make -f makefile.build
+	make -f build.makefile
 
+.PHONY: peta
 peta:
-	make -f makefile.peta
+	make -f peta.makefile
+
+.PHONY: simulate
+simulate:
+	make -f sim.makefile
+
+.PHONY: wave
+wave:
+	make -f sim.makefile wave
+
+.PHONY: copy
+copy:
+	make -f peta.makefile copy
 
 .PHONY: help
 help:
-	@echo "make {-f makefile.sim | -f makefile.build | -f makefile.peta | help}"
+	@echo "make {build|peta|simulate|wave|copy|help}"
