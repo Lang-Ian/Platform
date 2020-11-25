@@ -50,7 +50,8 @@ DOLINKS     := $(abspath  $(BUILDDIR)/questa/$(notdir $(DOFILES)))
 .PHONY: all
 all: $(BUILDDIR)/.sim
 
-simulate: $(BUILDDIR)/.sim
+.PHONY: wave
+wave: $(BUILDDIR)/.sim
 	cd $(BUILDDIR)/questa; \
 	vsim -view vsim.wlf -do "source $(DOLINKS)"
 
@@ -59,9 +60,6 @@ $(BUILDDIR)/.sim: $(DOLINKS) $(BUILDDIR)/.optimize
 	cd $(BUILDDIR)/questa; \
 	vsim -c -do "vsim -voptargs=+acc $(TOP).$(TB)_opt -wlf vsim.wlf; source $(firstword $(DOLINKS));  run 41 us;  exit;"
 	touch $@
-
-.PHONY: dofiles
-dofiles: $(DOLINKS)
 
 $(DOLINKS):
 	@echo -- Linking Do Files --
@@ -101,7 +99,9 @@ $(BUILDDIR)/.compile: $(BUILDDIR)/.export
 	touch $@
 
 .PHONY: export
-export: $(BUILDDIR)/.export
+export:
+	@echo -- Exporting DUT Top Level --
+	vivado -mode $(VIVADO_MODE) -notrace -nojournal -nolog -source export.tcl -tclargs -top $(TOP) -technology $(TECHNOLOGY) -project in_memory -sandbox $(BUILDDIR)
 
 $(BUILDDIR)/.export:
 	@echo -- Exporting DUT Top Level --
@@ -124,4 +124,4 @@ clean:
 
 .PHONY: help
 help:
-	@echo "make -f sim.makefile {export|compile|simulate|all|questa|vivado|clean|help}"
+	@echo "make -f sim.makefile {all|export|wave|questa|vivado|clean|help}"
