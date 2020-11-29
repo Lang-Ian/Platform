@@ -1,5 +1,9 @@
 SHELL = /bin/bash
 
+# To do:
+# Add the git commands for cloning u-boot and linux.
+# Add the unpacking of Ubuntu onto the SD Card.
+
 # Debug utility: make print-X prints value of X
 print-%: ; @echo $* = $($*)
 
