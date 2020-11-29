@@ -32,7 +32,7 @@
 
 //`include "krc3600_pkg.svh"
 //import krc3600_pkg::*;
-module top(
+module platform(
    // Port Declarations
 
   // DDR3 - added afer exporting from HDL Designer
@@ -136,8 +136,8 @@ module top(
    inout   wire            X1_2_204,
    inout   wire            X1_2_203,
    inout   wire            X1_2_202,
-   inout   wire            X1_2_201,
-   inout   wire            X1_2_200,
+   input   wire            X1_2_201,
+   input   wire            X1_2_200,
    inout   wire            X1_2_109,
    inout   wire            X1_2_108,
    inout   wire            X1_2_107,
@@ -145,7 +145,7 @@ module top(
    inout   wire            X1_2_105,
    inout   wire            X1_2_104,
    inout   wire            X1_2_103,
-   inout   wire            X1_2_102,
+   output  wire            X1_2_102,
    inout   wire            X1_2_101,
    inout   wire            X1_2_100,
    inout   wire            X1_2_011,
@@ -172,33 +172,33 @@ module top(
    inout   wire            X2_1_302,
    inout   wire            X2_1_301,
    inout   wire            X2_1_300,
-   inout   wire            X2_1_211,
-   inout   wire            X2_1_210,
-   inout   wire            X2_1_209,
-   inout   wire            X2_1_208,
-   inout   wire            X2_1_207,
-   inout   wire            X2_1_206,
-   inout   wire            X2_1_205,
-   inout   wire            X2_1_204,
+   output   wire            X2_1_211,
+   output   wire            X2_1_210,
+   output   wire            X2_1_209,
+   output   wire            X2_1_208,
+   output   wire            X2_1_207,
+   output   wire            X2_1_206,
+   output   wire            X2_1_205,
+   output   wire            X2_1_204,
    inout   wire            X2_1_203,
    inout   wire            X2_1_202,
    inout   wire            X2_1_201,
-   inout   wire            X2_1_200,
+   input   wire            X2_1_200,
    inout   wire            X2_1_111,
-   inout   wire            X2_1_110,
-   inout   wire            X2_1_109,
-   inout   wire            X2_1_108,
-   inout   wire            X2_1_107,
-   inout   wire            X2_1_106,
-   inout   wire            X2_1_105,
-   inout   wire            X2_1_104,
-   inout   wire            X2_1_103,
-   inout   wire            X2_1_102,
-   inout   wire            X2_1_101,
-   inout   wire            X2_1_100,
-   inout   wire            X2_1_011,
-   inout   wire            X2_1_010,
-   inout   wire            X2_1_009,
+   input   wire            X2_1_110,
+   output   wire            X2_1_109,
+   output   wire           X2_1_108,
+   output   wire            X2_1_107,
+   output   wire            X2_1_106,
+   output   wire            X2_1_105,
+   output   wire            X2_1_104,
+   output   wire            X2_1_103,
+   input   wire            X2_1_102,
+   input   wire            X2_1_101,
+   input   wire            X2_1_100,
+   input   wire            X2_1_011,
+   input   wire            X2_1_010,
+   output   wire           X2_1_009,
    inout   wire            X2_1_008,
    inout   wire            X2_1_007,
    inout   wire            X2_1_006,
@@ -212,14 +212,14 @@ module top(
    inout   wire            X2_2_310,
    inout   wire            X2_2_309,
    inout   wire            X2_2_308,
-   inout   wire            X2_2_307,
-   inout   wire            X2_2_306,
-   inout   wire            X2_2_305,
-   inout   wire            X2_2_304,
-   inout   wire            X2_2_303,
-   inout   wire            X2_2_302,
-   inout   wire            X2_2_301,
-   inout   wire            X2_2_300,
+   output   wire            X2_2_307,
+   output   wire            X2_2_306,
+   output   wire            X2_2_305,
+   output   wire            X2_2_304,
+   output   wire            X2_2_303,
+   output   wire            X2_2_302,
+   output   wire            X2_2_301,
+   output   wire            X2_2_300,
    inout   wire            X2_2_211,
    inout   wire            X2_2_210,
    inout   wire            X2_2_209,
@@ -258,28 +258,28 @@ module top(
    inout   wire            X2_2_000,
    // Transceiver Connections
    //	inout wire t_mgtgroup1 X1_MGT1,
-   inout   wire            X1_MGT_RX_04_P,
+   input   wire            X1_MGT_RX_04_P,
    // Transceiver Connections
    //	inout wire t_mgtgroup1 X1_MGT1,
-   inout   wire            X1_MGT_RX_04_N,
+   input   wire            X1_MGT_RX_04_N,
    // Transceiver Connections
    //	inout wire t_mgtgroup1 X1_MGT1,
-   inout   wire            X1_MGT_RX_05_P,
+   input   wire            X1_MGT_RX_05_P,
    // Transceiver Connections
    //	inout wire t_mgtgroup1 X1_MGT1,
-   inout   wire            X1_MGT_RX_05_N,
+   input   wire            X1_MGT_RX_05_N,
    // Transceiver Connections
    //	inout wire t_mgtgroup1 X1_MGT1,
-   inout   wire            X1_MGT_RX_06_P,
+   input   wire            X1_MGT_RX_06_P,
    // Transceiver Connections
    //	inout wire t_mgtgroup1 X1_MGT1,
-   inout   wire            X1_MGT_RX_06_N,
+   input   wire            X1_MGT_RX_06_N,
    // Transceiver Connections
    //	inout wire t_mgtgroup1 X1_MGT1,
-   inout   wire            X1_MGT_RX_07_P,
+   input   wire            X1_MGT_RX_07_P,
    // Transceiver Connections
    //	inout wire t_mgtgroup1 X1_MGT1,
-   inout   wire            X1_MGT_RX_07_N,
+   input   wire            X1_MGT_RX_07_N,
    input   wire            X1_MGT_CLK_1_P,
    input   wire            X1_MGT_CLK_1_N,
    // PS DDR Connections
@@ -378,14 +378,14 @@ module top(
    */
    input   wire            X1_2_110,
    input   wire            X1_2_111,
-   inout   wire            X1_MGT_TX_06_N,
-   inout   wire            X1_MGT_TX_07_N,
-   inout   wire            X1_MGT_TX_05_N,
-   inout   wire            X1_MGT_TX_06_P,
-   inout   wire            X1_MGT_TX_04_N,
-   inout   wire            X1_MGT_TX_07_P,
-   inout   wire            X1_MGT_TX_05_P,
-   inout   wire            X1_MGT_TX_04_P
+   output   wire            X1_MGT_TX_06_N,
+   output   wire            X1_MGT_TX_07_N,
+   output   wire            X1_MGT_TX_05_N,
+   output   wire            X1_MGT_TX_06_P,
+   output   wire            X1_MGT_TX_04_N,
+   output   wire            X1_MGT_TX_07_P,
+   output   wire            X1_MGT_TX_05_P,
+   output   wire            X1_MGT_TX_04_P
 );
 
 /* junk also
@@ -928,11 +928,20 @@ krc3600_usb_hub_reset #(12,4095) i_hub_reset(
 
 // HDL Embedded Text Block 1 eb1
 // PHY signals on 2nd Ethernet Card
+/*
+CAN'T BELIEVE I DID THIS!!!
 assign RGMII_0_td =   { X2_1_107, X2_1_106, X2_1_104, X2_1_103 };
 assign    X2_1_102 = RGMII_0_rd[3];
 assign    X2_1_101 = RGMII_0_rd[2];
 assign    X2_1_011 = RGMII_0_rd[1];
 assign    X2_1_010 = RGMII_0_rd[0];
+*/
+assign RGMII_0_rd =   { X2_1_102, X2_1_101, X2_1_011, X2_1_010 };
+assign X2_1_107 = RGMII_0_td[3];
+assign X2_1_106 = RGMII_0_td[2];
+assign X2_1_104 = RGMII_0_td[1];
+assign X2_1_103 = RGMII_0_td[0];
+
 assign X2_2_300 = GPIO2_1_tri_o[0];
 assign X2_2_301 = GPIO2_1_tri_o[1];
 assign X2_2_302 = GPIO2_1_tri_o[2];
@@ -985,4 +994,4 @@ assign aurora_status_7_0  =  {gt_pll_lock3, soft_err3, hard_err3, lane_up3, chan
 // ModuleWare code(v1.12) for instance 'U_3' of 'ppulldown'
 pulldown  U_3 (gt_rxcdrovrden_in);
 
-endmodule // top
+endmodule // platform

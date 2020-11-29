@@ -22,8 +22,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 interface th_IF;
-	   parameter int T_CLK = 60;    // 166MHz
-	   parameter int T_MGT = 64;    // 156.25MHz
+	   parameter int T_CLK = 60;   // 166MHz
+	   parameter int T_MGT = 64;   // 156.25MHz
 
 
 
@@ -46,10 +46,12 @@ interface th_IF;
 	    wire X1_2_011, X1_2_010, X1_2_009, X1_2_008, X1_2_007, X1_2_006, X1_2_005, X1_2_004, X1_2_003, X1_2_002, X1_2_001, X1_2_000;
 
 	    wire X2_1_311, X2_1_310, X2_1_309, X2_1_308, X2_1_307, X2_1_306, X2_1_305, X2_1_304, X2_1_303, X2_1_302, X2_1_301, X2_1_300;
-	    wire X2_1_211, X2_1_210, X2_1_209, X2_1_208, X2_1_207, X2_1_206, X2_1_205, X2_1_204, X2_1_203, X2_1_202, X2_1_201, X2_1_200;
-	    wire X2_1_111, X2_1_110, X2_1_109, X2_1_108, X2_1_107, X2_1_106, X2_1_105, X2_1_104, X2_1_103, X2_1_102, X2_1_101, X2_1_100;
-	    wire X2_1_011, X2_1_010, X2_1_009, X2_1_008, X2_1_007, X2_1_006, X2_1_005, X2_1_004, X2_1_003, X2_1_002, X2_1_001, X2_1_000;
-
+	    wire X2_1_211, X2_1_210, X2_1_209, X2_1_208, X2_1_207, X2_1_206, X2_1_205, X2_1_204, X2_1_203, X2_1_202, X2_1_201 ;
+reg X2_1_200;
+	    wire X2_1_111,  X2_1_109, X2_1_108, X2_1_107, X2_1_106, X2_1_105, X2_1_104, X2_1_103, X2_1_100;
+reg X2_1_102, X2_1_101, X2_1_110;
+	    wire  X2_1_009, X2_1_007, X2_1_006, X2_1_005, X2_1_004, X2_1_003, X2_1_002, X2_1_001, X2_1_000, X2_1_008;
+reg X2_1_011, X2_1_010;
 	    wire X2_2_311, X2_2_310, X2_2_309, X2_2_308, X2_2_307, X2_2_306, X2_2_305, X2_2_304, X2_2_303, X2_2_302, X2_2_301, X2_2_300;
 	    wire X2_2_211, X2_2_210, X2_2_209, X2_2_208, X2_2_207, X2_2_206, X2_2_205, X2_2_204, X2_2_203, X2_2_202, X2_2_201, X2_2_200;
 	    wire X2_2_111, X2_2_110, X2_2_109, X2_2_108, X2_2_107, X2_2_106, X2_2_105, X2_2_104, X2_2_103, X2_2_102, X2_2_101, X2_2_100;
@@ -171,16 +173,15 @@ initial begin : main
         top_tb.i_top.i_dgrm_wrapper.dgrm_i.processing_system7_0.inst.fpga_soft_reset(32'h0);
 
 
-
         // Wait about 15us for reset to complete.
-        #150000
+        #15us
 
 		//Re-reset the PL
 		top_tb.i_top.i_dgrm_wrapper.dgrm_i.processing_system7_0.inst.fpga_soft_reset(32'h1);
 		top_tb.i_top.i_dgrm_wrapper.dgrm_i.processing_system7_0.inst.fpga_soft_reset(32'h0);
 
        // Wait about 15us for reset to complete.
-			 #150000
+			 #15us
 
 								// Turn on the flasher.
                 $display( "turning on the flasher (3 big LEDs)" );
@@ -382,11 +383,11 @@ end endgenerate
     pullup( IF.X2_1_309 ); // [9] );  // SDA
 
     // Pull  up the MDIO data line
-    pullup( IF.X2_1_008  );  // MDIO_PHY_0_mdio_io
+//    pullup( IF.X2_1_008  );  // MDIO_PHY_0_mdio_io
 
 
 
-    top i_top(
+    platform i_top(
 	     // I/O Groups
 	     /*
 		.X1_1      ( IF.X1_1    ),

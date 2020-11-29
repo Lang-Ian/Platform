@@ -2,6 +2,9 @@
 #             2) Vivado Design Suite, User Guide, Logic Simulation, UG900
 # To do:
 # Add a path to the IP library.
+# Add paths to the RTL, IPs, BDs & sandobx.
+# I think it would be better to import the IPs simply by giving a directory path.  But I would have to do some reorganisation first.
+# I should also probably not have the relative directories to the RTL and block diagrams.
 
 set XILINX_LIBS "/media/ian/Toshiba/Vivado/2019.2/xilinx_ibs"
 
@@ -10,11 +13,12 @@ package require try;
 package require cmdline 1.3.1;
 
 set options {
-    { top.arg           "Module Name"     }
-    { technology.arg    "Technology"      }
-    { project.arg       "Project Name"    }
-    { project.arg       "Project Name"    }
-    { interactive       "interactive mode"  }
+    { top.arg           "Module Name"   }
+    { technology.arg    "Technology"    }
+    { project.arg       "Project Name"  }
+    { project.arg       "Project Name"  }
+    { sandbox.arg       "Sandbox Directory"  }
+    { not_used          "not used"      }
 }
 
 try {
@@ -28,7 +32,7 @@ puts "Module Name  = $params(top)"
 puts "Technology   = $params(technology)"
 puts "Project Name = $params(project)"
 
-create_project -part $params(technology) $params(project)  ./sandbox/ -force
+create_project -part $params(technology) $params(project)  $params(sandbox)/ -force
 
 set_property  ip_repo_paths  ./HW [current_project]
 update_ip_catalog
@@ -54,37 +58,27 @@ foreach {bd} [list {*}$bds] {
   puts "Adding block diagam ${bd}"
   source ${bd}
   set fbasename [file rootname [file tail $bd]]; # remove the file extension
-  make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/${fbasename}/${fbasename}.bd] -top
-  add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/${fbasename}/hdl/${fbasename}_wrapper.v
+  make_wrapper -files [get_files $params(sandbox)/$params(project).srcs/sources_1/bd/${fbasename}/${fbasename}.bd] -top
+  add_files -norecurse  $params(sandbox)/$params(project).srcs/sources_1/bd/${fbasename}/hdl/${fbasename}_wrapper.v
 }
-#source ./HW/src/bd/dgrm.tcl
-#source ./HW/src/bd/flasher.tcl
 
-# Make the wrapper
-#make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/dgrm/dgrm.bd] -top
-#add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/dgrm/hdl/dgrm_wrapper.v
-
-#make_wrapper -files [get_files ./sandbox/$params(project).srcs/sources_1/bd/flasher/flasher.bd] -top
-#add_files -norecurse  ./sandbox/$params(project).srcs/sources_1/bd/flasher/hdl/flasher_wrapper.v
-
-# Export the comple script
+# Export the compile script
 set_property top $params(top) [current_fileset -simset]
 update_compile_order
 
-# Wow, if I do this first...
+# If I don't do this first,...
 launch_simulation -scripts_only -install_path /media/ian/Toshiba/Questa/2019.4/questasim/bin
 
-# ...then this also works.
+# ...then this doesn't work.
 export_ip_user_files -no_script -force
 export_simulation -force \
                   -of_objects [get_filesets sim_1] \
                   -lib_map_path ${XILINX_LIBS} \
-                  -export_source_files -directory "./sandbox" \
+                  -export_source_files -directory "$params(sandbox)" \
                   -simulator questa \
-                  -ip_user_files_dir "./sandbox/$params(project).ip_user_files" \
-                  -ipstatic_source_dir "./sandbox/$params(project).ip_user_files/ipstatic" \
+                  -ip_user_files_dir   "$params(sandbox)/$params(project).ip_user_files" \
+                  -ipstatic_source_dir "$params(sandbox)/$params(project).ip_user_files/ipstatic" \
                   -use_ip_compiled_libs
 
-
-exec touch export
+exec touch $params(sandbox)/.export
 exit

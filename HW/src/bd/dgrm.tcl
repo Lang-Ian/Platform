@@ -413,7 +413,7 @@ proc create_hier_cell_ethernet { parentCell nameHier } {
   set_property -dict [ list \
    CONFIG.C_EXTERNAL_CLOCK {false} \
    CONFIG.C_PHYADDR {31} \
-   CONFIG.RGMII_TXC_SKEW {0} \
+   CONFIG.RGMII_TXC_SKEW {2} \
    CONFIG.SupportLevel {Include_Shared_Logic_in_Core} \
  ] $gmii2rgmii_1
 
@@ -550,9 +550,11 @@ proc create_root_design { parentCell } {
    CONFIG.FREQ_HZ {75428566} \
    ] $M_AXIS_3
 
-  set PMOD_1 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 PMOD_1 ]
-
   set PMOD_2 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 PMOD_2 ]
+
+  set PMOD_PL [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 PMOD_PL ]
+
+  set PMOD_PS [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:gpio_rtl:1.0 PMOD_PS ]
 
   set RGMII_0 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:rgmii_rtl:1.0 RGMII_0 ]
 
@@ -636,6 +638,8 @@ proc create_root_design { parentCell } {
   set aurora_status_6_0 [ create_bd_port -dir I -from 4 -to 0 aurora_status_6_0 ]
   set aurora_status_7_0 [ create_bd_port -dir I -from 4 -to 0 aurora_status_7_0 ]
   set init_calib_complete_0 [ create_bd_port -dir O init_calib_complete_0 ]
+  set private_interrupt_0 [ create_bd_port -dir I -type intr private_interrupt_0 ]
+  set private_interrupt_1 [ create_bd_port -dir I -type intr private_interrupt_1 ]
   set soft_interrupt_0 [ create_bd_port -dir O -type intr soft_interrupt_0 ]
   set sys_reset_N [ create_bd_port -dir I -type rst sys_reset_N ]
   set usb_reset_0 [ create_bd_port -dir O -type rst usb_reset_0 ]
@@ -720,7 +724,7 @@ proc create_root_design { parentCell } {
   # Create instance: general_0, and set properties
   set general_0 [ create_bd_cell -type ip -vlnv user.org:user:general:1.0 general_0 ]
   set_property -dict [ list \
-   CONFIG.c_VERSION {0x29052020} \
+   CONFIG.c_VERSION {0x13112020} \
  ] $general_0
 
   # Create instance: general_reset, and set properties
@@ -749,8 +753,9 @@ proc create_root_design { parentCell } {
   # Create instance: pmod, and set properties
   set pmod [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 pmod ]
   set_property -dict [ list \
+   CONFIG.C_ALL_INPUTS {1} \
    CONFIG.C_GPIO2_WIDTH {4} \
-   CONFIG.C_GPIO_WIDTH {4} \
+   CONFIG.C_GPIO_WIDTH {2} \
    CONFIG.C_INTERRUPT_PRESENT {1} \
    CONFIG.C_IS_DUAL {1} \
  ] $pmod
@@ -812,9 +817,9 @@ proc create_root_design { parentCell } {
    CONFIG.PCW_CLK2_FREQ {73764702} \
    CONFIG.PCW_CLK3_FREQ {43241379} \
    CONFIG.PCW_CORE0_FIQ_INTR {0} \
-   CONFIG.PCW_CORE0_IRQ_INTR {0} \
+   CONFIG.PCW_CORE0_IRQ_INTR {1} \
    CONFIG.PCW_CORE1_FIQ_INTR {0} \
-   CONFIG.PCW_CORE1_IRQ_INTR {0} \
+   CONFIG.PCW_CORE1_IRQ_INTR {1} \
    CONFIG.PCW_CPU_CPU_6X4X_MAX_RANGE {667} \
    CONFIG.PCW_CPU_CPU_PLL_FREQMHZ {1254} \
    CONFIG.PCW_CPU_PERIPHERAL_CLKSRC {ARM PLL} \
@@ -886,7 +891,7 @@ proc create_root_design { parentCell } {
    CONFIG.PCW_EN_EMIO_CD_SDIO1 {0} \
    CONFIG.PCW_EN_EMIO_ENET0 {0} \
    CONFIG.PCW_EN_EMIO_ENET1 {1} \
-   CONFIG.PCW_EN_EMIO_GPIO {0} \
+   CONFIG.PCW_EN_EMIO_GPIO {1} \
    CONFIG.PCW_EN_EMIO_I2C0 {1} \
    CONFIG.PCW_EN_EMIO_I2C1 {0} \
    CONFIG.PCW_EN_EMIO_MODEM_UART0 {0} \
@@ -964,9 +969,9 @@ proc create_root_design { parentCell } {
    CONFIG.PCW_GP1_NUM_READ_THREADS {4} \
    CONFIG.PCW_GP1_NUM_WRITE_THREADS {4} \
    CONFIG.PCW_GPIO_BASEADDR {0xE000A000} \
-   CONFIG.PCW_GPIO_EMIO_GPIO_ENABLE {0} \
-   CONFIG.PCW_GPIO_EMIO_GPIO_IO {<Select>} \
-   CONFIG.PCW_GPIO_EMIO_GPIO_WIDTH {64} \
+   CONFIG.PCW_GPIO_EMIO_GPIO_ENABLE {1} \
+   CONFIG.PCW_GPIO_EMIO_GPIO_IO {2} \
+   CONFIG.PCW_GPIO_EMIO_GPIO_WIDTH {2} \
    CONFIG.PCW_GPIO_HIGHADDR {0xE000AFFF} \
    CONFIG.PCW_GPIO_MIO_GPIO_ENABLE {1} \
    CONFIG.PCW_GPIO_MIO_GPIO_IO {MIO} \
@@ -1606,11 +1611,12 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net gmii_to_rgmii_0_RGMII [get_bd_intf_ports RGMII_0] [get_bd_intf_pins ethernet/RGMII_0]
   connect_bd_intf_net -intf_net gp_M02_AXI [get_bd_intf_pins axi_interconnect_0/M02_AXI] [get_bd_intf_pins axi_timer_0/S_AXI]
   connect_bd_intf_net -intf_net mig_7series_0_DDR3 [get_bd_intf_ports DDR3_0] [get_bd_intf_pins mig_7series_0/DDR3]
-  connect_bd_intf_net -intf_net pmod_GPIO [get_bd_intf_ports PMOD_1] [get_bd_intf_pins pmod/GPIO]
+  connect_bd_intf_net -intf_net pmod_GPIO [get_bd_intf_ports PMOD_PL] [get_bd_intf_pins pmod/GPIO]
   connect_bd_intf_net -intf_net pmod_GPIO2 [get_bd_intf_ports PMOD_2] [get_bd_intf_pins pmod/GPIO2]
   connect_bd_intf_net -intf_net processing_system7_0_DDR [get_bd_intf_ports DDR] [get_bd_intf_pins processing_system7_0/DDR]
   connect_bd_intf_net -intf_net processing_system7_0_FIXED_IO [get_bd_intf_ports FIXED_IO] [get_bd_intf_pins processing_system7_0/FIXED_IO]
   connect_bd_intf_net -intf_net processing_system7_0_GMII_ETHERNET_1 [get_bd_intf_pins ethernet/GMII] [get_bd_intf_pins processing_system7_0/GMII_ETHERNET_1]
+  connect_bd_intf_net -intf_net processing_system7_0_GPIO_0 [get_bd_intf_ports PMOD_PS] [get_bd_intf_pins processing_system7_0/GPIO_0]
   connect_bd_intf_net -intf_net processing_system7_0_IIC_0 [get_bd_intf_ports IIC_0_0] [get_bd_intf_pins processing_system7_0/IIC_0]
   connect_bd_intf_net -intf_net processing_system7_0_MDIO_ETHERNET_1 [get_bd_intf_pins ethernet/MDIO_GEM] [get_bd_intf_pins processing_system7_0/MDIO_ETHERNET_1]
   connect_bd_intf_net -intf_net processing_system7_0_M_AXI_GP1 [get_bd_intf_pins axi_interconnect_1/S00_AXI] [get_bd_intf_pins processing_system7_0/M_AXI_GP1]
@@ -1618,6 +1624,8 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net smartconnect_0_M01_AXI [get_bd_intf_pins processing_system7_0/S_AXI_HP2] [get_bd_intf_pins smartconnect_0/M01_AXI]
 
   # Create port connections
+  connect_bd_net -net Core0_nIRQ_0_1 [get_bd_ports private_interrupt_0] [get_bd_pins processing_system7_0/Core0_nIRQ]
+  connect_bd_net -net Core1_nIRQ_0_1 [get_bd_ports private_interrupt_1] [get_bd_pins processing_system7_0/Core1_nIRQ]
   connect_bd_net -net Ethernet_LEDs_0_LED [get_bd_ports LED_0] [get_bd_pins ethernet/LED_0]
   connect_bd_net -net FCLK_CLK1 [get_bd_pins ethernet/clkin] [get_bd_pins mig_7series_0/clk_ref_i] [get_bd_pins processing_system7_0/FCLK_CLK1]
   connect_bd_net -net M03_ARESETN_1 [get_bd_pins aurora_reset/interconnect_aresetn] [get_bd_pins axi_interconnect_1/ARESETN] [get_bd_pins axi_interconnect_1/M00_ARESETN] [get_bd_pins axi_interconnect_1/M01_ARESETN] [get_bd_pins axi_interconnect_1/M02_ARESETN] [get_bd_pins axi_interconnect_1/M03_ARESETN] [get_bd_pins axi_interconnect_1/S00_ARESETN]
