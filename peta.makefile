@@ -35,6 +35,12 @@ $(BUILDDIR)/.package: $(BUILDDIR)/.build
 	petalinux-package --boot --fsbl zynq_fsbl.elf --fpga system.bit --uboot --force
 	touch $@
 
+.PHONY: export
+export:  $(BUILDDIR)/.import
+	@echo "-- Exporting for Vitis --"
+	cd $(BUILDDIR)/os; \
+	petalinux-build --sdk
+
 $(BUILDDIR)/.build: $(BUILDDIR)/.import
 	@echo "-- Building Petalinux --"
 	cp -r $(CONFIGDIR)/system-user.dtsi $(BUILDDIR)/os/project-spec/meta-user/recipes-bsp/device-tree/files
@@ -82,4 +88,4 @@ clean:
 
 .PHONY: help
 help:
-	@echo "make -f post_route_status.makefile {all|import|kernel|rootfs|copy|clean|help}"
+	@echo "make -f peta.makefile {all|import|export|kernel|rootfs|copy|clean|help}"
