@@ -36,7 +36,7 @@ $(BUILDDIR)/.package: $(BUILDDIR)/.build
 	touch $@
 
 .PHONY: export
-export:  $(BUILDDIR)/.import
+export:  $(BUILDDIR)/.build
 	@echo "-- Exporting for Vitis --"
 	cd $(BUILDDIR)/os; \
 	petalinux-build --sdk
