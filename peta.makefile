@@ -43,7 +43,7 @@ export:  $(BUILDDIR)/.import
 
 $(BUILDDIR)/.build: $(BUILDDIR)/.import
 	@echo "-- Building Petalinux --"
-	ln -f $(CONFIGDIR)/system-user.dtsi $(BUILDDIR)/os/project-spec/meta-user/recipes-bsp/device-tree/files
+	cp -f $(CONFIGDIR)/system-user.dtsi $(BUILDDIR)/os/project-spec/meta-user/recipes-bsp/device-tree/files
 	cd $(BUILDDIR)/os; \
 	petalinux-build
 	touch $@
@@ -84,6 +84,7 @@ $(BUILDDIR)/os:
 	petalinux-create -t project -n os --template zynq
 	cp -f $(CONFIGDIR)/config $(BUILDDIR)/os/project-spec/configs/config
 	cp -f $(CONFIGDIR)/rootfs_config $(BUILDDIR)/os/project-spec/configs/rootfs_config
+	mkdir -p $(BUILDDIR)/os/build/tmp/work/plnx_zynq7-xilinx-linux-gnueabi/linux-xlnx/4.19-xilinx-v2019.2+git999-r0/linux-xlnx-4.19-xilinx-v2019.2+git999
 	cp -f $(CONFIGDIR)/.config $(BUILDDIR)/os/build/tmp/work/plnx_zynq7-xilinx-linux-gnueabi/linux-xlnx/4.19-xilinx-v2019.2+git999-r0/linux-xlnx-4.19-xilinx-v2019.2+git999/.config
 
 .PHONY: clean
