@@ -43,7 +43,7 @@ export:  $(BUILDDIR)/.build
 
 $(BUILDDIR)/.build: $(BUILDDIR)/.import
 	@echo "-- Building Petalinux --"
-	cp -f $(CONFIGDIR)/system-user.dtsi $(BUILDDIR)/os/project-spec/meta-user/recipes-bsp/device-tree/files
+	ln -f $(CONFIGDIR)/system-user.dtsi $(BUILDDIR)/os/project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi
 	cd $(BUILDDIR)/os; \
 	petalinux-build
 	touch $@
