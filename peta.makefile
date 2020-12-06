@@ -43,7 +43,7 @@ export:  $(BUILDDIR)/.import
 
 $(BUILDDIR)/.build: $(BUILDDIR)/.import
 	@echo "-- Building Petalinux --"
-	cp -r $(CONFIGDIR)/system-user.dtsi $(BUILDDIR)/os/project-spec/meta-user/recipes-bsp/device-tree/files
+	ln -f $(CONFIGDIR)/system-user.dtsi $(BUILDDIR)/os/project-spec/meta-user/recipes-bsp/device-tree/files
 	cd $(BUILDDIR)/os; \
 	petalinux-build
 	touch $@
@@ -53,24 +53,28 @@ rootfs: $(BUILDDIR)/.import
 	@echo "-- Configuring Root File System through the GUI --"
 	cd $(BUILDDIR)/os; \
 	petalinux-config -c rootfs
+	cp -f $(BUILDDIR)/os/project-spec/configs/rootfs_config $(CONFIGDIR)/rootfs_config
 
 .PHONY: kernel
 kernel: $(BUILDDIR)/.import
 	@echo "-- Configuring Kernel through the GUI --"
 	cd $(BUILDDIR)/os; \
 	petalinux-config -c kernel
+	cp -f $(BUILDDIR)/os/build/tmp/work/plnx_zynq7-xilinx-linux-gnueabi/linux-xlnx/4.19-xilinx-v2019.2+git999-r0/linux-xlnx-4.19-xilinx-v2019.2+git999/.config $(CONFIGDIR)/.config
 
 .PHONY: import
 import: $(BUILDDIR)/os
 	@echo "-- Importing .xsa file with GUI stage --"
 	cd $(BUILDDIR)/os; \
 	petalinux-config --get-hw-description=$(EXPORTDIR)
+	cp -f $(BUILDDIR)/os/project-spec/configs/config $(CONFIGDIR)/config
 	touch $(BUILDDIR)/.import
 
 $(BUILDDIR)/.import: $(BUILDDIR)/os
 	@echo "-- Importing .xsa file in silent mode --"
 	cd $(BUILDDIR)/os; \
 	petalinux-config --silentconfig --get-hw-description=$(EXPORTDIR)
+	cp -f $(BUILDDIR)/os/project-spec/configs/config $(CONFIGDIR)/config
 	touch $@
 
 $(BUILDDIR)/os:
@@ -78,9 +82,9 @@ $(BUILDDIR)/os:
 	mkdir -p $(BUILDDIR)
 	cd $(BUILDDIR); \
 	petalinux-create -t project -n os --template zynq
-	ln -f $(CONFIGDIR)/config $(BUILDDIR)/os/project-spec/configs
-	ln -f $(CONFIGDIR)/rootfs_config $(BUILDDIR)/os/project-spec/configs
-	touch $@
+	cp -f $(CONFIGDIR)/config $(BUILDDIR)/os/project-spec/configs/config
+	cp -f $(CONFIGDIR)/rootfs_config $(BUILDDIR)/os/project-spec/configs/rootfs_config
+	cp -f $(CONFIGDIR)/.config $(BUILDDIR)/os/build/tmp/work/plnx_zynq7-xilinx-linux-gnueabi/linux-xlnx/4.19-xilinx-v2019.2+git999-r0/linux-xlnx-4.19-xilinx-v2019.2+git999/.config
 
 .PHONY: clean
 clean:
