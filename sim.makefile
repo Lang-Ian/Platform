@@ -61,7 +61,7 @@ $(BUILDDIR)/.sim: $(DOLINKS) $(BUILDDIR)/.optimize
 	vsim -c -do "vsim -voptargs=+acc $(TOP).$(TB)_opt -wlf vsim.wlf; source $(lastword $(DOLINKS));  run 41 us;  exit;"
 	touch $@
 
-$(DOLINKS):  $(BUILDDIR)/questa/%.do : $(SOURCEDIR)/%.do
+$(DOLINKS):  $(BUILDDIR)/questa/%.do : $(SOURCEDIR)/%.do  $(BUILDDIR)/.optimize
 	@echo -- Linking Do Files --
 	ln -f $< $@
 
