@@ -80,5 +80,6 @@ export_simulation -force \
                   -ipstatic_source_dir "$params(sandbox)/$params(project).ip_user_files/ipstatic" \
                   -use_ip_compiled_libs
 
+# Record the fact that the script has run for use by sim.makefile.
 exec touch $params(sandbox)/.export
 exit
