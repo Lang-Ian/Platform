@@ -25,7 +25,7 @@ SHELL = /bin/bash
 # Edit the auto-generated .do files so that they still work.
 # It should be possible to run the simulation again - perhaps with a different test.
 # Update the RTL version number each build.
-# Sort out a way to re-run the simulation.  I think as it stands, it probably doesn't work.
+# Sort out a way to re-run the simulation.  I think as it stands, it probably doesn't work without modifying a source file.
 
 # Debug utility: make print-X prints value of X
 print-%: ; @echo $* = $($*)
