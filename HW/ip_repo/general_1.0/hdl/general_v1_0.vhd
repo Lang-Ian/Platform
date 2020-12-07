@@ -454,6 +454,7 @@ end case;
 
 
       -- Aurora PMA Init - extend the pulse to 256 clock cycles
+      -- There is a specification on this signal.  I haven't checked whether I'm observing it, so I should revisit this file at some point.
       if registers.aurora_pma_init = "1" then
           count := count - to_unsigned( 1, count'length );
           if count = to_unsigned( 0, count'length ) then
