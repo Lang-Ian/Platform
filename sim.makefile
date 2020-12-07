@@ -3,6 +3,7 @@ SHELL = /bin/bash
 # Reference:  https://dev.to/deciduously/how-to-make-a-makefile-1dep
 
 # To do:
+# Organise this list, because it is out of date.
 # Add a global interactive argument so that each stage can be run manually.
 # Maybe add constants here for the arguments to export.tcl.
 # Do a search for the files to compile.
