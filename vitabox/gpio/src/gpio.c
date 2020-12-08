@@ -1,5 +1,9 @@
 // Reference:  1) https://www.youtube.com/watch?v=lQRCDl0tFiQ&t=2200s
 //             2) https://github.com/torvalds/linux/blob/master/include/uapi/linux/gpio.h
+//             3) https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18841873/Linux%2BDrivers
+//                This is all the Xilinx Linux drivers.  They are actually still using SYSFS for GPIO,
+//				  not this method, which is called CHARDEV and is the recommended way now.
+//                Nevertheless, it's good to know where the driver iformation is at last.
 // This is a user-space program.
 // To do:
 // open a different file pointer for the LEDs and for the buttons
