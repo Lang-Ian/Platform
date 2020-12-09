@@ -21,8 +21,8 @@ int main()
 {
     struct gpiochip_info cinfo;
     struct gpioline_info linfo;
-    struct gpiohandle_request req2,  req3;
-    struct gpiohandle_data    data2, data3;
+    struct gpiohandle_request req2,  req3,  req4;
+    struct gpiohandle_data    data2, data3, data4;
     int flash = 0;
 
 	printf( "Accessing LEDs\n");
@@ -35,7 +35,6 @@ int main()
     (void) ioctl( fd2, GPIO_GET_LINEINFO_IOCTL, &linfo );
     fprintf( stdout, "line %2d: %s\n", linfo.line_offset, linfo.name );
 
-
     int fd3 = open( "/dev/gpiochip3", 0 );
     (void) ioctl( fd3, GPIO_GET_CHIPINFO_IOCTL, &cinfo );
     fprintf( stdout, "GPIO chip: %s, \"%s\", %u GPIO lines\n", cinfo.name, cinfo.label, cinfo.lines );
@@ -44,26 +43,36 @@ int main()
     (void) ioctl( fd3, GPIO_GET_LINEINFO_IOCTL, &linfo );
     fprintf( stdout, "line %2d: %s\n", linfo.line_offset, linfo.name );
 
+    int fd4 = open( "/dev/gpiochip4", 0 );
+    (void) ioctl( fd4, GPIO_GET_CHIPINFO_IOCTL, &cinfo );
+    fprintf( stdout, "GPIO chip: %s, \"%s\", %u GPIO lines\n", cinfo.name, cinfo.label, cinfo.lines );
+
+    linfo.line_offset = 1;
+    (void) ioctl( fd4, GPIO_GET_LINEINFO_IOCTL, &linfo );
+    fprintf( stdout, "line %2d: %s\n", linfo.line_offset, linfo.name );
+
+//    return 1;
+
     req2.lineoffsets[0] = 0;
     req2.lineoffsets[1] = 1;
-    req2.lineoffsets[2] = 2;
-    req2.lineoffsets[3] = 3;
-
 
     req3.lineoffsets[0] = 0;
     req3.lineoffsets[1] = 1;
     req3.lineoffsets[2] = 2;
     req3.lineoffsets[3] = 3;
 
+    req4.lineoffsets[0] = 54;
+    req4.lineoffsets[1] = 55;
+
     while( 1 )
     {
-    // read
+    // read PL switches
     data2.values[0] = 1;
     data2.values[1] = 1;
 
-    req2.lines = 2;  // Both switches
+    req2.lines = 2;  // Both push buttons
     req2.flags = GPIOHANDLE_REQUEST_INPUT;
-    strcpy( req2.consumer_label, "pushbutton" );
+    strcpy( req2.consumer_label, "PL pushbutton" );
 
     (void) ioctl( fd2, GPIO_GET_LINEHANDLE_IOCTL, &req2 );
     (void) ioctl( req2.fd, GPIOHANDLE_GET_LINE_VALUES_IOCTL, &data2 );
@@ -73,10 +82,26 @@ int main()
 
 
 
-    // write
+    // read PS switches
+    data4.values[54] = 1;
+    data4.values[55] = 1;
+
+    req4.lines = 2;  // Both push buttons
+    req4.flags = GPIOHANDLE_REQUEST_INPUT;
+    strcpy( req4.consumer_label, "PS pushbutton" );
+
+    (void) ioctl( fd4, GPIO_GET_LINEHANDLE_IOCTL, &req4 );
+    (void) ioctl( req4.fd, GPIOHANDLE_GET_LINE_VALUES_IOCTL, &data4 );
+
+    printf( "line 0 is %s\n", data4.values[0]? "high" : "low" );
+    printf( "line 1 is %s\n", data4.values[1]? "high" : "low" );
+
+
+
+    // write PL LEDs
     req3.flags = GPIOHANDLE_REQUEST_OUTPUT;
     req3.lines = 4; // All 4 LEDs
-    strcpy( req3.consumer_label, "blinker" );
+    strcpy( req3.consumer_label, "PL blinker" );
 
     flash = ~flash;
     data3.values[0] = flash;
