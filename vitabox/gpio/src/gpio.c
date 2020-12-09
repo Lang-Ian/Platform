@@ -83,7 +83,7 @@ int main()
 
 
     // read PS switches
-    data4.values[54] = 1;
+    data4.values[54] = 1;  // 54 is this weird offset that applies to the PS side GPIOs.
     data4.values[55] = 1;
 
     req4.lines = 2;  // Both push buttons
