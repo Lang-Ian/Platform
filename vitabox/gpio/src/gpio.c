@@ -77,14 +77,14 @@ int main()
     (void) ioctl( fd2, GPIO_GET_LINEHANDLE_IOCTL, &req2 );
     (void) ioctl( req2.fd, GPIOHANDLE_GET_LINE_VALUES_IOCTL, &data2 );
 
-    printf( "line 0 is %s\n", data2.values[0]? "high" : "low" );
-    printf( "line 1 is %s\n", data2.values[1]? "high" : "low" );
+    printf( "line 0  is %s ", data2.values[0]? "high" : "low " );
+    printf( "line 1  is %s ", data2.values[1]? "high" : "low " );
 
 
 
     // read PS switches
-    data4.values[54] = 1;  // 54 is this weird offset that applies to the PS side GPIOs.
-    data4.values[55] = 1;
+    data4.values[0] = 1;  // 54 is this weird offset that applies to the PS side GPIOs.
+    data4.values[0] = 1;
 
     req4.lines = 2;  // Both push buttons
     req4.flags = GPIOHANDLE_REQUEST_INPUT;
@@ -93,8 +93,8 @@ int main()
     (void) ioctl( fd4, GPIO_GET_LINEHANDLE_IOCTL, &req4 );
     (void) ioctl( req4.fd, GPIOHANDLE_GET_LINE_VALUES_IOCTL, &data4 );
 
-    printf( "line 0 is %s\n", data4.values[0]? "high" : "low" );
-    printf( "line 1 is %s\n", data4.values[1]? "high" : "low" );
+    printf( "line 54 is %s ",  data4.values[0]? "high" : "low " );
+    printf( "line 55 is %s\r", data4.values[1]? "high" : "low " );
 
 
 
