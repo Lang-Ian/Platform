@@ -15,68 +15,78 @@
 #include <linux/input.h>
 #include <fcntl.h>
 
+#include<linux/watchdog.h>
+
 int main()
 {
     struct gpiochip_info cinfo;
     struct gpioline_info linfo;
-    struct gpiohandle_request req;
-    struct gpiohandle_data    data;
-
+    struct gpiohandle_request req2,  req3;
+    struct gpiohandle_data    data2, data3;
+    int flash = 0;
 
 	printf( "Accessing LEDs\n");
 
-    int fd = open( "/dev/gpiochip2", 0 );
-    (void) ioctl( fd, GPIO_GET_CHIPINFO_IOCTL, &cinfo );
+    int fd2 = open( "/dev/gpiochip2", 0 );
+    (void) ioctl( fd2, GPIO_GET_CHIPINFO_IOCTL, &cinfo );
     fprintf( stdout, "GPIO chip: %s, \"%s\", %u GPIO lines\n", cinfo.name, cinfo.label, cinfo.lines );
 
     linfo.line_offset = 1;
-    (void) ioctl( fd, GPIO_GET_LINEINFO_IOCTL, &linfo );
+    (void) ioctl( fd2, GPIO_GET_LINEINFO_IOCTL, &linfo );
     fprintf( stdout, "line %2d: %s\n", linfo.line_offset, linfo.name );
 
 
-    fd = open( "/dev/gpiochip3", 0 );
-    (void) ioctl( fd, GPIO_GET_CHIPINFO_IOCTL, &cinfo );
+    int fd3 = open( "/dev/gpiochip3", 0 );
+    (void) ioctl( fd3, GPIO_GET_CHIPINFO_IOCTL, &cinfo );
     fprintf( stdout, "GPIO chip: %s, \"%s\", %u GPIO lines\n", cinfo.name, cinfo.label, cinfo.lines );
 
     linfo.line_offset = 1;
-    (void) ioctl( fd, GPIO_GET_LINEINFO_IOCTL, &linfo );
+    (void) ioctl( fd3, GPIO_GET_LINEINFO_IOCTL, &linfo );
     fprintf( stdout, "line %2d: %s\n", linfo.line_offset, linfo.name );
 
+    req2.lineoffsets[0] = 0;
+    req2.lineoffsets[1] = 1;
+    req2.lineoffsets[2] = 2;
+    req2.lineoffsets[3] = 3;
 
 
-/*
+    req3.lineoffsets[0] = 0;
+    req3.lineoffsets[1] = 1;
+    req3.lineoffsets[2] = 2;
+    req3.lineoffsets[3] = 3;
+
+    while( 1 )
+    {
     // read
+    data2.values[0] = 1;
+    data2.values[1] = 1;
 
-    req.lineoffsets[0] = 1;
-    req.lines = 2;
-    req.flags = GPIOHANDLE_REQUEST_INPUT;
-    strcpy( req.consumer_label, "pushbutton" );
-    (void) ioctl( fd, GPIO_GET_LINEHANDLE_IOCTL, &req );
-    (void) ioctl( req.fd, GPIOHANDLE_GET_LINE_VALUES_IOCTL, &data );
+    req2.lines = 2;  // Both switches
+    req2.flags = GPIOHANDLE_REQUEST_INPUT;
+    strcpy( req2.consumer_label, "pushbutton" );
 
-    printf( "line 1 is %s\n", data.values[0]? "high" : "low" );
+    (void) ioctl( fd2, GPIO_GET_LINEHANDLE_IOCTL, &req2 );
+    (void) ioctl( req2.fd, GPIOHANDLE_GET_LINE_VALUES_IOCTL, &data2 );
 
-*/
+    printf( "line 0 is %s\n", data2.values[0]? "high" : "low" );
+    printf( "line 1 is %s\n", data2.values[1]? "high" : "low" );
+
+
+
     // write
+    req3.flags = GPIOHANDLE_REQUEST_OUTPUT;
+    req3.lines = 4; // All 4 LEDs
+    strcpy( req3.consumer_label, "blinker" );
 
-    req.lineoffsets[0] = 0;
-    req.lineoffsets[1] = 1;
-    req.lineoffsets[2] = 2;
-    req.lineoffsets[3] = 3;
+    flash = ~flash;
+    data3.values[0] = flash;
+    data3.values[1] = ~flash;
+    data3.values[2] = flash;
+    data3.values[3] = ~flash;
 
-    req.lines = 4; // All 4 LEDs
-    req.flags = GPIOHANDLE_REQUEST_OUTPUT;
-    strcpy( req.consumer_label, "blinker" );
-    (void) ioctl( fd, GPIO_GET_LINEHANDLE_IOCTL, &req );
-    data.values[0] = 1;
-    data.values[1] = 1;
-    data.values[2] = 1;
-    data.values[3] = 1;
-    (void) ioctl( req.fd, GPIOHANDLE_SET_LINE_VALUES_IOCTL, &data );
-
-
-
-    printf( "Accessing LEDs Done\n") ;
+    (void) ioctl( fd3, GPIO_GET_LINEHANDLE_IOCTL, &req3 );
+    (void) ioctl( req3.fd, GPIOHANDLE_SET_LINE_VALUES_IOCTL, &data3 );
+   }
 
     return 0;
 }
