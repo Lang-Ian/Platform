@@ -20,12 +20,31 @@ int main()
 {
     struct gpiochip_info cinfo;
     struct gpioline_info linfo;
-    struct gpiohandle_request req2,  req3,  req4;
-    struct gpiohandle_data    data2, data3, data4;
+    struct gpiohandle_request req0,  req1,  req2,  req3,  req4;
+    struct gpiohandle_data    data0, data1, data2, data3, data4;
 
     int flash = 0;
 
 //	printf( "Accessing LEDs\n");
+
+
+    int fd0 = open( "/dev/gpiochip0", 0 );
+    (void) ioctl( fd0, GPIO_GET_CHIPINFO_IOCTL, &cinfo );
+    fprintf( stdout, "GPIO chip: %s, \"%s\", %u GPIO lines\n", cinfo.name, cinfo.label, cinfo.lines );
+
+    linfo.line_offset = 1;
+    (void) ioctl( fd0, GPIO_GET_LINEINFO_IOCTL, &linfo );
+//    fprintf( stdout, "line %2d: %s\n", linfo.line_offset, linfo.name );
+
+
+    int fd1 = open( "/dev/gpiochip1", 0 );
+    (void) ioctl( fd1, GPIO_GET_CHIPINFO_IOCTL, &cinfo );
+    fprintf( stdout, "GPIO chip: %s, \"%s\", %u GPIO lines\n", cinfo.name, cinfo.label, cinfo.lines );
+
+    linfo.line_offset = 1;
+    (void) ioctl( fd1, GPIO_GET_LINEINFO_IOCTL, &linfo );
+//    fprintf( stdout, "line %2d: %s\n", linfo.line_offset, linfo.name );
+
 
     int fd2 = open( "/dev/gpiochip2", 0 );
     (void) ioctl( fd2, GPIO_GET_CHIPINFO_IOCTL, &cinfo );
@@ -50,6 +69,25 @@ int main()
     linfo.line_offset = 1;
     (void) ioctl( fd4, GPIO_GET_LINEINFO_IOCTL, &linfo );
 //    fprintf( stdout, "line %2d: %s\n", linfo.line_offset, linfo.name );
+
+
+     req0.lineoffsets[0] = 0;
+     req0.lineoffsets[1] = 1;
+     req0.lineoffsets[2] = 2;
+     req0.lineoffsets[3] = 3;
+     req0.lineoffsets[4] = 4;
+     req0.lineoffsets[5] = 5;
+     req0.lineoffsets[6] = 6;
+     req0.lineoffsets[7] = 7;
+     req0.lineoffsets[8] = 8;
+
+     req1.lineoffsets[0] = 0;
+     req1.lineoffsets[1] = 1;
+     req1.lineoffsets[2] = 2;
+     req1.lineoffsets[3] = 3;
+     req1.lineoffsets[4] = 4;
+     req1.lineoffsets[5] = 5;
+     req1.lineoffsets[6] = 6;
 
     req2.lineoffsets[0] = 0;
     req2.lineoffsets[1] = 1;
@@ -96,12 +134,48 @@ int main()
 
 
 
+    req0.flags = GPIOHANDLE_REQUEST_OUTPUT;
+    req0.lines = 9; // All 4 LEDs
+    strcpy( req0.consumer_label, "Ethernet Board LEDS" );
+
+    flash = ~flash;
+    data0.values[0] = 1;
+    data0.values[1] = 1;
+    data0.values[2] = 1;
+    data0.values[3] = 1;
+    data0.values[4] = 1;
+    data0.values[5] = 1;
+    data0.values[6] = 1;
+    data0.values[7] = 1;
+    data0.values[8] = 1;
+
+    (void) ioctl( fd0, GPIO_GET_LINEHANDLE_IOCTL, &req0 );
+    (void) ioctl( req0.fd, GPIOHANDLE_SET_LINE_VALUES_IOCTL, &data0 );
+
+
+    req1.flags = GPIOHANDLE_REQUEST_OUTPUT;
+    req1.lines = 7; // All 4 LEDs
+    strcpy( req1.consumer_label, "Big multi-coloured LEDS" );
+
+    flash = ~flash;
+    data1.values[0] = 1;
+    data1.values[1] = 1;
+    data1.values[2] = 0;
+    data1.values[3] = 1;
+    data1.values[4] = 0;
+    data1.values[5] = 1;
+    data1.values[6] = 1;
+
+
+    (void) ioctl( fd1, GPIO_GET_LINEHANDLE_IOCTL, &req1 );
+    (void) ioctl( req1.fd, GPIOHANDLE_SET_LINE_VALUES_IOCTL, &data1 );
+
+
     // write PL LEDs
     req3.flags = GPIOHANDLE_REQUEST_OUTPUT;
     req3.lines = 4; // All 4 LEDs
     strcpy( req3.consumer_label, "PL blinker" );
 
-    flash = ~flash;
     data3.values[0] = data4.values[1];
     data3.values[1] = data4.values[0];
     data3.values[2] = data2.values[1];
