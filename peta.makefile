@@ -41,9 +41,22 @@ copy: $(BUILDDIR)/.package
 #  $ petalinux-package --sysroot
 #  It will install <PROJECT>/images/linux/sdk.sh to <PROJECT>/images/linux/sdk
 
-$(BUILDDIR)/.sysroot: $(BUILDDIR)/.package
+$(BUILDDIR)/.sysroot: $(BUILDDIR)/.export
 	cd $(BUILDDIR)/os; \
 	petalinux-package --sysroot
+	touch $@
+
+.PHONY: export
+export:  $(BUILDDIR)/.package
+	@echo "-- Generating sdk for Vitis --"
+	cd $(BUILDDIR)/os; \
+	petalinux-build --sdk
+	$(BUILDDIR)/.export
+
+$(BUILDDIR)/.export:  $(BUILDDIR)/.package
+	@echo "-- Generating sdk for Vitis --"
+	cd $(BUILDDIR)/os; \
+	petalinux-build --sdk
 	touch $@
 
 $(BUILDDIR)/.package: $(BUILDDIR)/.build
@@ -51,18 +64,19 @@ $(BUILDDIR)/.package: $(BUILDDIR)/.build
 	petalinux-package --boot --fsbl zynq_fsbl.elf --fpga system.bit --uboot --force
 	touch $@
 
-.PHONY: export
-export:  $(BUILDDIR)/.build
-	@echo "-- Exporting for Vitis --"
-	cd $(BUILDDIR)/os; \
-	petalinux-build --sdk
-
 $(BUILDDIR)/.build: $(BUILDDIR)/.import
 	@echo "-- Building Petalinux --"
 	ln -f $(CONFIGDIR)/system-user.dtsi $(BUILDDIR)/os/project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi
 	cd $(BUILDDIR)/os; \
 	petalinux-build
 	touch $@
+
+.PHONY: config
+config: $(BUILDDIR)/.import
+	@echo "-- Configuring Petalinux through the GUI --"
+	cd $(BUILDDIR)/os; \
+	petalinux-config
+	cp -f $(BUILDDIR)/os/project-spec/configs/config $(CONFIGDIR)/config
 
 .PHONY: rootfs
 rootfs: $(BUILDDIR)/.import
@@ -119,7 +133,7 @@ clone: $(BUILDDIR)
 	cd $(BUILDDIR)/clones; \
 	git clone https://github.com/Xilinx/u-boot-xlnx.git; \
 	git clone https://github.com/Xilinx/device-tree-xlnx.git; \
-	git clone https://github.com/Xilinx/linux-xlnx.git; \
+	git clone --branch xlnx_rebase_v4.19 https://github.com/Xilinx/linux-xlnx.git; \
 	wget -c https://rcn-ee.com/rootfs/eewiki/minfs/ubuntu-16.04.2-minimal-armhf-2017-06-18.tar.xz; \
 	tar xf ubuntu-16.04.2-minimal-armhf-2017-06-18.tar.xz;
 
