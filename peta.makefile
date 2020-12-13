@@ -20,7 +20,7 @@ SOURCE       := $(abspath  $(EXPORTDIR)/$(TOP).xsa)
 CONFIGDIR    := $(abspath  $(mkfile_dir)/PX)
 
 .PHONY: all
-all:  $(BUILDDIR)/.package
+all:  $(BUILDDIR)/.sysroot
 
 .PHONY: copy
 copy: $(BUILDDIR)/.package
@@ -29,6 +29,22 @@ copy: $(BUILDDIR)/.package
 	cp $(BUILDDIR)/os/images/linux/system.dtb -r /media/ian/BOOT
 	umount /media/ian/BOOT; \
 	umount /media/ian/ROOT_FS; \
+
+# Test this change before checking in!!!
+# It comes from here:  https://forums.xilinx.com/t5/Embedded-Linux/Where-is-the-quot-linux-sysroot-path-quot/td-p/874525
+# It says that "This will generate sysroots in <plnx_proj>/images/linux/sdk/sysroots"
+# which is probably worth leaving here permanently, since it is needed for setting up Vitis.
+# I'm wondering if file #include <linux/gpio/driver.h> will become visible if I do this.
+# See time 32:48 of https://www.youtube.com/watch?v=lQRCDl0tFiQ&t=2200s.
+#
+#Install defaults
+#  $ petalinux-package --sysroot
+#  It will install <PROJECT>/images/linux/sdk.sh to <PROJECT>/images/linux/sdk
+
+$(BUILDDIR)/.sysroot: $(BUILDDIR)/.package
+	cd $(BUILDDIR)/os; \
+	petalinux-package --sysroot
+	touch $@
 
 $(BUILDDIR)/.package: $(BUILDDIR)/.build
 	cd $(BUILDDIR)/os/images/linux; \
@@ -87,10 +103,33 @@ $(BUILDDIR)/os:
 	mkdir -p $(BUILDDIR)/os/build/tmp/work/plnx_zynq7-xilinx-linux-gnueabi/linux-xlnx/4.19-xilinx-v2019.2+git999-r0/linux-xlnx-4.19-xilinx-v2019.2+git999
 	cp -f $(CONFIGDIR)/.config $(BUILDDIR)/os/build/tmp/work/plnx_zynq7-xilinx-linux-gnueabi/linux-xlnx/4.19-xilinx-v2019.2+git999-r0/linux-xlnx-4.19-xilinx-v2019.2+git999/.config
 
+# I haven't tested this yet.
+.PHONY: ubuntu
+ubuntu: $(BUILDDIR)/clones
+	cd $(BUILDDIR)/clones; \
+	sudo tar xfvp ./*-*-*-armhf-*/armhf-rootfs-*.tar -C /media/ian/ROOT_FS ; \
+  sudo chown root:root /media/ian/ROOT_FS; \
+  sudo chmod 755 /media/ian/ROOT_FS
+	# see https://onedrive.live.com/redir?resid=41F8604A6AF2BA!208661&page=Edit&wd=target(My%201st%20Good%20Project.one%7C819e5301-889f-499b-8794-d821d327db7d/Installing%20Ubuntu%20on%20Xilinx%20ZYNQ-7000%20AP%20SoC%20Using%20%7C93621aeb-f818-49c9-8118-51d4cea3116e/)
+
+.PHONY: clone
+clone: $(BUILDDIR)
+	rm -rf    $(BUILDDIR)/clones
+	mkdir -p $(BUILDDIR)/clones
+	cd $(BUILDDIR)/clones; \
+	git clone https://github.com/Xilinx/u-boot-xlnx.git; \
+	git clone https://github.com/Xilinx/device-tree-xlnx.git; \
+	git clone https://github.com/Xilinx/linux-xlnx.git; \
+	wget -c https://rcn-ee.com/rootfs/eewiki/minfs/ubuntu-16.04.2-minimal-armhf-2017-06-18.tar.xz; \
+	tar xf ubuntu-16.04.2-minimal-armhf-2017-06-18.tar.xz;
+
+$(BUILDDIR):
+	mkdir -p $(BUILDDIR)
+
 .PHONY: clean
 clean:
 	@rm  -rf $(BUILDDIR)
 
 .PHONY: help
 help:
-	@echo "make -f peta.makefile {all|import|export|kernel|rootfs|copy|clean|help}"
+	@echo "make -f peta.makefile {all|import|export|kernel|rootfs|clone|ubuntu|copy|clean|help}"

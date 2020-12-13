@@ -5,24 +5,15 @@
     //                This is all the Xilinx Linux drivers.  They are actually still using SYSFS for GPIO,
     //				  not this method, which is called CHARDEV and is the recommended way now.
     //                Nevertheless, it's good to know where the driver iformation is at last.
+	//             4)
     // This is a user-space program.
     // To do:
     // open a different file pointer for the LEDs and for the buttons
 
-    #include <stdio.h>
-    #include <stdio.h>
-    #include <string.h>
-    #include <linux/gpio.h>
-    #include <linux/input.h>
-    #include <fcntl.h>
-
-    #include<linux/watchdog.h>
-
-// taken from https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/gpio/gpio-hammer.c
-// cull as necessary
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <dirent.h>
 #include <errno.h>
@@ -30,7 +21,9 @@
 #include <poll.h>
 #include <fcntl.h>
 #include <getopt.h>
+#include <inttypes.h>
 #include <sys/ioctl.h>
+#include <sys/types.h>
 #include <linux/gpio.h>
 
     int main()
@@ -51,22 +44,38 @@
 
 
 
-        int fd2 = open( "/dev/gpiochip2", 0 );
-        (void) ioctl( fd2, GPIO_GET_CHIPINFO_IOCTL, &cinfo );
+        int fd = open( "/dev/gpiochip2", 0 );
+        (void) ioctl( fd, GPIO_GET_CHIPINFO_IOCTL, &cinfo );
         fprintf( stdout, "GPIO chip: %s, \"%s\", %u GPIO lines\n", cinfo.name, cinfo.label, cinfo.lines );
 
 
+        printf( "HERE 1\n");
 
 
-        int fd = open( "/dev/gpiochip2", 0 );
+//        int fd = open( "/dev/gpiochip2", 0 );
 
         req.lineoffset = 0;
         strcpy( req.consumer_label, "pushbutton 0" );
         req.handleflags = GPIOHANDLE_REQUEST_INPUT;
         req.eventflags = GPIOEVENT_REQUEST_RISING_EDGE | GPIOEVENT_REQUEST_FALLING_EDGE;
+
+        printf( "HERE 2\n");
+
         (void) ioctl( fd, GPIO_GET_LINEEVENT_IOCTL, &req );
+
+        printf( "HERE 3\n");
+
+
         read( req.fd, &event, sizeof( event ) );
+
+        printf( "HERE 4\n");
+
+
         printf( "GPIO EVENT %lld", event.timestamp );
+
+        printf( "HERE 5\n");
+
+
         if( event.id == GPIOEVENT_REQUEST_RISING_EDGE )
         	printf( "RISING EDGE\n" );
         else
