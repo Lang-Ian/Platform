@@ -17,6 +17,7 @@ current_dir  := $(notdir $(mkfile_dir))
 EXPORTDIR    := $(abspath  $(mkfile_dir)/buildbox)
 BUILDDIR     := $(abspath  $(mkfile_dir)/petabox)
 SOURCE       := $(abspath  $(EXPORTDIR)/$(TOP).xsa)
+KERNEL_MODULE := $(abspath $(wildcard $(mkfile_dir)/HW/ip_repo/$(MODULE)* )/kernel_module/*.c)
 CONFIGDIR    := $(abspath  $(mkfile_dir)/PX)
 
 .PHONY: all
@@ -63,6 +64,15 @@ $(BUILDDIR)/.package: $(BUILDDIR)/.build
 	cd $(BUILDDIR)/os/images/linux; \
 	petalinux-package --boot --fsbl zynq_fsbl.elf --fpga system.bit --uboot --force
 	touch $@
+
+.PHONY: module
+module: $(BUILDDIR)/.build
+	@echo "-- Creating Kernel Modules --"
+	cd $(BUILDDIR)/os; \
+	petalinux-create -t modules --name $(MODULE)  --enable --force; \
+	cp -f $(KERNEL_MODULE)  $(BUILDDIR)/os/project-spec/meta-user/recipes-modules/$(MODULE)/files/; \
+	petalinux-build -c $(MODULE)
+	scp $(BUILDDIR)/os/build/tmp/sysroots-components/plnx_zynq7/general/lib/modules/4.19.0-xilinx-v2019.2/extra/$(MODULE).ko ubuntu@192.168.0.111:/home/ubuntu
 
 $(BUILDDIR)/.build: $(BUILDDIR)/.import
 	@echo "-- Building Petalinux --"
@@ -146,4 +156,4 @@ clean:
 
 .PHONY: help
 help:
-	@echo "make -f peta.makefile {all|import|export|kernel|rootfs|clone|ubuntu|copy|clean|help}"
+	@echo "make -f peta.makefile {all|import|config|export|kernel|rootfs|clone|ubuntu|copy|module MODULE=<module name>|clean|help}"
