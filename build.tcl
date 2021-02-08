@@ -46,30 +46,30 @@ switch $params(stage) {
           create_fileset -simset $params(project)_1
 
           # Add the RTL
-          set vhdl_files [glob ./HW/src/hdl/*.vhd]
-          set verilog_files  [glob ./HW/src/hdl/*.v]
+          set vhdl_files [glob -nocomplain ./HW/src/hdl/*.vhd]
+          set verilog_files  [glob -nocomplain ./HW/src/hdl/*.v]
           set rtl_files [list {*}$vhdl_files {*}$verilog_files ]
           puts "Adding RTL ${rtl_files}"
           add_files -norecurse ${rtl_files}
 
           # Add the Xilinx IPs
-          set ips [glob ./HW/7z030f/*/*.xcix]
-          set ips [list {*}$ips [glob ./HW/7z030f/*/*.xci] ]
+          set ips [glob -nocomplain ./HW/7z030f/*/*.xcix]
+          set ips [list {*}$ips [glob -nocomplain ./HW/7z030f/*/*.xci] ]
           puts "Adding Xilinx IPs ${ips}"
-          add_files -norecurse  ${ips}
+          import_files -norecurse  ${ips}
 
           # Build the Block Diagrams
-          set bds [glob ./HW/src/bd/*.tcl]
+          set bds [glob -nocomplain ./HW/src/bd/*.tcl]
           foreach {bd} [list {*}$bds] {
             puts "Adding block diagam ${bd}"
             source ${bd}
-            set fbasename [file rootname [file tail $bd]]; # remove the file extension
-            make_wrapper -files [get_files $params(sandbox)/$params(project).srcs/sources_1/bd/${fbasename}/${fbasename}.bd] -top
-            add_files -norecurse  $params(sandbox)/$params(project).srcs/sources_1/bd/${fbasename}/hdl/${fbasename}_wrapper.v
+            #set fbasename [file rootname [file tail $bd]]; # remove the file extension
+            make_wrapper -files [get_files $params(sandbox)/$params(project).srcs/sources_1/bd/${design_name}/${design_name}.bd] -top
+            add_files -norecurse  $params(sandbox)/$params(project).srcs/sources_1/bd/${design_name}/hdl/${design_name}_wrapper.v
           }
 
           # Add the contstraints
-          set constraints_files [glob ./HW/src/constraints/*.xdc]
+          set constraints_files [glob -nocomplain ./HW/src/constraints/*.xdc]
           puts "Adding Xilinx IPs ${constraints_files}"
           add_files -norecurse  ${constraints_files}
 
