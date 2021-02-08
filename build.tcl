@@ -68,7 +68,7 @@ switch $params(stage) {
             add_files -norecurse  $params(sandbox)/$params(project).srcs/sources_1/bd/${design_name}/hdl/${design_name}_wrapper.v
           }
 
-          # Add the contstraints
+          # Add the constraints
           set constraints_files [glob -nocomplain ./HW/src/constraints/*.xdc]
           puts "Adding Xilinx IPs ${constraints_files}"
           add_files -norecurse  ${constraints_files}
