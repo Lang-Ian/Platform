@@ -1,3 +1,5 @@
+Ths project is compatible with Xilinx 2019.2 tools.
+
 # Platform
 Reference project for the following combination of boards:
 
