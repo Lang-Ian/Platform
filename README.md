@@ -1,3 +1,5 @@
+Build this project with Vivado 2019.1.
+
 Ths project is compatible with Xilinx 2019.2 tools.
 
 # Platform
