@@ -1,3 +1,5 @@
+Ths project is compatible with Xilinx 2019.2 tools.
+
 # Platform
 Reference project for the following combination of boards:
 
@@ -37,3 +39,5 @@ Current status:
   Aurora runs
 
 In due course, I will be adding a Petalinux build, maybe some homemade drivers plus...whatever else I decide to experiment with.
+
+Make another change to see how it looks in GitFiend.

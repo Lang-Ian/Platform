@@ -46,7 +46,7 @@ SOURCEDIR   := $(abspath $(mkfile_dir)/HW/src/tb)
 SOURCES     := $(wildcard $(SOURCEDIR)/*.sv)
 OBJ         := $(addprefix $(BUILDDIR)/, $(addsuffix .svo, $(basename $(notdir $(SOURCES)))))
 DOFILES     := $(wildcard $(SOURCEDIR)/*.do)
-DOLINKS     := $(abspath  $(BUILDDIR)/questa/$(notdir $(DOFILES)))
+DOLINKS     := $(addprefix $(BUILDDIR)/questa/, $(addsuffix .do, $(basename $(notdir $(DOFILES)))))
 
 .PHONY: all
 all: $(BUILDDIR)/.sim
@@ -54,18 +54,17 @@ all: $(BUILDDIR)/.sim
 .PHONY: wave
 wave: $(BUILDDIR)/.sim
 	cd $(BUILDDIR)/questa; \
-	vsim -view vsim.wlf -do "source $(DOLINKS)"
+	vsim -view vsim.wlf -do $(lastword $(DOLINKS))
 
 $(BUILDDIR)/.sim: $(DOLINKS) $(BUILDDIR)/.optimize
 	@echo -- Running Simulation --
 	cd $(BUILDDIR)/questa; \
-	vsim -c -do "vsim -voptargs=+acc $(TOP).$(TB)_opt -wlf vsim.wlf; source $(firstword $(DOLINKS));  run 41 us;  exit;"
+	vsim -c -do "vsim -voptargs=+acc $(TOP).$(TB)_opt -wlf vsim.wlf; source $(lastword $(DOLINKS));  run 41 us;  exit;"
 	touch $@
 
-$(DOLINKS):
+$(DOLINKS):  $(BUILDDIR)/questa/%.do : $(SOURCEDIR)/%.do  $(BUILDDIR)/.optimize
 	@echo -- Linking Do Files --
-	mkdir -p $(dir $(DOLINKS))
-	ln  $(DOFILES) $(DOLINKS)
+	ln -f $< $@
 
 $(BUILDDIR)/.optimize: $(OBJ)
 	@echo -- Optimizing --
